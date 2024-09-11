@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://reflectively-blithe-pitta.data-1.use1.tembo.io:5432/postgres
+    username: postgres
+    password: JpobrlBwTCVVxrC9
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
