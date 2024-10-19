@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 class MockAuthService {
-  login(username: string, password: string, rememberMe: boolean) {
-    if (username === 'validUser' && password === 'validPassword') {
+  login(email: string, password: string, rememberMe: boolean) {
+    if (email === 'validUser' && password === 'validPassword') {
       return of({ success: true });
     }
     return throwError({ error: 'Invalid credentials' });
@@ -48,13 +48,13 @@ describe('LoginComponent', () => {
   });
 
   it('should initialize the form correctly', () => {
-    expect(component.username).toEqual('');
+    expect(component.email).toEqual('');
     expect(component.password).toEqual('');
     expect(component.rememberMe).toBeFalse();
   });
 
   it('should display an error message if credentials are invalid', () => {
-    component.username = 'invalidUser';
+    component.email = 'invalidUser';
     component.password = 'wrongPassword';
     component.login();
     fixture.detectChanges();
@@ -63,7 +63,7 @@ describe('LoginComponent', () => {
   });
 
   it('should navigate to home page after successful login', () => {
-    component.username = 'validUser';
+    component.email = 'validUser';
     component.password = 'validPassword';
     component.login();
     fixture.detectChanges();

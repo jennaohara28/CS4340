@@ -11,7 +11,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 export class LoginComponent {
 
   // Defining fields
-  username: string = '';
+  email: string = '';
   password: string = '';
   rememberMe: boolean = false;
   errorMessage: string = '';
@@ -20,9 +20,9 @@ export class LoginComponent {
 
   // Method for logging in
   async login() {
-    // Check is username and password fields have been filled
-    if (this.username && this.password) {
-      this.authService.login(this.username, this.password, this.rememberMe).subscribe({
+    // Check if email and password fields have been filled
+    if (this.email && this.password) {
+      this.authService.login(this.email, this.password, this.rememberMe).subscribe({
         next: (response) => {
           // Handle successful login here and navigate to home page if successful
           console.log('Login successful.', response);
@@ -35,7 +35,7 @@ export class LoginComponent {
         }
       });
     } else {
-      this.errorMessage = 'Please fill in both username and password.';
+      this.errorMessage = 'Please fill in both email and password.';
     }
   }
 }
