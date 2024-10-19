@@ -13,11 +13,11 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   // Store credentials or tokens if login is successful and "Remember me" is checked
-  login(username: string, password: string, rememberMe: boolean): Observable<any> {
-    return this.http.post(`${this.baseUrl}/login`, { username, password }).pipe(
+  login(email: string, password: string, rememberMe: boolean): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
         if (rememberMe) {
-          localStorage.setItem('username', username);
+          localStorage.setItem('email', email);
           localStorage.setItem('token', response.token);
         } else {
           sessionStorage.setItem('token', response.token);
@@ -44,8 +44,8 @@ export class AuthService {
   }
 
   // Handle user registration
-  register(username: string, password: string, email: string): Observable<any> {
-    const body = { username, password, email };
+  register(email: string, password: string): Observable<any> {
+    const body = { email, password };
     return this.http.post(`${this.baseUrl}/register`, body);
   }
 }
