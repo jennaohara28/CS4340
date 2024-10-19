@@ -42,7 +42,7 @@ h2 {
   text-align: center;
 }
 
-.login-container input[type="text"],
+.login-container input[type="email"],
 .login-container input[type="password"] {
   width: 100%;
   padding: 14px;
@@ -54,7 +54,7 @@ h2 {
   transition: border-color 0.3s ease;
 }
 
-.login-container input[type="text"]:focus,
+.login-container input[type="email"]:focus,
 .login-container input[type="password"]:focus {
   border-color: #ff8c42;
   outline: none;
