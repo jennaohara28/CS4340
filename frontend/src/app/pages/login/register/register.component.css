@@ -1,0 +1,109 @@
+.logo {
+  text-align: center;
+  margin-bottom: -85px;
+  margin-top: -60px;
+}
+
+.logo img {
+  width: 315px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  padding: 0;
+}
+
+body {
+  font-family: Poppins, sans-serif;
+  background-color: #f9d29d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  font-weight: 700;
+  color: #ff8c42;
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+.register-container {
+  background-color: #fff7e6;
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: auto;
+  text-align: center;
+}
+
+.register-container input[type="text"],
+.register-container input[type="password"],
+.register-container input[type="email"] {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 1px solid #ffb385;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 18px;
+  transition: border-color 0.3s ease;
+}
+
+.register-container input[type="text"]:focus,
+.register-container input[type="password"]:focus,
+.register-container input[type="email"]:focus {
+  border-color: #ff8c42;
+  outline: none;
+}
+
+.register-container input[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #ff8c42;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-bottom: -20px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.register-container input[type="submit"]:hover {
+  background-color: #e67335;
+}
+
+.loading {
+  text-align: center;
+  color: #777;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 14px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 400px) {
+  .register-container {
+    width: 100%;
+    padding: 20px;
+  }
+}

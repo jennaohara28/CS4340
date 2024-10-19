@@ -1,2 +1,42 @@
-<p>hi</p>
+<div class="login-container">
 
+  <!-- Logo -->
+  <div class="logo">
+    <img src="assets/images/logo.png" alt="Logo"> <!-- Adjust the path to your logo -->
+  </div>
+
+  <h2>Login to Your Account</h2>
+  <form (ngSubmit)="login()">
+
+    <!-- Username Field -->
+    <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Username" #usernameInput="ngModel" required>
+    <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+      Username is required.
+    </div>
+
+    <!-- Password Field -->
+    <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
+    <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+      Password is required.
+    </div>
+
+    <!-- Remember Me Checkbox -->
+    <div class="remember-me">
+      <input type="checkbox" [(ngModel)]="rememberMe" id="remember" name="rememberMe">
+      <label for="remember">Remember me</label>
+    </div>
+
+    <!-- Submit Button -->
+    <input type="submit" value="Login" [disabled]="usernameInput.invalid || passwordInput.invalid">
+
+    <!-- Error message from server-side validation -->
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  </form>
+
+  <!-- Not Registered? Link -->
+  <div class="not-registered">
+    <p>Not registered? <a routerLink="/register">Create an account</a></p>
+  </div>
+</div>

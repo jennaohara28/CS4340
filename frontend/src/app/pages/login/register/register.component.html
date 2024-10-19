@@ -1,0 +1,46 @@
+<div class="register-container">
+
+  <!-- Logo -->
+  <div class="logo">
+    <img src="assets/images/logo.png" alt="Logo">
+  </div>
+
+  <h2>Register Your Account</h2>
+
+  <form (submit)="register(usernameInput.value, passwordInput.value, emailInput.value)">
+
+    <!-- Username Field -->
+    <input type="text" id="username" [(ngModel)]="username" name="username" placeholder="Username" #usernameInput="ngModel" required>
+    <div *ngIf="usernameInput.invalid && usernameInput.touched" class="error">
+      Username is required.
+    </div>
+
+    <!-- Password Field -->
+    <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
+    <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
+      Password is required and must be at least 6 characters long.
+    </div>
+
+    <!-- Email Field -->
+    <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email" #emailInput="ngModel" required>
+    <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
+      A valid email is required.
+    </div>
+
+    <!-- Submit Button -->
+    <input type="submit" value="Register" [disabled]="usernameInput.invalid || passwordInput.invalid || emailInput.invalid">
+
+    <!-- Loading indicator while registration is in progress -->
+    <div *ngIf="isLoading" class="loading">
+      Registering, please wait...
+    </div>
+
+    <!-- Success and error messages -->
+    <div *ngIf="successMessage" class="success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>
