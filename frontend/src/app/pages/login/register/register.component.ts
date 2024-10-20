@@ -10,9 +10,10 @@ import { Router } from "@angular/router";
 export class RegisterComponent {
 
   // Defining fields
-  username: string = '';
-  password: string = '';
+  name: string = '';
   email: string = '';
+  password: string = '';
+  confirmPassword: string = '';
   isLoading: boolean = false;
   successMessage: string = '';
   errorMessage: string = '';
@@ -20,22 +21,28 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   // Method to handle registration form submission
-  register(username: string, password: string, email: string) {
-    if (username && password && email) {
-      this.isLoading = true;
-      this.authService.register(username, password, email).subscribe({
-        next: (response) => {
-          this.successMessage = 'Registration successful! Redirecting to login...';
-          this.isLoading = false;
-          this.router.navigate(['/login']);
-        },
-        error: (error) => {
-          this.errorMessage = 'Registration failed. Please try again.';
-          this.isLoading = false;
-        }
-      });
-    } else {
+  register(name: string, email: string, password: string, confirmPassword: string) {
+    if (!name || !email || !password || !confirmPassword) {
       this.errorMessage = 'All fields are required.';
+      return;
     }
+
+    if (password !== confirmPassword) {
+      this.errorMessage = 'Passwords do not match.';
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.register(email, password).subscribe({
+      next: (response) => {
+        this.successMessage = 'Registration successful! Redirecting to login...';
+        this.isLoading = false;
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        this.errorMessage = 'Registration failed. Please try again.';
+        this.isLoading = false;
+      }
+    });
   }
 }
