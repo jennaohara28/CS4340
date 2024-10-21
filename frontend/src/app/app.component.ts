@@ -1,13 +1,18 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
-import {RouterLink, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'CS3300';
+
+  constructor(private router: Router) {}
+
+  // Check if the current route is the login page, register page
+  isOtherPage() {
+    return this.router.url === '/login' || this.router.url === '/register' || this.router.url === '/about';
+  }
 }

@@ -1,0 +1,28 @@
+<div class="assignments">
+  <h2>Assignments</h2>
+  <ul>
+    <li *ngFor="let assignment of assignments">
+      <h3>{{ assignment.title }}</h3>
+      <p>{{ assignment.description }}</p>
+      <p>Due: {{ assignment.dueDate | date }}</p>
+      <button (click)="removeAssignment(assignment.id)">Remove</button>
+    </li>
+  </ul>
+
+  <h3>Add New Assignment</h3>
+  <form (ngSubmit)="addAssignment()">
+    <label>
+      Title:
+      <input [(ngModel)]="newAssignment.title" name="title" required>
+    </label>
+    <label>
+      Description:
+      <textarea [(ngModel)]="newAssignment.description" name="description" required></textarea>
+    </label>
+    <label>
+      Due Date:
+      <input type="text" [(ngModel)]="newAssignment.dueDate" name="dueDate" placeholder="yyyy-MM-dd" required>
+    </label>
+    <button type="submit">Add Assignment</button>
+  </form>
+</div>

@@ -1,10 +1,10 @@
 <!-- src/app/app.component.html -->
-<!-- src/app/app.component.html -->
-<nav>
+<nav *ngIf="!isOtherPage()">
   <a routerLink="/">Home</a>
   <a routerLink="/assignments">Assignments</a>
   <a routerLink="/calendar">Calendar</a>
   <a routerLink="/about">About</a>
+  <a routerLink="/login">Login</a>
 </nav>
 <router-outlet></router-outlet>
 
