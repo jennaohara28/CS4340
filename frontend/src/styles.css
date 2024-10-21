@@ -1,2 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global background color for the entire application */
+html, body {
+  background-color: #f9d29d; /* Peach color */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Poppins, sans-serif;
+  box-sizing: border-box;
+}
 
+* {
+  box-sizing: inherit;
+}

@@ -13,6 +13,6 @@ export class AppComponent {
 
   // Check if the current route is the login page, register page
   isOtherPage() {
-    return this.router.url === '/login' || this.router.url === '/register';
+    return this.router.url === '/login' || this.router.url === '/register' || this.router.url === '/about';
   }
 }
