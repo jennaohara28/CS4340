@@ -35,10 +35,16 @@
         <input type="submit" value="Register" [disabled]="emailInput.invalid || passwordInput.invalid || confirmPasswordInput.invalid">
       </form>
 
+      <!-- Login Link -->
       <p class="already-account">
         Already have an account?
         <a [routerLink]="['/login']" class="login-link">Click here to log in</a>
       </p>
+
+      <!-- About Us Link -->
+      <div class="about-us">
+        <p><a routerLink="/about">Learn More</a></p>
+      </div>
 
       <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
       <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
