@@ -7,12 +7,15 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/login/register/register.component';
 import { AuthGuard } from './components/auth.guard';
+import { AuthRedirectGuard } from './components/auth-redirect.guard';
+import { NoAuthGuard } from './components/no-auth.guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'about', pathMatch: 'full' },
+  { path: '', redirectTo: 'redirect', pathMatch: 'full' },
+  { path: 'redirect', canActivate: [AuthRedirectGuard], component: AboutComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'assignments', component: AssignmentsComponent, canActivate: [AuthGuard] },
   { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
