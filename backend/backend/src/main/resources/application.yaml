@@ -8,3 +8,5 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+logging.level.root: INFO
+logging.level.CS3300: INFO

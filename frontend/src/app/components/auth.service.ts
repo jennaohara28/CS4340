@@ -1,30 +1,36 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {catchError, Observable, throwError} from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'http://localhost:8080/auth';
 
   constructor(private http: HttpClient) {}
 
-  // Store credentials or tokens if login is successful and "Remember me" is checked
   login(email: string, password: string, rememberMe: boolean): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
+        // Ensure you're getting the expected response
+        console.log('Response from login:', response);
         if (rememberMe) {
           localStorage.setItem('email', email);
           localStorage.setItem('token', response.token);
         } else {
           sessionStorage.setItem('token', response.token);
         }
+      }),
+      catchError(error => {
+        console.error('Login failed:', error);
+        return throwError(error);
       })
     );
   }
+
 
   // Clear stored credentials
   logout() {
@@ -44,8 +50,9 @@ export class AuthService {
   }
 
   // Handle user registration
-  register(email: string, password: string): Observable<any> {
-    const body = { email, password };
+  register(name: string, email: string, password: string): Observable<any> {
+    const body = { name, email, password };
+    console.log(body);
     return this.http.post(`${this.baseUrl}/register`, body);
   }
 }

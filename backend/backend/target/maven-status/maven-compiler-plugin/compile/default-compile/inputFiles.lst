@@ -1,11 +1,12 @@
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\service\TestEntityService.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\controller\UserController.java
-C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\SecurityConfig.java
+C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\schema\Task.java
+C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\config\SecurityConfig.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\WebConfig.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\schema\User.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\controller\TestEntityController.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\repository\TestEntityRepository.java
-C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\schema\Assignment.java
+C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\controller\AuthController.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\App.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\repository\UserRepository.java
 C:\UCCS\CS3300\backend\backend\src\main\java\CS3300\schema\Class.java

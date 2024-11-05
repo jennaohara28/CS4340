@@ -29,13 +29,14 @@ export class LoginComponent {
           this.router.navigate(['/']);
         },
         error: (error) => {
-          // Handle error during login
-          this.errorMessage = 'Login failed. Please try again.';
-          console.error('Login failed.', error);
+          // Log the full error response to identify the issue
+          this.errorMessage = error.error || 'Invalid email or password. Please try again.';
+          console.error('Login failed:', error);
         }
       });
     } else {
       this.errorMessage = 'Please fill in both email and password.';
     }
   }
+
 }

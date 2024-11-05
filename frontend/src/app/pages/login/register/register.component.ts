@@ -33,7 +33,7 @@ export class RegisterComponent {
     }
 
     this.isLoading = true;
-    this.authService.register(email, password).subscribe({
+    this.authService.register(name, email, password).subscribe({
       next: (response) => {
         this.successMessage = 'Registration successful! Redirecting to login...';
         this.isLoading = false;

@@ -1,4 +1,4 @@
-package CS3300;
+package CS3300.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +18,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/public/**").permitAll()
+                .antMatchers("/**","/auth/login", "/auth/register").permitAll() // Allow public access to login and register
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginProcessingUrl("/login") // This is where Spring Security will process the login
                 .permitAll()
                 .and()
                 .logout()
