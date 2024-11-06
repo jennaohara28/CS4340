@@ -8,6 +8,8 @@ public class Task {
     private String status;
     private int dueDate;
     private int priority;
+    private Long id;
+    private Long ownerId; // Add this field
 
     public Task(String name, String type, int dueDate) {       //<- required parameters when creating assignments
         this.name = name;                                             //can use setters as needed for rest of parameters
@@ -15,6 +17,16 @@ public class Task {
         this.dueDate = dueDate;
     }
 
+    // Getters and setters for ownerId
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    // Other getters and setters
     public String getName() {
         return name;
     }
@@ -65,4 +77,7 @@ public class Task {
         System.out.println("Due Date: " + dueDate);
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
