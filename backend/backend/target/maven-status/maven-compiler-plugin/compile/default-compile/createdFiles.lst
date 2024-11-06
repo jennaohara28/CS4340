@@ -1,5 +1,13 @@
-CS3300\database\TestEntityRepository.class
-CS3300\database\TestEntityController.class
+CS3300\controller\UserController.class
+CS3300\service\TestEntityService.class
+CS3300\controller\AuthController.class
+CS3300\controller\TestEntityController.class
+CS3300\schema\TestEntity.class
+CS3300\WebConfig.class
 CS3300\App.class
-CS3300\database\TestEntityService.class
-CS3300\database\TestEntity.class
+CS3300\service\UserService.class
+CS3300\schema\Class.class
+CS3300\repository\UserRepository.class
+CS3300\schema\Task.class
+CS3300\schema\User.class
+CS3300\repository\TestEntityRepository.class

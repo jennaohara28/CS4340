@@ -1,10 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://reflectively-blithe-pitta.data-1.use1.tembo.io:5432/postgres
+    url: jdbc:postgresql://menially-live-bellbird.data-1.use1.tembo.io:5432/postgres
     username: postgres
-    password: JpobrlBwTCVVxrC9
+    password: 8RPn2iGmvQhHJgpo
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+logging.level.root: INFO
+logging.level.CS3300: INFO
