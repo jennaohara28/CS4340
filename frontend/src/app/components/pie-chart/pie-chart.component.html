@@ -1,1 +1,12 @@
-<p>pie-chart works!</p>
+<div class="pie-chart-container">
+  <div class="pie-chart-title">Task Status Distribution</div>
+  <ngx-charts-pie-chart
+    *ngIf="pieChartData.length > 0"
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="pieChartData"
+    [legend]="showLegend"
+    [animations]="true">
+  </ngx-charts-pie-chart>
+  <p *ngIf="pieChartData.length === 0">No data available</p>
+</div>

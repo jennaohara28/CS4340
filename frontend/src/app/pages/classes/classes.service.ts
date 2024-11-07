@@ -16,6 +16,10 @@ export class ClassesService {
     return this.http.get<Class[]>(`${this.baseUrl}/owner/${AuthService.getUserId()}`);
   }
 
+  getClassesByUserId(): Observable<Class[]> {
+    return this.http.get<Class[]>(`${this.baseUrl}/owner/${AuthService.getUserId()}`);
+  }
+
   addClass(newClass: Class): Observable<Class> {
     return this.http.post<Class>(this.baseUrl, newClass);
   }
@@ -23,5 +27,9 @@ export class ClassesService {
   // Other methods...
   deleteClass(classId: number) {
     return this.http.delete<void>(`${this.baseUrl}/${classId}`)
+  }
+
+  updateClass(updatedClass: Class) {
+    return this.http.put<Class>(`${this.baseUrl}/${updatedClass.id}`, updatedClass);
   }
 }

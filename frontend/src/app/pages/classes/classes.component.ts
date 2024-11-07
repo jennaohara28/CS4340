@@ -4,8 +4,8 @@ import { ClassesService } from './classes.service';
 import { TasksService } from '../tasks/tasks.service';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { Task } from '../tasks/task.model';
-import {FormsModule} from "@angular/forms";
-import {AuthService} from "../../components/auth.service";
+import { FormsModule } from "@angular/forms";
+import { AuthService } from "../../components/auth.service";
 
 @Component({
   selector: 'app-classes',
@@ -26,6 +26,7 @@ export class ClassesComponent implements OnInit {
   tasks: Task[] = [];
   showAddClassForm: boolean = false;
   newClassName: string = '';
+  editMode: boolean = false;
 
   constructor(private classesService: ClassesService, private tasksService: TasksService) {}
 
@@ -42,6 +43,7 @@ export class ClassesComponent implements OnInit {
 
   selectClass(classId: number): void {
     this.selectedClass = this.classes.find(c => c.id === classId) || null;
+    this.editMode = false;
     if (this.selectedClass) {
       this.tasksService.getTasksByClassId(classId).subscribe(
         (data: Task[]) => {
@@ -60,7 +62,7 @@ export class ClassesComponent implements OnInit {
 
   addClass(): void {
     if (this.newClassName.trim()) {
-      const userId = AuthService.getUserId() ?? 0; // Provide a default value of 0 if null
+      const userId = AuthService.getUserId() ?? 0;
       const newClass: Class = { id: 0, name: this.newClassName, ownerId: userId };
       this.classesService.addClass(newClass).subscribe(
         (data: Class) => {
@@ -70,6 +72,27 @@ export class ClassesComponent implements OnInit {
         },
         (error) => {
           console.error('Error adding class:', error);
+        }
+      );
+    }
+  }
+
+  enableEditMode(): void {
+    this.editMode = true;
+  }
+
+  updateClass(): void {
+    if (this.selectedClass) {
+      this.classesService.updateClass(this.selectedClass).subscribe(
+        (updatedClass: Class) => {
+          const index = this.classes.findIndex(c => c.id === updatedClass.id);
+          if (index !== -1) {
+            this.classes[index] = updatedClass;
+          }
+          this.editMode = false;
+        },
+        (error) => {
+          console.error('Error updating class:', error);
         }
       );
     }

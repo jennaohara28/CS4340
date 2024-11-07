@@ -1,25 +1,5 @@
 <div class="tasks">
-  <h2>Tasks</h2>
-  <button class="btn btn-primary" (click)="toggleAddTaskForm()">Add Task</button>
-
-  <div *ngIf="showAddTaskForm" class="add-task-form">
-    <input [(ngModel)]="newTaskName" class="form-control" placeholder="Enter task name" />
-    <input [(ngModel)]="newTaskDueDate" type="date" class="form-control" placeholder="Enter due date" />
-    <input [(ngModel)]="newTaskType" class="form-control" placeholder="Enter task type" />
-    <input [(ngModel)]="newTaskTimeAll" class="form-control" placeholder="Enter time allocation" />
-    <select [(ngModel)]="newTaskStatus" class="form-control">
-      <option value="To-Do">To-Do</option>
-      <option value="In-Progress">In-Progress</option>
-      <option value="Done">Done</option>
-    </select>
-    <input [(ngModel)]="newTaskPriority" class="form-control" placeholder="Enter priority" />
-    <select [(ngModel)]="newTaskClassId" class="form-control">
-      <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
-    </select>
-    <button class="btn btn-success" (click)="addTask()">Save</button>
-    <button class="btn btn-secondary" (click)="toggleAddTaskForm()">Cancel</button>
-  </div>
-
+  <h2>Task Snapshot</h2>
   <ul class="task-list">
     <li *ngFor="let task of tasks" (click)="selectTask(task.id)" class="task-item">
       {{ task.name }}

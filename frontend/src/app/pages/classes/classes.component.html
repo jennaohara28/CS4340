@@ -1,26 +1,35 @@
 <div class="classes">
   <h2>Classes</h2>
-  <button (click)="toggleAddClassForm()">Add Class</button>
+  <button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
 
   <div *ngIf="showAddClassForm" class="add-class-form">
-    <input [(ngModel)]="newClassName" placeholder="Enter class name" />
-    <button (click)="addClass()">Save</button>
-    <button (click)="toggleAddClassForm()">Cancel</button>
+    <input [(ngModel)]="newClassName" class="form-control" placeholder="Enter class name" />
+    <button class="btn btn-success" (click)="addClass()">Save</button>
+    <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
   </div>
 
-  <ul>
-    <li *ngFor="let class of classes" (click)="selectClass(class.id)">
+  <ul class="class-list">
+    <li *ngFor="let class of classes" (click)="selectClass(class.id)" class="class-item">
       {{ class.name }}
     </li>
   </ul>
 
-  <div *ngIf="selectedClass">
+  <div *ngIf="selectedClass" class="class-details">
+    <h3>Details for {{ selectedClass?.name }}</h3>
+    <div *ngIf="!editMode">
+      <p><strong>Name:</strong> {{ selectedClass?.name }}</p>
+      <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
+    </div>
+    <div *ngIf="editMode">
+      <input [(ngModel)]="selectedClass.name" class="form-control" placeholder="Enter class name" />
+      <button class="btn btn-success" (click)="updateClass()">Update Class</button>
+    </div>
+    <button class="btn btn-danger" (click)="deleteClass(selectedClass.id)">Delete Class</button>
     <h3>Tasks for {{ selectedClass?.name }}</h3>
-    <button (click)="deleteClass(selectedClass.id)">Delete Class</button>
-    <ul>
-      <li *ngFor="let task of tasks">
+    <ul class="task-list">
+      <li *ngFor="let task of tasks" class="task-item">
         <h4>{{ task.name }}</h4>
-        <p>Due: {{ task.dueDate | date }}</p>
+        <p><strong>Due:</strong> {{ task.dueDate | date }}</p>
       </li>
     </ul>
   </div>

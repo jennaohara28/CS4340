@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TasksService } from './tasks.service';
+import { ClassesService } from '../classes/classes.service';
 import { AuthService } from '../../components/auth.service';
 import { Task } from './task.model';
-import {FormsModule} from "@angular/forms";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import { Class } from '../classes/class.model';
+import { FormsModule } from "@angular/forms";
+import { DatePipe, NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-tasks',
@@ -19,6 +21,7 @@ import {DatePipe, NgForOf, NgIf} from "@angular/common";
 })
 export class TasksComponent implements OnInit {
   tasks: Task[] = [];
+  classes: Class[] = [];
   newTaskName: string = '';
   newTaskDueDate: string = '';
   newTaskType: string = '';
@@ -28,11 +31,13 @@ export class TasksComponent implements OnInit {
   newTaskClassId: number = 0;
   showAddTaskForm: boolean = false;
   selectedTask: Task | null = null;
+  editMode: boolean = false;
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService, private classesService: ClassesService) {}
 
   ngOnInit(): void {
     this.loadTasks();
+    this.loadClasses();
   }
 
   loadTasks(): void {
@@ -47,22 +52,34 @@ export class TasksComponent implements OnInit {
     );
   }
 
+  loadClasses(): void {
+    const userId = AuthService.getUserId() ?? 0;
+    this.classesService.getClasses().subscribe(
+      (classes: Class[]) => {
+        this.classes = classes;
+      },
+      (error) => {
+        console.error('Error loading classes:', error);
+      }
+    );
+  }
+
   toggleAddTaskForm(): void {
     this.showAddTaskForm = !this.showAddTaskForm;
   }
 
   addTask(): void {
-    if (this.newTaskName.trim() && this.newTaskDueDate) {
+    if (this.newTaskName.trim() && this.newTaskDueDate && this.newTaskClassId) {
       const newTask: Task = {
         id: 0,
         name: this.newTaskName,
-        dueDate: '', // Convert Date to timestamp
+        dueDate: this.newTaskDueDate,
         ownerId: AuthService.getUserId() ?? 0,
-        type: this.newTaskType || '', // Default value if empty
-        timeAll: this.newTaskTimeAll || 0, // Default value if empty
-        status: this.newTaskStatus || '', // Default value if empty
-        priority: this.newTaskPriority || 0, // Default value if empty
-        classId: this.newTaskClassId || 0 // Default value if empty
+        type: this.newTaskType || '',
+        timeAll: this.newTaskTimeAll || 0,
+        status: this.newTaskStatus || '',
+        priority: this.newTaskPriority || 0,
+        classId: this.newTaskClassId
       };
       this.tasksService.addTask(newTask).subscribe(
         (task: Task) => {
@@ -85,6 +102,28 @@ export class TasksComponent implements OnInit {
 
   selectTask(taskId: number): void {
     this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
+    this.editMode = false;
+  }
+
+  enableEditMode(): void {
+    this.editMode = true;
+  }
+
+  updateTask(): void {
+    if (this.selectedTask) {
+      this.tasksService.updateTask(this.selectedTask).subscribe(
+        (updatedTask: Task) => {
+          const index = this.tasks.findIndex(task => task.id === updatedTask.id);
+          if (index !== -1) {
+            this.tasks[index] = updatedTask;
+          }
+          this.editMode = false;
+        },
+        (error) => {
+          console.error('Error updating task:', error);
+        }
+      );
+    }
   }
 
   deleteTask(taskId: number): void {

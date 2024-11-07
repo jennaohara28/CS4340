@@ -12,13 +12,19 @@ body {
   padding: 20px;
 }
 
-/* Classes Component Styles */
-.classes {
+/* Tasks Component Styles */
+.tasks {
   background-color: #fff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 20px;
+  margin: 20px; /* Add margin on all sides */
+  max-height: 50vh; /* Set the maximum height */
+  min-height: 50vh; /* Set the minimum height */
+  height: 50vh; /* Set the height to 50vh */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 h2, h3 {
@@ -80,7 +86,7 @@ h2, h3 {
   background-color: #c82333;
 }
 
-.add-class-form, .class-details {
+.add-task-form, .task-details {
   margin-top: 20px;
 }
 
@@ -92,12 +98,12 @@ h2, h3 {
   border-radius: 4px;
 }
 
-.class-list, .task-list {
+.task-list {
   list-style-type: none;
   padding: 0;
 }
 
-.class-item, .task-item {
+.task-item {
   cursor: pointer;
   padding: 10px;
   border: 1px solid #ddd;
@@ -107,10 +113,10 @@ h2, h3 {
   transition: background-color 0.3s;
 }
 
-.class-item:hover, .task-item:hover {
+.task-item:hover {
   background-color: #f0f0f0;
 }
 
-.class-details p {
+.task-details p {
   margin: 5px 0;
 }

@@ -39,6 +39,7 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task taskEntity) {
+        System.out.println(taskEntity);
         return taskService.saveTask(taskEntity);
     }
 

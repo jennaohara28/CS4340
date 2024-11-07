@@ -13,6 +13,8 @@ public class Task {
     private String type;
     private int timeAll;
     private String status;
+
+    @Column(name = "due_date")
     private LocalDate dueDate;
     private int priority;
     private Long ownerId;
