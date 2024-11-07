@@ -29,7 +29,7 @@
       <input type="submit" value="Login" [disabled]="emailInput.invalid || passwordInput.invalid">
 
       <!-- Error message from server-side validation -->
-      <div *ngIf="errorMessage" class="error">
+      <div class="error server-error" [class.server-error-visible]="errorMessage">
         {{ errorMessage }}
       </div>
     </form>
