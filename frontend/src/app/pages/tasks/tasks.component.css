@@ -1,0 +1,74 @@
+.tasks {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.tasks h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.tasks button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.tasks button:hover {
+  background-color: #ddd;
+}
+
+.add-task-form {
+  margin-top: 20px;
+}
+
+.add-task-form input {
+  display: block;
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.add-task-form button {
+  margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+ul li:hover {
+  background-color: #eee;
+}
+
+.selected-task {
+  margin-top: 20px;
+}
+
+.selected-task h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.selected-task p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.selected-task button {
+  margin-top: 10px;
+}

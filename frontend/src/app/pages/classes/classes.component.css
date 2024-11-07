@@ -1,0 +1,26 @@
+.classes {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.classes ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.classes li {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.classes li:hover {
+  background-color: #f0f0f0;
+}
+
+.tasks {
+  margin-top: 20px;
+}

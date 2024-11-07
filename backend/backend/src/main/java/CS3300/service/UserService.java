@@ -3,7 +3,6 @@ package CS3300.service;
 import CS3300.repository.UserRepository;
 import CS3300.schema.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +14,11 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PasswordService passwordService;
 
-    public User registerUser(String email, String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
+    public User registerUser(User user) {
+        String hashedPassword = passwordService.hashPassword(user.getPassword());
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 

@@ -28,7 +28,7 @@ public class AuthController {
             logger.warn("Email already in use: {}", user.getEmail());
             return ResponseEntity.badRequest().body("Email already in use");
         }
-        userService.registerUser(user.getEmail(), user.getPassword());
+        userService.registerUser(user);
         logger.info("User registered successfully: {}", user.getEmail());
         return ResponseEntity.ok("User registered successfully");
     }
@@ -39,7 +39,7 @@ public class AuthController {
         if (existingUser == null || !passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Invalid email or password\"}");
         }
-        return ResponseEntity.ok("{\"message\": \"Login successful\"}");
+        return ResponseEntity.ok("{\"userId\": \"" + existingUser.getId() + "\"}");
     }
 
 

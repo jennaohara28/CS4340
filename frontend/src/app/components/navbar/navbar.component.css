@@ -1,0 +1,41 @@
+nav {
+  background-color: #FFA500; /* Orange background */
+  padding: 1rem;
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  align-items: center; /* Center items vertically */
+}
+
+nav a {
+  color: white;
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #FFD700; /* Lighter orange on hover */
+  text-decoration: underline;
+}
+
+nav a.right-align {
+  margin-left: auto; /* Push to the right */
+}
+
+nav button.right-align {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #e98523; /* Lighter orange for button */
+  color: white;
+  border: none;
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav button.right-align:hover {
+  background-color: #FFA07A; /* Even lighter orange on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}

@@ -1,0 +1,8 @@
+<nav *ngIf="!isOtherPage()">
+  <a routerLink="/">Home</a>
+  <a routerLink="/assignments">Assignments</a>
+  <a routerLink="/classes">Classes</a>
+  <a routerLink="/calendar">Calendar</a>
+  <a routerLink="/about" class="right-align">About</a>
+  <button (click)="logout()" class="right-align">Logout</button>
+</nav>

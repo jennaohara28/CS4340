@@ -26,6 +26,11 @@ public class TaskController {
         return taskService.getTasksByOwnerId(ownerId);
     }
 
+    @GetMapping("/class/{classId}")
+    public List<Task> getTasksByClassId(@PathVariable Long classId) {
+        return taskService.getTasksByClassId(classId);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         Optional<Task> taskEntity = taskService.getTaskById(id);

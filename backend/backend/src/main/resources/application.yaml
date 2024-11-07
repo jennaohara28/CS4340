@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://menially-live-bellbird.data-1.use1.tembo.io:5432/postgres
-    username: postgres
-    password: 8RPn2iGmvQhHJgpo
+    url: jdbc:postgresql://10.0.0.59:5432/postgres
+    username: baeldung
+    password: baeldung
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:

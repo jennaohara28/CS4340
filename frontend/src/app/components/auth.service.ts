@@ -17,11 +17,11 @@ export class AuthService {
       tap((response: any) => {
         // Ensure you're getting the expected response
         console.log('Response from login:', response);
+        const userId = response.userId;
         if (rememberMe) {
-          localStorage.setItem('email', email);
-          localStorage.setItem('token', response.token);
+          localStorage.setItem('userId', userId);
         } else {
-          sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('userId', userId);
         }
       }),
       catchError(error => {
@@ -36,17 +36,27 @@ export class AuthService {
   logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('password');
-    sessionStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    sessionStorage.removeItem('userId');
   }
 
   // Check if the user is logged in by checking for token presence
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('token') || !!sessionStorage.getItem('token');
+    return !!localStorage.getItem('userId') || !!sessionStorage.getItem('userId');
   }
 
   // Retrieve token from either localStorage or sessionStorage
   getToken(): string | null {
-    return localStorage.getItem('token') || sessionStorage.getItem('token');
+    return localStorage.getItem('userId') || sessionStorage.getItem('userId');
+  }
+
+  static getToken(): string | null {
+    return localStorage.getItem('userId') || sessionStorage.getItem('userId');
+  }
+
+  static getUserId(): number | null {
+    const userId = AuthService.getToken();
+    return userId ? Number(userId) : null;
   }
 
   // Handle user registration
