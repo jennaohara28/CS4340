@@ -1,8 +1,9 @@
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {catchError, Observable, throwError} from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,12 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   private baseUrl = 'http://localhost:8080/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
+  // Handle user login
   login(email: string, password: string, rememberMe: boolean): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
-        // Ensure you're getting the expected response
         console.log('Response from login:', response);
         const userId = response.userId;
         if (rememberMe) {
@@ -31,8 +32,7 @@ export class AuthService {
     );
   }
 
-
-  // Clear stored credentials
+  // Clear stored credentials and redirect to login page
   logout() {
     localStorage.removeItem('username');
     localStorage.removeItem('password');

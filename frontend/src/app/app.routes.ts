@@ -12,8 +12,7 @@ import { NoAuthGuard } from './components/no-auth.guard';
 import {ClassesComponent} from "./pages/classes/classes.component";
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'redirect', pathMatch: 'full' },
-  { path: 'redirect', canActivate: [AuthRedirectGuard], component: AboutComponent },
+  { path: '', canActivate: [AuthRedirectGuard], component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'login', component: LoginComponent, canActivate: [NoAuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NoAuthGuard] },
@@ -21,8 +20,9 @@ export const routes: Routes = [
   { path: 'assignments', component: TasksComponent, canActivate: [AuthGuard] },
   { path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard] },
   { path: 'classes', component: ClassesComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: 'about' },
+  { path: '**', redirectTo: 'login' },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,5 +1,6 @@
+// auth-redirect.guard.ts
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -11,10 +12,12 @@ export class AuthRedirectGuard implements CanActivate {
 
   canActivate(): boolean {
     if (this.authService.isLoggedIn()) {
+      // Redirect logged-in users to the home page
       this.router.navigate(['/home']);
       return false;
     } else {
-      this.router.navigate(['/about']);
+      // Redirect logged-out users to the login page
+      this.router.navigate(['/login']);
       return false;
     }
   }
