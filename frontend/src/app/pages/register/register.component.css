@@ -91,7 +91,7 @@ h2 {
 }
 
 .register-right form {
-  width: 100%;
+  position: relative;
 }
 
 input[type="text"],
@@ -145,21 +145,42 @@ input[type="submit"]:hover {
   transition: background-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
 }
 
+.input-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+
 .error {
   color: #ff4d4d;
   font-size: 13px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
   margin-top: -10px;
-  margin-bottom: 10px;
-  height: 18px;
+  line-height: 18px;
   opacity: 0;
+  visibility: hidden;
   transform: translateY(-10px);
-  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: visibility 0s linear 0.3s;
+}
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 input:invalid ~ .error,
 input:focus:invalid ~ .error {
-  opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  animation: slideFadeIn 0.3s ease forwards;
+  transition-delay: 0s;
 }
 
 .already-account {

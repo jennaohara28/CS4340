@@ -11,25 +11,24 @@
       <h2>Register Your Account</h2>
 
       <form (submit)="register(nameInput.value, emailInput.value, passwordInput.value, confirmPasswordInput.value)">
-
-        <input type="text" id="name" [(ngModel)]="name" name="name" placeholder="Name" #nameInput="ngModel" required>
-        <div *ngIf="nameInput.invalid && nameInput.touched" class="error">
-          Name is required.
+        <div class="input-wrapper">
+          <input type="text" id="name" [(ngModel)]="name" name="name" placeholder="Name" #nameInput="ngModel" required>
+          <div *ngIf="nameInput.invalid && nameInput.touched" class="error">Name is required.</div>
         </div>
 
-        <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email" #emailInput="ngModel" required>
-        <div *ngIf="emailInput.invalid && emailInput.touched" class="error">
-          A valid email is required.
+        <div class="input-wrapper">
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email" #emailInput="ngModel" required>
+          <div *ngIf="emailInput.invalid && emailInput.touched" class="error">A valid email is required.</div>
         </div>
 
-        <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
-        <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">
-          Password is required and must be at least 6 characters long.
+        <div class="input-wrapper">
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">Password is required and must be at least 6 characters long.</div>
         </div>
 
-        <input type="password" id="confirm-password" [(ngModel)]="confirmPassword" name="confirm-password" placeholder="Confirm Password" #confirmPasswordInput="ngModel" required>
-        <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">
-          Please confirm your password.
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" [(ngModel)]="confirmPassword" name="confirm-password" placeholder="Confirm Password" #confirmPasswordInput="ngModel" required>
+          <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">Please confirm your password.</div>
         </div>
 
         <input type="submit" value="Register" [disabled]="emailInput.invalid || passwordInput.invalid || confirmPasswordInput.invalid || isLoading">

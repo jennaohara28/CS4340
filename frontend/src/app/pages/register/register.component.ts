@@ -50,7 +50,7 @@ export class RegisterComponent {
     this.authService.register(name, email, password).subscribe({
       next: () => {
         // Show success message upon successful registration
-        this.successMessage = 'Registration successful! Logging you in...';
+        this.successMessage = 'Success! Logging in...';
         this.isLoading = false;
         this.cdr.detectChanges();
 
