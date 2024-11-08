@@ -5,7 +5,7 @@ import { AuthService } from '../../components/auth.service';
 import { Task } from './task.model';
 import { Class } from '../classes/class.model';
 import { FormsModule } from "@angular/forms";
-import { DatePipe, NgForOf, NgIf } from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-tasks',
@@ -15,7 +15,8 @@ import { DatePipe, NgForOf, NgIf } from "@angular/common";
     FormsModule,
     NgForOf,
     NgIf,
-    DatePipe
+    DatePipe,
+    NgClass
   ],
   styleUrls: ['./tasks.component.css']
 })
@@ -32,6 +33,9 @@ export class TasksComponent implements OnInit {
   showAddTaskForm: boolean = false;
   selectedTask: Task | null = null;
   editMode: boolean = false;
+
+  isModalOpen: boolean = false;
+  modalMode: 'add' | 'edit' = 'add';
 
   constructor(private tasksService: TasksService, private classesService: ClassesService) {}
 
@@ -101,8 +105,11 @@ export class TasksComponent implements OnInit {
   }
 
   selectTask(taskId: number): void {
-    this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
-    this.editMode = false;
+    if (this.selectedTask && this.selectedTask.id === taskId) {
+      this.selectedTask = null; // Unselect if the same task is clicked
+    } else {
+      this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
+    }
   }
 
   enableEditMode(): void {
@@ -111,6 +118,14 @@ export class TasksComponent implements OnInit {
 
   updateTask(): void {
     if (this.selectedTask) {
+      this.selectedTask.name = this.newTaskName;
+      this.selectedTask.dueDate = this.newTaskDueDate;
+      this.selectedTask.type = this.newTaskType;
+      this.selectedTask.timeAll = this.newTaskTimeAll;
+      this.selectedTask.status = this.newTaskStatus;
+      this.selectedTask.priority = this.newTaskPriority;
+      this.selectedTask.classId = this.newTaskClassId;
+
       this.tasksService.updateTask(this.selectedTask).subscribe(
         (updatedTask: Task) => {
           const index = this.tasks.findIndex(task => task.id === updatedTask.id);
@@ -118,6 +133,7 @@ export class TasksComponent implements OnInit {
             this.tasks[index] = updatedTask;
           }
           this.editMode = false;
+          this.closeModal(); // Close the modal after saving
         },
         (error) => {
           console.error('Error updating task:', error);
@@ -136,5 +152,36 @@ export class TasksComponent implements OnInit {
         console.error('Error deleting task:', error);
       }
     );
+  }
+
+  getClassById(classId: number): Class | undefined {
+    return this.classes.find(cls => cls.id === classId);
+  }
+
+  openModal(mode: 'add' | 'edit'): void {
+    this.modalMode = mode;
+    if (mode === 'edit' && this.selectedTask) {
+      this.newTaskName = this.selectedTask.name;
+      this.newTaskDueDate = this.selectedTask.dueDate;
+      this.newTaskType = this.selectedTask.type;
+      this.newTaskTimeAll = this.selectedTask.timeAll;
+      this.newTaskStatus = this.selectedTask.status;
+      this.newTaskPriority = this.selectedTask.priority;
+      this.newTaskClassId = this.selectedTask.classId;
+    } else {
+      this.newTaskName = '';
+      this.newTaskDueDate = '';
+      this.newTaskType = '';
+      this.newTaskTimeAll = 0;
+      this.newTaskStatus = '';
+      this.newTaskPriority = 0;
+      this.newTaskClassId = 0;
+    }
+    this.isModalOpen = true;
+  }
+
+
+  closeModal(): void {
+    this.isModalOpen = false;
   }
 }
