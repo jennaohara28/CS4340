@@ -62,7 +62,16 @@ export class AuthService {
   // Handle user registration
   register(name: string, email: string, password: string): Observable<any> {
     const body = { name, email, password };
-    console.log(body);
-    return this.http.post(`${this.baseUrl}/register`, body);
+    console.log('Sending registration request with body:', body);
+    return this.http.post(`${this.baseUrl}/register`, body).pipe(
+      tap((response) => {
+        console.log('Registration successful, response:', response);
+      }),
+      catchError(error => {
+        console.error('Registration failed with error details:', error);
+        alert(`Registration error: ${error.message || 'Unknown error'}`);
+        return throwError(error);
+      })
+    );
   }
 }

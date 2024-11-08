@@ -15,36 +15,18 @@ html, body, .page-background {
 @keyframes backgroundAnimation {
   0% {
     background-color: #f9d18d;
-    background-image: linear-gradient(45deg, #ffb570 25%, transparent 25%),
-    linear-gradient(-45deg, #ffb570 25%, transparent 25%);
   }
   50% {
     background-color: #ffb570;
-    background-image: linear-gradient(45deg, #f9d18d 25%, transparent 25%),
-    linear-gradient(-45deg, #f9d18d 25%, transparent 25%);
   }
   100% {
     background-color: #f9d18d;
-    background-image: linear-gradient(45deg, #ffb570 25%, transparent 25%),
-    linear-gradient(-45deg, #ffb570 25%, transparent 25%);
   }
 }
 
 .page-background {
   background-size: 40px 40px;
   animation: backgroundAnimation 7s ease-in-out infinite;
-}
-
-@keyframes backgroundAnimation {
-  0% {
-    background-color: #f9d18d;
-  }
-  50% {
-    background-color: #ffb570;
-  }
-  100% {
-    background-color: #f9d18d;
-  }
 }
 
 .register-wrapper {
@@ -97,6 +79,8 @@ html, body, .page-background {
   flex-direction: column;
   justify-content: center;
   border-radius: 0 16px 16px 0;
+  min-height: 600px;
+  position: relative;
 }
 
 h2 {
@@ -212,6 +196,62 @@ input:focus:invalid ~ .error {
 .about-us a:hover {
   text-decoration: underline;
   color: #ff6f00;
+}
+
+.status-container {
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.message-container {
+  height: 24px;
+  margin-top: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.success-message,
+.error-message {
+  font-size: 14px;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.success-message {
+  font-size: 16px;
+  color: #ff8c42;
+  font-weight: bold;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.error-message {
+  font-size: 16px;
+  color: #ff4d4d;
+  font-weight: bold;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.loading-bar {
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(to right, #ff8c42, #ffb570);
+  background-size: 200% 100%;
+  animation: loading-animation 1.5s linear infinite;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+@keyframes loading-animation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -200% 0%;
+  }
 }
 
 @media screen and (max-width: 800px) {
