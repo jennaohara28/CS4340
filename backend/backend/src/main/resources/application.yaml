@@ -3,9 +3,9 @@ spring:
 #    url: jdbc:postgresql://76.131.177.57:5432/postgres
 #    username: baeldung
 #    password: baeldung
-    url: jdbc:postgresql://menially-live-bellbird.data-1.use1.tembo.io:5432/postgres
+    url: jdbc:postgresql://nasally-righteous-dinosaur.data-1.use1.tembo.io:5432/postgres
     username: postgres
-    password: 8RPn2iGmvQhHJgpo
+    password: FoDK1b7X4EMNxulk
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
