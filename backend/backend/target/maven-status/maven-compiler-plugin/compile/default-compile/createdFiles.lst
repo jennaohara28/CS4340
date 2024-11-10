@@ -1,6 +1,7 @@
 CS3300\controller\UserController.class
 CS3300\controller\AuthController.class
 CS3300\controller\ClassController.class
+CS3300\service\EmailService.class
 CS3300\WebConfig.class
 CS3300\service\ClassService.class
 CS3300\App.class
@@ -10,6 +11,7 @@ CS3300\repository\TaskRepository.class
 CS3300\service\TaskService.class
 CS3300\repository\UserRepository.class
 CS3300\schema\Task.class
+CS3300\config\SecurityConfig.class
 CS3300\schema\User.class
 CS3300\service\PasswordService.class
 CS3300\repository\ClassRepository.class

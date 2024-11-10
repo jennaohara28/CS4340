@@ -12,6 +12,7 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private String resetToken;
 
     public Long getId() {
         return id;
@@ -21,7 +22,7 @@ public class User {
         return password;
     }
 
-    public String getname() {
+    public String getName() {
         return name;
     }
 
@@ -33,8 +34,8 @@ public class User {
         this.password = password;
     }
 
-    public void setName(String Name) {
-        this.name = Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setEmail(String email) {
@@ -43,5 +44,13 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 }

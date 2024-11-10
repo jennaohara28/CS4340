@@ -44,5 +44,17 @@
       <p><a routerLink="/about">Learn More</a></p>
     </div>
 
+    <!-- Forgot Password Link -->
+    <p class="forgot-password" (click)="toggleForgotPassword()">
+      <a href="javascript:void(0)">Forgot Password?</a>
+    </p>
+
+    <!-- Conditional Password Reset Form -->
+    <div *ngIf="showForgotPassword">
+      <input type="email" [(ngModel)]="resetEmail" placeholder="Enter your email to reset password" required>
+      <button (click)="requestPasswordReset()">Send Reset Link</button>
+      <p *ngIf="resetMessage">{{ resetMessage }}</p>
+    </div>
+
   </div>
 </div>

@@ -49,4 +49,26 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Fill in both email and password.';
     }
   }
+
+  // Accounting for if user forgot password
+  showForgotPassword = false;
+  resetEmail: string = '';
+  resetMessage: string = '';
+
+  // Show option when user fails at login attempt
+  toggleForgotPassword() {
+    this.showForgotPassword = !this.showForgotPassword;
+  }
+
+  // Allow user to request a password reset if desired
+  requestPasswordReset() {
+    this.authService.forgotPassword(this.resetEmail).subscribe({
+      next: () => {
+        this.resetMessage = 'A password reset link has been sent to your email.';
+      },
+      error: () => {
+        this.resetMessage = 'Failed to send reset link. Please try again.';
+      }
+    });
+  }
 }
