@@ -116,15 +116,16 @@ input[type="password"]:focus {
 
 input[type="submit"] {
   width: 100%;
-  padding: 14px;
-  background-color: #ff8c42;
+  padding: 16px;
+  background: linear-gradient(90deg, #ff8c42, #ff6f00);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 18px;
-  margin-top: 15px;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 @keyframes slideIn {
