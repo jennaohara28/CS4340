@@ -1,15 +1,16 @@
-// auth.service.ts
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
+
+declare let window: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/auth';
+  private baseUrl = `${window.__env.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -70,6 +71,33 @@ export class AuthService {
       catchError(error => {
         console.error('Registration failed with error details:', error);
         alert(`Registration error: ${error.message || 'Unknown error'}`);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Handle if user forgot password
+  forgotPassword(email: string): Observable<any> {
+    // Ensure Angular processes the response as text
+    return this.http.post(`${this.baseUrl}/forgot-password`, { email }, { responseType: 'text' }).pipe(
+      catchError(error => {
+        console.error('Forgot Password Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Handle Password Reset
+  // AuthService: Handle Password Reset with text response
+  resetPassword(token: string, newPassword: string): Observable<any> {
+    const url = `${this.baseUrl}/reset-password`;
+    const body = { token, newPassword };
+    return this.http.post(url, body, { responseType: 'text' }).pipe(
+      tap(response => {
+        console.log('Reset Password Response:', response);
+      }),
+      catchError(error => {
+        console.error('Reset Password Error:', error);
         return throwError(error);
       })
     );

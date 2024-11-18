@@ -34,6 +34,12 @@
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/env.js",
+                  "with": "src/environments/env.production.js"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -88,7 +94,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/environments/env.js"
+            ]
           }
         }
       }

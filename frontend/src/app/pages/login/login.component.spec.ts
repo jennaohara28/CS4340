@@ -1,7 +1,7 @@
+import { AuthService } from '../../components/auth.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login.component';
-import { AuthService } from '../../components/auth.service';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
@@ -59,7 +59,7 @@ describe('LoginComponent', () => {
     component.login();
     fixture.detectChanges();
 
-    expect(component.errorMessage).toEqual('Login failed. Please try again.');
+    expect(component.errorMessage).toEqual('Invalid email or password. Please try again.');
   });
 
   it('should navigate to home page after successful login', () => {
