@@ -4,6 +4,7 @@ import CS3300.schema.User;
 import CS3300.service.UserService;
 import CS3300.service.PasswordService;
 import CS3300.service.EmailService;
+import CS3300.service.AppConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,25 +31,27 @@ public class AuthController {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private AppConfigService appConfigService;
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.findByEmail(user.getEmail()).isPresent()) {
-            logger.warn("Email already in use: {}", user.getEmail());
             return ResponseEntity.badRequest().body("Email already in use");
         }
         userService.registerUser(user);
-        logger.info("User registered successfully: {}", user.getEmail());
         return ResponseEntity.ok(Collections.singletonMap("message", "User registered successfully"));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         Optional<User> existingUserOpt = userService.findByEmail(user.getEmail());
-        if (!existingUserOpt.isPresent() || !passwordService.checkPassword(user.getPassword(), existingUserOpt.get().getPassword())) {
+        if (!existingUserOpt.isPresent() ||
+                !passwordService.checkPassword(user.getPassword(), existingUserOpt.get().getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Invalid email or password\"}");
         }
         User existingUser = existingUserOpt.get();
-        return ResponseEntity.ok("{\"userId\": \"" + existingUser.getId() + "\"}");
+        return ResponseEntity.ok("{\"email\": \"" + existingUser.getEmail() + "\"}");
     }
 
     @PostMapping("/forgot-password")
@@ -56,7 +60,6 @@ public class AuthController {
         Optional<User> userOpt = userService.findByEmail(email);
 
         if (!userOpt.isPresent()) {
-            logger.warn("Attempt to reset password for non-existent email: {}", email);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email address not found.");
         }
 
@@ -64,15 +67,26 @@ public class AuthController {
 
         // Generate a password reset token
         String resetToken = passwordService.generateResetToken();
+        long expiryDuration = 15 * 60 * 1000;
+        Date expiryDate = new Date(System.currentTimeMillis() + expiryDuration);
 
-        // Store the reset token in the user record
+        // Store the token and expiry timestamp
         user.setResetToken(resetToken);
+        user.setResetTokenExpiry(expiryDate);
         userService.saveUser(user);
 
-        // Send email with the reset link
-        String resetLink = "http://localhost:4200/reset-password?token=" + resetToken;
+        // Construct a detailed email body
+        String resetLink = appConfigService.getFrontendUrl() + "/reset-password?token=" + resetToken;
+        String messageBody = "Hi " + user.getEmail() + ",\n\n" +
+                "We received a request to reset your password. Please use the link below to reset your password. " +
+                "This link will expire in 15 minutes.\n\n" +
+                resetLink + "\n\n" +
+                "If you did not request this, please ignore this email.\n\n" +
+                "Best Regards,\nTaskTrackr Team";
+
+        // Send email with the detailed body
         try {
-            emailService.sendEmail(user.getEmail(), "Password Reset Request", "Reset your password using this link: " + resetLink);
+            emailService.sendEmail(user.getEmail(), "Password Reset Request", messageBody);
             logger.info("Password reset link sent to: {}", email);
             return ResponseEntity.ok("Password reset link sent.");
         } catch (Exception e) {
@@ -80,7 +94,6 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send password reset email.");
         }
     }
-
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> request) {
@@ -96,9 +109,16 @@ public class AuthController {
 
         User user = userOpt.get();
 
+        // Check if the token has expired
+        if (user.getResetTokenExpiry() == null || user.getResetTokenExpiry().before(new Date())) {
+            logger.warn("Reset token expired for user: {}", user.getEmail());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Reset token has expired.");
+        }
+
         // Update the user's password and clear the reset token
         user.setPassword(passwordService.hashPassword(newPassword));
         user.setResetToken(null);
+        user.setResetTokenExpiry(null);
         userService.saveUser(user);
 
         logger.info("Password reset successfully for user: {}", user.getEmail());
@@ -109,9 +129,10 @@ public class AuthController {
     public ResponseEntity<?> testEmail() {
         try {
             emailService.sendEmail("test@example.com", "Test Subject", "This is a test email.");
-            return ResponseEntity.ok("Test email sent successfully.");
+            return ResponseEntity.ok(Collections.singletonMap("message", "Test email sent successfully."));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send test email: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", "Failed to send test email: " + e.getMessage()));
         }
     }
 }

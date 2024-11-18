@@ -17,13 +17,19 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: tasktrackr.notifications@gmail.com
-    password: TaskTrackrProdT3st
+    password: jtrbsendpfbphvsn
     properties:
       mail:
         smtp:
           auth: true
           starttls:
             enable: true
+  web:
+    resources:
+      static-locations: classpath:/static/, file:./src/main/resources/static/
+
+frontend:
+  url: http://localhost:4200
 
 logging.level.root: INFO
 logging.level.CS3300: INFO
