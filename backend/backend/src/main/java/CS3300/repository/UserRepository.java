@@ -7,11 +7,18 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
+
+    // Find user by their email address
     Optional<User> findByEmail(String email);
+
+    // Find a user by their password reset token
     Optional<User> findByResetToken(String resetToken);
 
-    // Method to find all users with expired tokens
+    // Retrieve all users whose reset token as expired
     List<User> findAllByResetTokenExpiryBefore(Date now);
+
+    // Delete a user by their email address
+    void deleteByEmail(String email);
 }
 
 

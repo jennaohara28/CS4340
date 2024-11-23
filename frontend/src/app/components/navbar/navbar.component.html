@@ -1,12 +1,15 @@
-<nav *ngIf="!isOtherPage()">
+<nav>
   <a routerLink="/">Home</a>
   <a routerLink="/assignments">Assignments</a>
   <a routerLink="/classes">Classes</a>
   <a routerLink="/calendar">Calendar</a>
-  <a routerLink="/about" class="right-align">About</a>
+  <a routerLink="/about">About</a>
   <div class="dropdown right-align">
-    <button class="dropdown-btn">Account</button>
+    <button class="dropdown-btn">
+      <fa-icon [icon]="faUserCircle"></fa-icon> Account
+    </button>
     <div class="dropdown-content">
+      <p *ngIf="userEmail" class="user-email">Logged in as: {{ userEmail }}</p>
       <a routerLink="/manage-notifications">Manage Notifications</a>
       <button (click)="logout()">Logout</button>
       <button (click)="deleteAccount()">Delete Account</button>

@@ -1,31 +1,61 @@
 <div class="classes">
   <h2>Classes</h2>
+
+  <!-- Add Class Button -->
   <button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
 
+  <!-- Add Class Form -->
   <div *ngIf="showAddClassForm" class="add-class-form">
-    <input [(ngModel)]="newClassName" class="form-control" placeholder="Enter class name" />
+    <input
+      [(ngModel)]="newClassName"
+      class="form-control"
+      placeholder="Enter class name"
+    />
     <button class="btn btn-success" (click)="addClass()">Save</button>
     <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
   </div>
 
+  <!-- Class List -->
   <ul class="class-list">
-    <li *ngFor="let class of classes" (click)="selectClass(class.id)" class="class-item">
+    <li
+      *ngFor="let class of classes"
+      (click)="selectClass(class.id)"
+      class="class-item"
+    >
       {{ class.name }}
     </li>
   </ul>
 
+  <!-- Selected Class Details -->
   <div *ngIf="selectedClass" class="class-details">
-    <h3>Details for {{ selectedClass?.name }}</h3>
+    <h3>Details for {{ selectedClass.name }}</h3>
+
+    <!-- Display Class Details -->
     <div *ngIf="!editMode">
-      <p><strong>Name:</strong> {{ selectedClass?.name }}</p>
+      <p><strong>Name:</strong> {{ selectedClass.name }}</p>
       <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
     </div>
+
+    <!-- Edit Class Details -->
     <div *ngIf="editMode">
-      <input [(ngModel)]="selectedClass.name" class="form-control" placeholder="Enter class name" />
+      <input
+        [(ngModel)]="selectedClass.name"
+        class="form-control"
+        placeholder="Enter class name"
+      />
       <button class="btn btn-success" (click)="updateClass()">Update Class</button>
     </div>
-    <button class="btn btn-danger" (click)="deleteClass(selectedClass.id)">Delete Class</button>
-    <h3>Tasks for {{ selectedClass?.name }}</h3>
+
+    <!-- Delete Class Button -->
+    <button
+      class="btn btn-danger"
+      (click)="deleteClass(selectedClass.id)"
+    >
+      Delete Class
+    </button>
+
+    <!-- Task List for Selected Class -->
+    <h3>Tasks for {{ selectedClass.name }}</h3>
     <ul class="task-list">
       <li *ngFor="let task of tasks" class="task-item">
         <h4>{{ task.name }}</h4>

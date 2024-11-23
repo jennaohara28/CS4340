@@ -22,8 +22,10 @@ export class AuthService {
         const userId = response.userId;
         if (rememberMe) {
           localStorage.setItem('userId', userId);
+          localStorage.setItem('email', email);
         } else {
           sessionStorage.setItem('userId', userId);
+          sessionStorage.setItem('email', email);
         }
       }),
       catchError(error => {
@@ -58,6 +60,10 @@ export class AuthService {
   static getUserId(): number | null {
     const userId = AuthService.getToken();
     return userId ? Number(userId) : null;
+  }
+
+  getUserEmail(): string | null {
+    return localStorage.getItem('email') || sessionStorage.getItem('email');
   }
 
   // Handle user registration
@@ -98,6 +104,16 @@ export class AuthService {
       }),
       catchError(error => {
         console.error('Reset Password Error:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  // Delete account
+  deleteAccount(email: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete-account/${email}`).pipe(
+      catchError(error => {
+        console.error('Account deletion failed:', error);
         return throwError(error);
       })
     );
