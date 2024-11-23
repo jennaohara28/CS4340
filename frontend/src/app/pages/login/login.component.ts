@@ -3,10 +3,11 @@ import { Router } from '@angular/router';
 import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef, AfterViewInit} from '@angular/core';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   @ViewChild('passwordResetForm', { static: false }) passwordResetForm!: ElementRef;

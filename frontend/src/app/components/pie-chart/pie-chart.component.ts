@@ -5,17 +5,17 @@ import { AuthService } from '../auth.service';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
-  selector: 'app-pie-chart',
-  templateUrl: './pie-chart.component.html',
-  standalone: true,
-  imports: [
-    NgxChartsModule
-  ],
-  styleUrls: ['./pie-chart.component.css']
+    selector: 'app-pie-chart',
+    standalone: true,
+    imports: [
+        NgxChartsModule
+    ],
+    templateUrl: './pie-chart.component.html',
+    styleUrls: ['./pie-chart.component.css']
 })
 export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   public pieChartData: any[] = [];
-  public view: [number, number] = [525, 300]; // Reduced by 25%
+  public view: [number, number] = [525, 300];
   public showLegend = true;
   public colorScheme: Color = {
     name: 'custom',
@@ -51,8 +51,8 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadTaskStatuses(): void {
     const userId = AuthService.getUserId() ?? 0;
-    this.tasksService.getTasksByUserId(userId).subscribe(
-      (tasks: Task[]) => {
+    this.tasksService.getTasksByUserId(userId).subscribe({
+      next: (tasks: Task[]) => {
         const statusCounts: { [key: string]: number } = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0 };
         tasks.forEach(task => {
           if (task.status in statusCounts) {
@@ -65,9 +65,9 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
           { name: 'Done', value: statusCounts['Done'] }
         ];
       },
-      (error) => {
+      error: (error) => {
         console.error('Error loading tasks:', error);
       }
-    );
+    });
   }
 }

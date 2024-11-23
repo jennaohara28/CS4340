@@ -5,11 +5,10 @@ import { Task } from '../../pages/tasks/task.model';
 import {AuthService} from "../../components/auth.service";
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  standalone: true,
-  imports: [NgForOf],
-  styleUrls: ['./calendar.component.css']
+    selector: 'app-calendar',
+    templateUrl: './calendar.component.html',
+    imports: [NgForOf],
+    styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
   currentMonth: number = 0;

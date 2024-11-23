@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { NotificationSettingsService } from './notification-settings.service';
 
 @Component({
-  selector: 'app-notification-settings',
-  templateUrl: './notification-settings.component.html',
-  styleUrls: ['./notification-settings.component.css'],
+    selector: 'app-notification-settings',
+    templateUrl: './notification-settings.component.html',
+    styleUrls: ['./notification-settings.component.css'],
+    standalone: false
 })
 export class NotificationSettingsComponent {
   notificationDays: number = 3;

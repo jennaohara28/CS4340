@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { AuthService } from '../../components/auth.service';
 
 @Component({
   selector: 'app-about',
@@ -6,6 +7,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
+  constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
     this.checkScroll();

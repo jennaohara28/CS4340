@@ -8,17 +8,17 @@ import { FormsModule } from "@angular/forms";
 import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-tasks',
-  templateUrl: './tasks.component.html',
-  standalone: true,
-  imports: [
-    FormsModule,
-    NgForOf,
-    NgIf,
-    DatePipe,
-    NgClass
-  ],
-  styleUrls: ['./tasks.component.css']
+    selector: 'app-tasks',
+    standalone: true,
+    imports: [
+        FormsModule,
+        NgForOf,
+        NgIf,
+        DatePipe,
+        NgClass
+    ],
+    templateUrl: './tasks.component.html',
+    styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
   tasks: Task[] = [];
@@ -46,30 +46,41 @@ export class TasksComponent implements OnInit {
 
   loadTasks(): void {
     const userId = AuthService.getUserId() ?? 0;
-    this.tasksService.getTasksByUserId(userId).subscribe(
-      (tasks: Task[]) => {
+    this.tasksService.getTasksByUserId(userId).subscribe({
+      next: (tasks: Task[]) => {
         this.tasks = tasks;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error loading tasks:', error);
       }
-    );
+    });
   }
 
   loadClasses(): void {
     const userId = AuthService.getUserId() ?? 0;
-    this.classesService.getClasses().subscribe(
-      (classes: Class[]) => {
+    this.classesService.getClasses().subscribe({
+      next: (classes: Class[]) => {
         this.classes = classes;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error loading classes:', error);
       }
-    );
+    });
   }
 
   toggleAddTaskForm(): void {
     this.showAddTaskForm = !this.showAddTaskForm;
+  }
+
+  resetNewTaskForm(): void {
+    this.newTaskName = '';
+    this.newTaskDueDate = '';
+    this.newTaskType = '';
+    this.newTaskTimeAll = 0;
+    this.newTaskStatus = '';
+    this.newTaskPriority = 0;
+    this.newTaskClassId = 0;
+    this.showAddTaskForm = false;
   }
 
   addTask(): void {
@@ -85,22 +96,15 @@ export class TasksComponent implements OnInit {
         priority: this.newTaskPriority || 0,
         classId: this.newTaskClassId
       };
-      this.tasksService.addTask(newTask).subscribe(
-        (task: Task) => {
+      this.tasksService.addTask(newTask).subscribe({
+        next: (task: Task) => {
           this.tasks.push(task);
-          this.newTaskName = '';
-          this.newTaskDueDate = '';
-          this.newTaskType = '';
-          this.newTaskTimeAll = 0;
-          this.newTaskStatus = '';
-          this.newTaskPriority = 0;
-          this.newTaskClassId = 0;
-          this.showAddTaskForm = false;
+          this.resetNewTaskForm();
         },
-        (error) => {
+        error: (error) => {
           console.error('Error adding task:', error);
         }
-      );
+      });
     }
   }
 
@@ -118,40 +122,32 @@ export class TasksComponent implements OnInit {
 
   updateTask(): void {
     if (this.selectedTask) {
-      this.selectedTask.name = this.newTaskName;
-      this.selectedTask.dueDate = this.newTaskDueDate;
-      this.selectedTask.type = this.newTaskType;
-      this.selectedTask.timeAll = this.newTaskTimeAll;
-      this.selectedTask.status = this.newTaskStatus;
-      this.selectedTask.priority = this.newTaskPriority;
-      this.selectedTask.classId = this.newTaskClassId;
-
-      this.tasksService.updateTask(this.selectedTask).subscribe(
-        (updatedTask: Task) => {
+      this.tasksService.updateTask(this.selectedTask).subscribe({
+        next: (updatedTask: Task) => {
           const index = this.tasks.findIndex(task => task.id === updatedTask.id);
           if (index !== -1) {
             this.tasks[index] = updatedTask;
           }
           this.editMode = false;
-          this.closeModal(); // Close the modal after saving
+          this.closeModal();
         },
-        (error) => {
+        error: (error) => {
           console.error('Error updating task:', error);
         }
-      );
+      });
     }
   }
 
   deleteTask(taskId: number): void {
-    this.tasksService.deleteTask(taskId).subscribe(
-      () => {
+    this.tasksService.deleteTask(taskId).subscribe({
+      next: () => {
         this.tasks = this.tasks.filter(task => task.id !== taskId);
         this.selectedTask = null;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error deleting task:', error);
       }
-    );
+    });
   }
 
   getClassById(classId: number): Class | undefined {

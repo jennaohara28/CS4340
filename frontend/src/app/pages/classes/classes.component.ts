@@ -8,17 +8,16 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../components/auth.service";
 
 @Component({
-  selector: 'app-classes',
-  templateUrl: './classes.component.html',
-  standalone: true,
-  imports: [
-    DatePipe,
-    NgForOf,
-    NgIf,
-    FormsModule
-  ],
-  styleUrls: ['./classes.component.css'],
-  providers: [TasksService]
+    selector: 'app-classes',
+    templateUrl: './classes.component.html',
+    imports: [
+        DatePipe,
+        NgForOf,
+        NgIf,
+        FormsModule
+    ],
+    styleUrls: ['./classes.component.css'],
+    providers: [TasksService]
 })
 export class ClassesComponent implements OnInit {
   classes: Class[] = [];

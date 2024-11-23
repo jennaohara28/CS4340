@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Import components
 import { AboutComponent } from './pages/about/about.component';
@@ -34,7 +35,7 @@ import { routes } from './app.routes';
     PieChartComponent,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-
+    FontAwesomeModule,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),

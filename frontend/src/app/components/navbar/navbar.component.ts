@@ -3,24 +3,35 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgIf } from '@angular/common';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, FaIconComponent],
+  imports: [NgIf, FontAwesomeModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css',
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
   title = 'CS3300';
   userEmail: string | null = null;
   faUserCircle = faUserCircle;
+  dropdownOpen = false;
+  menuOpen = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
+  }
+
+  toggleDropdown(): void {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  // Toggle mobile menu
+  toggleMenu(): void {
+    this.menuOpen = !this.menuOpen;
   }
 
   isOtherPage() {

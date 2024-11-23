@@ -5,14 +5,13 @@ import { Task } from '../../pages/tasks/task.model';
 import { DatePipe, NgForOf } from '@angular/common';
 
 @Component({
-  selector: 'app-week-calendar',
-  standalone: true,
-  imports: [
-    NgForOf,
-    DatePipe
-  ],
-  templateUrl: './week-calendar.component.html',
-  styleUrls: ['./week-calendar.component.css']
+    selector: 'app-week-calendar',
+    imports: [
+        NgForOf,
+        DatePipe
+    ],
+    templateUrl: './week-calendar.component.html',
+    styleUrls: ['./week-calendar.component.css']
 })
 export class WeekCalendarComponent implements OnInit {
   public currentWeek: Date[] = [];
