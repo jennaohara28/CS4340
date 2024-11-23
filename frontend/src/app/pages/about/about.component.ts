@@ -3,6 +3,7 @@ import { AuthService } from '../../components/auth.service';
 
 @Component({
   selector: 'app-about',
+  standalone: false,
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })

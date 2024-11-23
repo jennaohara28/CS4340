@@ -3,8 +3,9 @@
     <img src="assets/images/logo.png" alt="TaskTrackr Logo" class="hero-logo">
     <h1>Organize. Focus. Achieve.</h1>
     <p>Manage assignments, progress, and deadlines efficiently with TaskTrackr. Start simplifying your workload today.</p>
-    <a routerLink="/register" class="btn">Get Started</a>
-    <a routerLink="/login" class="btn">Login</a>
+    <!-- Show these buttons only if the user is NOT logged in -->
+    <a routerLink="/register" class="btn" *ngIf="!authService.isLoggedIn()">Get Started</a>
+    <a routerLink="/login" class="btn" *ngIf="!authService.isLoggedIn()">Login</a>
   </div>
 </div>
 

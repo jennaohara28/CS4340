@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './components/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-root',
+    standalone: false,
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css'],
     animations: [
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
   showNavbar: boolean = true;
   private hiddenRoutes: string[] = ['/login', '/about', '/register', '/reset-password'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
