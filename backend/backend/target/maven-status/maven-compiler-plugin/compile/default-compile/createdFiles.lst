@@ -5,6 +5,7 @@ CS3300\service\EmailService.class
 CS3300\WebConfig.class
 CS3300\service\ClassService.class
 CS3300\App.class
+CS3300\service\AppConfigService.class
 CS3300\service\UserService.class
 CS3300\schema\Class.class
 CS3300\repository\TaskRepository.class
@@ -14,5 +15,6 @@ CS3300\schema\Task.class
 CS3300\config\SecurityConfig.class
 CS3300\schema\User.class
 CS3300\service\PasswordService.class
+CS3300\service\TokenCleanupTask.class
 CS3300\repository\ClassRepository.class
 CS3300\controller\TaskController.class
