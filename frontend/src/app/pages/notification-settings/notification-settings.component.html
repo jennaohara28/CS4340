@@ -1,0 +1,30 @@
+<div class="notification-settings">
+  <h2>Manage Notification Settings</h2>
+  <form (submit)="saveSettings()">
+    <div class="form-group">
+      <label for="notification-days">Notify me:</label>
+      <input
+        id="notification-days"
+        type="number"
+        [(ngModel)]="notificationDays"
+        name="notificationDays"
+        min="1"
+        required
+      />
+      <span>days before the due date</span>
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input
+          type="checkbox"
+          [(ngModel)]="enableNotifications"
+          name="enableNotifications"
+        />
+        Enable notifications
+      </label>
+    </div>
+
+    <button type="submit" class="save-button">Save</button>
+  </form>
+</div>
