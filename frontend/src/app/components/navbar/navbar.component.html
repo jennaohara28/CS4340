@@ -4,5 +4,12 @@
   <a routerLink="/classes">Classes</a>
   <a routerLink="/calendar">Calendar</a>
   <a routerLink="/about" class="right-align">About</a>
-  <button (click)="logout()" class="right-align">Logout</button>
+  <div class="dropdown right-align">
+    <button class="dropdown-btn">Account</button>
+    <div class="dropdown-content">
+      <a routerLink="/manage-notifications">Manage Notifications</a>
+      <button (click)="logout()">Logout</button>
+      <button (click)="deleteAccount()">Delete Account</button>
+    </div>
+  </div>
 </nav>

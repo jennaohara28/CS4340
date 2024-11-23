@@ -22,8 +22,8 @@ public class TaskController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<Task> getTasksByOwnerId(@PathVariable Long ownerId) {
-        return taskService.getTasksByOwnerId(ownerId);
+    public List<Task> getTasksByOwnerId(@PathVariable String userId) {
+        return taskService.getTasksByUserId(userId);
     }
 
     @GetMapping("/class/{classId}")

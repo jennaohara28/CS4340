@@ -10,6 +10,7 @@ import { AboutComponent } from './pages/about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { NotificationSettingsComponent } from './pages/notification-settings/notification-settings.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
@@ -21,6 +22,7 @@ import { routes } from './app.routes';
     AboutComponent,
     AppComponent,
     LoginComponent,
+    NotificationSettingsComponent,
     RegisterComponent,
     ResetPasswordComponent
   ],
