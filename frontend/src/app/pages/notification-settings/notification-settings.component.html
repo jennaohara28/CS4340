@@ -1,30 +1,98 @@
 <div class="notification-settings">
   <h2>Manage Notification Settings</h2>
-  <form (submit)="saveSettings()">
-    <div class="form-group">
-      <label for="notification-days">Notify me:</label>
-      <input
-        id="notification-days"
-        type="number"
-        [(ngModel)]="notificationDays"
-        name="notificationDays"
-        min="1"
-        required
-      />
-      <span>days before the due date</span>
-    </div>
+  <!-- Show loading message or spinner while loading -->
+  <div *ngIf="loading" class="loading">Loading...</div>
 
+  <!-- Show the actual form once data is loaded -->
+  <form *ngIf="!loading" (submit)="saveSettings()">
+    <!-- Allow Notifications Toggle -->
     <div class="form-group">
-      <label>
+      <label class="section-title">Allow Notifications</label>
+      <label class="switch">
         <input
           type="checkbox"
           [(ngModel)]="enableNotifications"
           name="enableNotifications"
         />
-        Enable notifications
+        <span class="slider"></span>
       </label>
+      <p class="section-description">
+        Turn this on to receive reminders and updates for tasks and events.
+      </p>
     </div>
 
+    <!-- Notify Me Section -->
+    <div class="form-group">
+      <label class="section-title">Notify Me</label>
+      <div class="inline-input">
+        <input
+          id="notification-days"
+          type="number"
+          [(ngModel)]="notificationDays"
+          name="notificationDays"
+          min="1"
+          max="31"
+          required
+        />
+        <span>days before the due date</span>
+      </div>
+    </div>
+
+    <!-- Notification Times -->
+    <div class="form-group">
+      <label class="section-title">Notification Times</label>
+      <div class="time-list">
+        <div
+          class="time-entry"
+          *ngFor="let time of notificationTimes; let i = index"
+        >
+          <input
+            type="text"
+            [(ngModel)]="time.time"
+            name="time-{{ i }}"
+            placeholder="HH:MM"
+            maxlength="5"
+            (blur)="validateTimeInput(i)"
+          />
+          <select [(ngModel)]="time.period" name="period-{{ i }}">
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+          <button
+            type="button"
+            class="remove-btn"
+            (click)="removeNotificationTime(i)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+      <button type="button" class="add-btn" (click)="addNotificationTime()">
+        Add Time
+      </button>
+    </div>
+
+    <!-- Notification Method -->
+    <div class="form-group">
+      <label class="section-title">Notification Method</label>
+      <select
+        id="notification-method"
+        [(ngModel)]="notificationMethod"
+        name="notificationMethod"
+        required
+      >
+        <option value="Email">Email</option>
+        <option value="Push Notification" disabled title="Not implemented yet">Push Notification</option>
+        <option value="SMS" disabled title="Not implemented yet">SMS</option>
+      </select>
+    </div>
+
+    <!-- Save Button -->
     <button type="submit" class="save-button">Save</button>
+
+    <!-- Success Message -->
+    <p *ngIf="showSuccessMessage" class="success-message">
+      Notification settings saved successfully!
+    </p>
   </form>
 </div>

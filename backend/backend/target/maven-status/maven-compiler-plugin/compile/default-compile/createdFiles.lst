@@ -5,6 +5,7 @@ CS3300\schema\Class.class
 CS3300\repository\UserRepository.class
 CS3300\service\NotificationSettingsService.class
 CS3300\config\SecurityConfig.class
+CS3300\schema\NotificationSettings$NotificationTime.class
 CS3300\schema\User.class
 CS3300\service\TokenCleanupTask.class
 CS3300\repository\ClassRepository.class

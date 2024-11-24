@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class NotificationSettingsService {
-  private apiUrl = '/api/notification-settings';
+
+  private apiUrl = 'http://localhost:8080/api/notification-settings';
 
   constructor(private http: HttpClient) {}
 
-  updateNotificationSettings(settings: { daysBefore: number; enabled: boolean }): Observable<any> {
-    return this.http.put<any>(this.apiUrl, settings);
+  updateNotificationSettings(settings: { userId: string; daysBefore: number; enabled: boolean; method: string; times: any[] }): Observable<any> {
+    return this.http.post(this.apiUrl, settings, { responseType: 'text' });
   }
 
-  getNotificationSettings(userId: number): Observable<any> {
+  getNotificationSettings(userId: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${userId}`);
   }
 }

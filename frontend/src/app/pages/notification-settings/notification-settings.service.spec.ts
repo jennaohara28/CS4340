@@ -22,7 +22,7 @@ describe('NotificationSettingsService', () => {
   it('should fetch notification settings', () => {
     const mockSettings = { daysBefore: 3, enabled: true };
 
-    service.getNotificationSettings(1).subscribe((settings) => {
+    service.getNotificationSettings('1').subscribe((settings) => {
       expect(settings).toEqual(mockSettings);
     });
 
@@ -32,14 +32,20 @@ describe('NotificationSettingsService', () => {
   });
 
   it('should update notification settings', () => {
-    const settingsToUpdate = { daysBefore: 5, enabled: false };
+    const settingsToUpdate = {
+      userId: '1',
+      daysBefore: 5,
+      enabled: false,
+      method: 'Email',
+      times: [{ time: '03:00', period: 'PM' }]
+    };
 
     service.updateNotificationSettings(settingsToUpdate).subscribe((response) => {
       expect(response).toEqual(settingsToUpdate);
     });
 
     const req = httpMock.expectOne('/api/notification-settings');
-    expect(req.request.method).toBe('PUT');
+    expect(req.request.method).toBe('POST');
     req.flush(settingsToUpdate);
   });
 });

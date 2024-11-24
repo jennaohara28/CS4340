@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/auth/register",
                         "/auth/forgot-password",
                         "/auth/reset-password",
-                        "/auth/test-email"
+                        "/auth/test-email",
+                        "/api/notification-settings/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

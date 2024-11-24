@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationSettingsService {
+
     @Autowired
     private NotificationSettingsRepository repository;
 
@@ -16,11 +17,20 @@ public class NotificationSettingsService {
             settings.setUserId(userId);
             settings.setDaysBefore(3);
             settings.setEnabled(true);
-            return repository.save(settings);
+            settings.setMethod("Email");
+            repository.save(settings);
+            return settings;
         });
     }
 
     public void saveSettings(NotificationSettings settings) {
-        repository.save(settings);
+        try {
+            repository.save(settings);
+        } catch (Exception e) {
+            // Log the exception
+            System.out.println("Error saving settings for userId: " + settings.getUserId());
+            e.printStackTrace();
+            throw new RuntimeException("Failed to save settings due to an internal error.");
+        }
     }
 }

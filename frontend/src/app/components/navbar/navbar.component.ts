@@ -23,6 +23,18 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
+    document.addEventListener('click', this.handleOutsideClick.bind(this));
+  }
+
+  handleOutsideClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown')) {
+      this.dropdownOpen = false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.handleOutsideClick.bind(this));
   }
 
   toggleDropdown(): void {
@@ -36,6 +48,10 @@ export class NavbarComponent implements OnInit {
 
   isOtherPage() {
     return this.router.url === '/login' || this.router.url === '/register' || this.router.url === '/about';
+  }
+
+  navigateToNotificationSettings(): void {
+    this.router.navigate(['/notification-settings']);
   }
 
   logout(): void {

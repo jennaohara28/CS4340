@@ -59,6 +59,7 @@ export class AuthService {
 
   static getUserId(): number | null {
     const userId = AuthService.getToken();
+    console.log('Retrieved userId:', userId);
     return userId ? Number(userId) : null;
   }
 
