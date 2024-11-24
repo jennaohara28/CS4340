@@ -22,8 +22,13 @@ public class TaskController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<Task> getTasksByOwnerId(@PathVariable Long ownerId) {
-        return taskService.getTasksByOwnerId(ownerId);
+    public List<Task> getTasksByOwnerId(@PathVariable String userId) {
+        return taskService.getTasksByUserId(userId);
+    }
+
+    @GetMapping("/class/{classId}")
+    public List<Task> getTasksByClassId(@PathVariable Long classId) {
+        return taskService.getTasksByClassId(classId);
     }
 
     @GetMapping("/{id}")
@@ -34,6 +39,7 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task taskEntity) {
+        System.out.println(taskEntity);
         return taskService.saveTask(taskEntity);
     }
 

@@ -1,0 +1,52 @@
+<div class="page-background">
+  <div class="register-wrapper">
+    <div class="register-left">
+      <div class="register-left-content">
+        <img src="../../../assets/images/logo.png" alt="Logo" class="logo">
+        <p>Create your account to join our platform. It's quick and easy!</p>
+      </div>
+    </div>
+
+    <div class="register-right">
+      <h2>Register Your Account</h2>
+
+      <form (submit)="register(nameInput.value, emailInput.value, passwordInput.value, confirmPasswordInput.value)">
+        <div class="input-wrapper">
+          <input type="text" id="name" [(ngModel)]="name" name="name" placeholder="Name" #nameInput="ngModel" required>
+          <div *ngIf="nameInput.invalid && nameInput.touched" class="error">Name is required.</div>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email" #emailInput="ngModel" required>
+          <div *ngIf="emailInput.invalid && emailInput.touched" class="error">A valid email is required.</div>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error">Password is required and must be at least 6 characters long.</div>
+        </div>
+
+        <div class="input-wrapper">
+          <input type="password" id="confirm-password" [(ngModel)]="confirmPassword" name="confirm-password" placeholder="Confirm Password" #confirmPasswordInput="ngModel" required>
+          <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">Please confirm your password.</div>
+        </div>
+
+        <input type="submit" value="Register" [disabled]="emailInput.invalid || passwordInput.invalid || confirmPasswordInput.invalid || isLoading">
+      </form>
+
+      <div class="message-container">
+        <div *ngIf="isLoading" class="loading-bar"></div>
+        <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+      </div>
+
+      <p class="already-account">
+        Already have an account?
+        <a [routerLink]="['/login']" class="login-link">Click here to log in</a>
+      </p>
+
+      <div class="about-us">
+        <p><a routerLink="/about">Learn More</a></p>
+      </div>
+    </div>
+  </div>
+</div>

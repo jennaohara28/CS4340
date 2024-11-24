@@ -1,0 +1,63 @@
+.week-calendar {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.week-days, .week-dates {
+  display: flex;
+  justify-content: space-between;
+}
+
+.week-day, .week-date {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin: 5px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.week-day {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.week-date {
+  min-height: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.week-date:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.date {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.tasks {
+  margin-top: 10px;
+}
+
+.tasks div {
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  margin-bottom: 5px;
+  transition: background-color 0.3s;
+}
+
+.tasks div:hover {
+  background-color: #e0e0e0;
+}

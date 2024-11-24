@@ -1,0 +1,69 @@
+<!-- Add Task Button -->
+<button class="btn btn-primary" (click)="openModal('add')">Add Task</button>
+
+<!-- Edit Task Button -->
+<button *ngIf="selectedTask" class="btn btn-warning" (click)="openModal('edit')">Edit Task</button>
+
+<!-- Task List -->
+<div *ngIf="tasks && tasks.length > 0">
+  <ul class="task-list">
+    <li *ngFor="let task of tasks" (click)="selectTask(task.id)">
+      <h3>{{ task.name }}</h3>
+      <p *ngIf="selectedTask?.id === task.id">Due Date: {{ task.dueDate }}</p>
+      <p *ngIf="selectedTask?.id === task.id">Type: {{ task.type }}</p>
+      <p *ngIf="selectedTask?.id === task.id">Time Allocation: {{ task.timeAll }} hrs</p>
+      <p *ngIf="selectedTask?.id === task.id">Status: {{ task.status }}</p>
+      <p *ngIf="selectedTask?.id === task.id">Priority: {{ task.priority }}</p>
+      <p *ngIf="selectedTask?.id === task.id">Class: {{ getClassById(task.classId)?.name }}</p>
+    </li>
+  </ul>
+</div>
+<div *ngIf="!tasks || tasks.length === 0">
+  <p>No tasks available.</p>
+</div>
+
+<!-- Modal Structure -->
+<div class="modal" [ngClass]="{'show': isModalOpen}">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h2>{{ modalMode === 'add' ? 'Add Task' : 'Edit Task' }}</h2>
+    <div class="form-group">
+      <label for="taskName">Task Name</label>
+      <input id="taskName" [(ngModel)]="newTaskName" class="form-control" placeholder="Enter task name" />
+    </div>
+    <div class="form-group">
+      <label for="taskDueDate">Due Date</label>
+      <input id="taskDueDate" [(ngModel)]="newTaskDueDate" type="date" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="taskType">Task Type</label>
+      <input id="taskType" [(ngModel)]="newTaskType" class="form-control" placeholder="Enter task type" />
+    </div>
+    <div class="form-group">
+      <label for="taskTimeAll">Time Allocation (hrs)</label>
+      <input id="taskTimeAll" [(ngModel)]="newTaskTimeAll" type="number" class="form-control" placeholder="Enter time" />
+    </div>
+    <div class="form-group">
+      <label for="taskStatus">Status</label>
+      <select id="taskStatus" [(ngModel)]="newTaskStatus" class="form-control">
+        <option value="To-Do">To-Do</option>
+        <option value="In-Progress">In-Progress</option>
+        <option value="Done">Done</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="taskPriority">Priority</label>
+      <input id="taskPriority" [(ngModel)]="newTaskPriority" type="number" class="form-control" placeholder="Enter priority" />
+    </div>
+    <div class="form-group">
+      <label for="taskClass">Class</label>
+      <select id="taskClass" [(ngModel)]="newTaskClassId" class="form-control">
+        <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
+      </select>
+    </div>
+    <button class="btn btn-success" (click)="modalMode === 'add' ? addTask() : updateTask()">
+      {{ modalMode === 'add' ? 'Add' : 'Save' }}
+    </button>
+    <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+  </div>
+</div>

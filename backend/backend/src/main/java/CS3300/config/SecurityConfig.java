@@ -18,11 +18,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**","/auth/login", "/auth/register").permitAll() // Allow public access to login and register
+                .antMatchers(
+                        "/auth/login",
+                        "/auth/register",
+                        "/auth/forgot-password",
+                        "/auth/reset-password",
+                        "/auth/test-email",
+                        "/api/notification-settings/**"
+                ).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login") // This is where Spring Security will process the login
+                .loginProcessingUrl("/login")
                 .permitAll()
                 .and()
                 .logout()

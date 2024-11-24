@@ -1,0 +1,148 @@
+/* Navbar Styles */
+nav {
+  background: linear-gradient(to right, #ff8c42, #ffb570);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Navigation Links */
+nav .left-links a {
+  margin: 0 15px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav .left-links a:hover {
+  color: #333;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+nav .left-links {
+  display: flex;
+  align-items: center;
+}
+
+/* Dropdown Content */
+.dropdown-content {
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  background-color: #fff7e6;
+  color: #333;
+  min-width: 240px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 8px;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.dropdown.open .dropdown-content {
+  display: flex;
+}
+
+/* Account Dropdown Button */
+.dropdown-btn {
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 15px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.dropdown-btn:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.dropdown-content p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.dropdown-content a,
+.dropdown-content button {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px;
+  color: #333;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.dropdown-content a:hover,
+.dropdown-content button:hover {
+  background-color: #ff8c42;
+  color: white;
+}
+
+/* Larger Icon and Spacing for Account */
+.dropdown-btn fa-icon {
+  font-size: 20px;
+}
+
+/* Responsive navbar styling */
+@media (max-width: 768px) {
+  nav {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .left-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+  }
+
+  .left-links a {
+    margin: 5px 0;
+  }
+
+  .menu-btn {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .menu-btn.open ~ .left-links {
+    display: flex;
+  }
+}
+

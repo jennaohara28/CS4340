@@ -1,0 +1,21 @@
+<nav>
+  <div class="left-links">
+    <a routerLink="/home" href="/home" routerLinkActive="active">Home</a>
+    <a routerLink="/assignments" href="/assignments" routerLinkActive="active">Tasks</a>
+    <a routerLink="/classes" href="/classes" routerLinkActive="active">Classes</a>
+    <a routerLink="/calendar" href="/calendar" routerLinkActive="active">Calendar</a>
+    <a routerLink="/about" href="/about" routerLinkActive="active">About</a>
+  </div>
+  <div class="dropdown" [class.open]="dropdownOpen">
+    <button class="dropdown-btn" (click)="toggleDropdown()">
+      <fa-icon [icon]="faUserCircle"></fa-icon>
+      <span>Account</span>
+    </button>
+    <div class="dropdown-content" *ngIf="dropdownOpen">
+      <p *ngIf="userEmail">Logged in as: {{ userEmail }}</p>
+      <a (click)="navigateToNotificationSettings()">Manage Notifications</a>
+      <button (click)="logout()">Logout</button>
+      <button (click)="deleteAccount()">Delete Account</button>
+    </div>
+  </div>
+</nav>
