@@ -8,8 +8,12 @@ import java.util.Date;
 public class User {
     @Id
     @Column(nullable = false, unique = true)
+    private String userId;
+
+    @Column(nullable = false, unique = true)
     private String email;
 
+    private String name;
     private String password;
     private String resetToken;
 
@@ -47,5 +51,21 @@ public class User {
 
     public void setResetTokenExpiry(Date resetTokenExpiry) {
         this.resetTokenExpiry = resetTokenExpiry;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

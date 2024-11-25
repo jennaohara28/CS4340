@@ -45,7 +45,7 @@ export class TasksComponent implements OnInit {
   }
 
   loadTasks(): void {
-    const userId = AuthService.getUserId() ?? 0;
+    const userId = AuthService.getUserId() ?? '0';
     this.tasksService.getTasksByUserId(userId).subscribe({
       next: (tasks: Task[]) => {
         this.tasks = tasks;
@@ -89,7 +89,7 @@ export class TasksComponent implements OnInit {
         id: 0,
         name: this.newTaskName,
         dueDate: this.newTaskDueDate,
-        ownerId: AuthService.getUserId() ?? 0,
+        ownerId: AuthService.getUserId() ?? '0',
         type: this.newTaskType || '',
         timeAll: this.newTaskTimeAll || 0,
         status: this.newTaskStatus || '',

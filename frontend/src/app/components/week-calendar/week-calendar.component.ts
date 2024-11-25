@@ -5,13 +5,14 @@ import { Task } from '../../pages/tasks/task.model';
 import { DatePipe, NgForOf } from '@angular/common';
 
 @Component({
-    selector: 'app-week-calendar',
-    imports: [
-        NgForOf,
-        DatePipe
-    ],
-    templateUrl: './week-calendar.component.html',
-    styleUrls: ['./week-calendar.component.css']
+  selector: 'app-week-calendar',
+  imports: [
+    NgForOf,
+    DatePipe
+  ],
+  templateUrl: './week-calendar.component.html',
+  standalone: true,
+  styleUrls: ['./week-calendar.component.css']
 })
 export class WeekCalendarComponent implements OnInit {
   public currentWeek: Date[] = [];
@@ -41,7 +42,7 @@ export class WeekCalendarComponent implements OnInit {
   }
 
   loadTasksForCurrentWeek(): void {
-    this.tasksService.getTasksByUserId(AuthService.getUserId() ?? 0).subscribe((tasks: Task[]) => {
+    this.tasksService.getTasksByUserId(AuthService.getUserId() ?? '0').subscribe((tasks: Task[]) => {
       this.currentWeek.forEach(date => {
         const dateString = date.toISOString().split('T')[0];
         this.tasks[dateString] = tasks.filter(task => task.dueDate === dateString);

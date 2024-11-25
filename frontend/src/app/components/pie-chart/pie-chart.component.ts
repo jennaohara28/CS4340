@@ -50,7 +50,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadTaskStatuses(): void {
-    const userId = AuthService.getUserId() ?? 0;
+    const userId = AuthService.getUserId() ?? '0';
     this.tasksService.getTasksByUserId(userId).subscribe({
       next: (tasks: Task[]) => {
         const statusCounts: { [key: string]: number } = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0 };

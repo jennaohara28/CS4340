@@ -16,7 +16,7 @@ export class TasksService {
     return this.http.get<Task[]>(`${this.baseUrl}/class/${classId}`);
   }
 
-  getTasksByUserId(userId: number): Observable<Task[]> {
+  getTasksByUserId(userId: string): Observable<Task[]> {
     return this.http.get<Task[]>(`${this.baseUrl}/owner/${userId}`);
   }
 

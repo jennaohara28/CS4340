@@ -6,6 +6,6 @@ export interface Task {
   status: string;
   dueDate: string;
   priority: number;
-  ownerId: number;
+  ownerId: string;
   classId: number;
 }
