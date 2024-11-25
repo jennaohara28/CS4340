@@ -8,10 +8,10 @@ import java.util.Date;
 public class User {
     @Id
     @Column(nullable = false, unique = true)
-    private String userId;
-
-    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(unique = true, nullable = false)
+    private String userId;
 
     private String name;
     private String password;

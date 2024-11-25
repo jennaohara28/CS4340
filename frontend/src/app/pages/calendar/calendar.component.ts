@@ -5,10 +5,11 @@ import { Task } from '../../pages/tasks/task.model';
 import {AuthService} from "../../components/auth.service";
 
 @Component({
-    selector: 'app-calendar',
-    templateUrl: './calendar.component.html',
-    imports: [NgForOf],
-    styleUrls: ['./calendar.component.css']
+  selector: 'app-calendar',
+  templateUrl: './calendar.component.html',
+  imports: [NgForOf],
+  standalone: true,
+  styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
   currentMonth: number = 0;
@@ -64,7 +65,7 @@ export class CalendarComponent implements OnInit {
   }
 
   loadTasksForCurrentMonth(): void {
-    const userId = AuthService.getUserId() ?? 0;
+    const userId = AuthService.getUserId() ?? '0';
     this.tasksService.getTasksByUserId(userId).subscribe((tasks: Task[]) => {
       this.tasks = {};
       tasks.forEach(task => {

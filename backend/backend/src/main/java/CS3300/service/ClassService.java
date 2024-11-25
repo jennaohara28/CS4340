@@ -22,7 +22,7 @@ public class ClassService {
         return classRepository.findById(id);
     }
 
-    public List<Class> getClassesByOwnerId(Long ownerId) {
+    public List<Class> getClassesByOwnerId(String ownerId) {
         return classRepository.findByOwnerId(ownerId);
     }
 

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Class } from './class.model';
-import {AuthService} from "../../components/auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,24 +11,32 @@ export class ClassesService {
 
   constructor(private http: HttpClient) {}
 
-  getClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(`${this.baseUrl}/owner/${AuthService.getUserId()}`);
+  private getHeaders(): HttpHeaders {
+    const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+    console.log('Sending userId in headers:', userId);
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'userId': userId || ''
+    });
   }
 
-  getClassesByUserId(): Observable<Class[]> {
-    return this.http.get<Class[]>(`${this.baseUrl}/owner/${AuthService.getUserId()}`);
+  getClasses(): Observable<Class[]> {
+    return this.http.get<Class[]>(this.baseUrl, {
+      headers: this.getHeaders(),
+    });
   }
 
   addClass(newClass: Class): Observable<Class> {
-    return this.http.post<Class>(this.baseUrl, newClass);
+    return this.http.post<Class>(this.baseUrl, newClass, {
+      headers: this.getHeaders(),
+    });
   }
 
-  // Other methods...
-  deleteClass(classId: number) {
-    return this.http.delete<void>(`${this.baseUrl}/${classId}`)
+  deleteClass(classId: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${classId}`, { withCredentials: true });
   }
 
-  updateClass(updatedClass: Class) {
-    return this.http.put<Class>(`${this.baseUrl}/${updatedClass.id}`, updatedClass);
+  updateClass(updatedClass: Class): Observable<Class> {
+    return this.http.put<Class>(`${this.baseUrl}/${updatedClass.id}`, updatedClass, { withCredentials: true });
   }
 }

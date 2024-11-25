@@ -18,14 +18,12 @@ export class AuthService {
   login(email: string, password: string, rememberMe: boolean): Observable<any> {
     return this.http.post(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
-        console.log('Response from login:', response);
         const userId = response.userId;
+        console.log('Retrieved userId:', userId);
         if (rememberMe) {
           localStorage.setItem('userId', userId);
-          localStorage.setItem('email', email);
         } else {
           sessionStorage.setItem('userId', userId);
-          sessionStorage.setItem('email', email);
         }
       }),
       catchError(error => {
@@ -57,10 +55,14 @@ export class AuthService {
     return localStorage.getItem('userId') || sessionStorage.getItem('userId');
   }
 
-  static getUserId(): number | null {
-    const userId = AuthService.getToken();
-    console.log('Retrieved userId:', userId);
-    return userId ? Number(userId) : null;
+  static setUserId(userId: string): void {
+    localStorage.setItem('userId', userId);
+  }
+
+  static getUserId(): string | null {
+    const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+    console.log('AuthService.getUserId:', userId);
+    return userId;
   }
 
   getUserEmail(): string | null {
@@ -70,14 +72,16 @@ export class AuthService {
   // Handle user registration
   register(name: string, email: string, password: string): Observable<any> {
     const body = { name, email, password };
-    console.log('Sending registration request with body:', body);
     return this.http.post(`${this.baseUrl}/register`, body).pipe(
-      tap((response) => {
-        console.log('Registration successful, response:', response);
+      tap((response: any) => {
+        console.log('Registration successful:', response);
+        const userId = response.userId;
+        if (userId) {
+          localStorage.setItem('userId', userId);
+        }
       }),
       catchError(error => {
-        console.error('Registration failed with error details:', error);
-        alert(`Registration error: ${error.message || 'Unknown error'}`);
+        console.error('Registration failed:', error);
         return throwError(error);
       })
     );

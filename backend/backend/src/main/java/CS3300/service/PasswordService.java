@@ -11,7 +11,9 @@ public class PasswordService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String hashPassword(String plainPassword) {
-        return passwordEncoder.encode(plainPassword);
+        String hashedPassword = passwordEncoder.encode(plainPassword);
+        System.out.println("Hashed Password: " + hashedPassword);
+        return hashedPassword;
     }
 
     public boolean checkPassword(String plainPassword, String hashedPassword) {
@@ -22,4 +24,6 @@ public class PasswordService {
     public String generateResetToken() {
         return UUID.randomUUID().toString();
     }
+
+
 }

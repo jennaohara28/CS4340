@@ -9,7 +9,7 @@ public class Class {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Long ownerId;
+    private String ownerId;
 
     // Constructors, getters, and setters
     public Class() {}
@@ -34,11 +34,11 @@ public class Class {
         this.name = name;
     }
 
-    public Long getOwnerId() {
+    public String getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
 }

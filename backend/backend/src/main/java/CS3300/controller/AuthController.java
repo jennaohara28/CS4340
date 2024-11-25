@@ -11,10 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,21 +35,23 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.findByEmail(user.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body("Email already in use");
+            return ResponseEntity.badRequest().body("{\"message\": \"Email already in use\"}");
         }
-        userService.registerUser(user);
-        return ResponseEntity.ok(Collections.singletonMap("message", "User registered successfully"));
+        user.setUserId(UUID.randomUUID().toString());
+        user.setPassword(passwordService.hashPassword(user.getPassword()));
+        userService.saveUser(user);
+
+        return ResponseEntity.ok("{\"userId\": \"" + user.getUserId() + "\"}");
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         Optional<User> existingUserOpt = userService.findByEmail(user.getEmail());
-        if (!existingUserOpt.isPresent() ||
-                !passwordService.checkPassword(user.getPassword(), existingUserOpt.get().getPassword())) {
+        if (!existingUserOpt.isPresent() || !passwordService.checkPassword(user.getPassword(), existingUserOpt.get().getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Invalid email or password\"}");
         }
         User existingUser = existingUserOpt.get();
-        return ResponseEntity.ok("{\"email\": \"" + existingUser.getEmail() + "\"}");
+        return ResponseEntity.ok("{\"email\": \"" + existingUser.getEmail() + "\", \"userId\": \"" + existingUser.getUserId() + "\"}");
     }
 
     @PostMapping("/forgot-password")
