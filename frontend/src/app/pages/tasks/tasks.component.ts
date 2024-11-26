@@ -85,6 +85,7 @@ export class TasksComponent implements OnInit {
 
   addTask(): void {
     if (this.newTaskName.trim() && this.newTaskDueDate && this.newTaskClassId) {
+      console.log(AuthService.getUserId())
       const newTask: Task = {
         id: 0,
         name: this.newTaskName,

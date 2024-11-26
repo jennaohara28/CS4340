@@ -17,7 +17,7 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate dueDate;
     private int priority;
-    private String userId;
+    private String ownerId;
     private Long classId;
 
     // Constructors, getters, and setters
@@ -85,12 +85,12 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Long getClassId() {

@@ -30,8 +30,8 @@ public class TaskScheduler {
         LocalDate today = LocalDate.now();
 
         for (Task task : taskRepository.findAll()) {
-            NotificationSettings settings = notificationSettingsService.getSettings(task.getUserId());
-            String userEmail = userRepository.findById(task.getUserId())
+            NotificationSettings settings = notificationSettingsService.getSettings(task.getOwnerId());
+            String userEmail = userRepository.findById(task.getOwnerId())
                     .map(User::getEmail)
                     .orElse(null);
 

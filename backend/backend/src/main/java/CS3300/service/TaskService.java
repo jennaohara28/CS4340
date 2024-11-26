@@ -22,8 +22,8 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public List<Task> getTasksByUserId(String userId) {
-        return taskRepository.findByUserId(userId);
+    public List<Task> getTasksByOwnerId(String ownerId) {
+        return taskRepository.findByOwnerId(ownerId);
     }
 
     public List<Task> getTasksByClassId(Long classId) {

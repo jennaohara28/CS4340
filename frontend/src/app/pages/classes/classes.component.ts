@@ -8,17 +8,17 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../components/auth.service";
 
 @Component({
-    selector: 'app-classes',
-    templateUrl: './classes.component.html',
-    imports: [
-        DatePipe,
-        NgForOf,
-        NgIf,
-        FormsModule
-    ],
-    styleUrls: ['./classes.component.css'],
-    standalone: true,
-    providers: [TasksService]
+  selector: 'app-classes',
+  templateUrl: './classes.component.html',
+  imports: [
+    DatePipe,
+    NgForOf,
+    NgIf,
+    FormsModule
+  ],
+  styleUrls: ['./classes.component.css'],
+  standalone: true,
+  providers: [TasksService]
 })
 export class ClassesComponent implements OnInit {
   classes: Class[] = [];
@@ -30,25 +30,25 @@ export class ClassesComponent implements OnInit {
 
   constructor(private classesService: ClassesService, private tasksService: TasksService) {}
 
-    ngOnInit(): void {
-        this.classesService.getClasses().subscribe(
-            (data: Class[]) => {
-                this.classes = data;
-                console.log('Classes fetched successfully:', data);
-            },
-            (error) => {
-                if (error.status === 401) {
-                    alert('You are not authorized. Please log in again.');
-                    console.error('Unauthorized access:', error);
-                } else {
-                    alert('Failed to fetch classes. Please try again later.');
-                    console.error('Error fetching classes:', error);
-                }
-            }
-        );
-    }
+  ngOnInit(): void {
+    this.classesService.getClasses().subscribe(
+      (data: Class[]) => {
+        this.classes = data;
+        console.log('Classes fetched successfully:', data);
+      },
+      (error) => {
+        if (error.status === 401) {
+          alert('You are not authorized. Please log in again.');
+          console.error('Unauthorized access:', error);
+        } else {
+          alert('Failed to fetch classes. Please try again later.');
+          console.error('Error fetching classes:', error);
+        }
+      }
+    );
+  }
 
-    selectClass(classId: number): void {
+  selectClass(classId: number): void {
     this.selectedClass = this.classes.find(c => c.id === classId) || null;
     this.editMode = false;
     if (this.selectedClass) {
@@ -67,36 +67,36 @@ export class ClassesComponent implements OnInit {
     this.showAddClassForm = !this.showAddClassForm;
   }
 
-    addClass(): void {
-        if (this.newClassName.trim()) {
-            const userId = AuthService.getUserId();
-            console.log('Retrieved userId:', userId);
-            if (!userId) {
-                alert('User ID is missing. Please log in again.');
-                return;
-            }
-            const newClass: Class = { id: 0, name: this.newClassName, ownerId: userId };
-            this.classesService.addClass(newClass).subscribe({
-                next: (data: Class) => {
-                    this.classes.push(data);
-                    this.newClassName = '';
-                    this.showAddClassForm = false;
-                },
-                error: (error) => {
-                    if (error.status === 401) {
-                        alert('You are not authorized. Please log in.');
-                    } else if (error.status === 403) {
-                        alert('You do not have permission to perform this action.');
-                    } else {
-                        alert('An error occurred while adding the class.');
-                    }
-                    console.error('Error adding class:', error);
-                }
-            });
+  addClass(): void {
+    if (this.newClassName.trim()) {
+      const userId = AuthService.getUserId();
+      console.log('Retrieved userId:', userId);
+      if (!userId) {
+        alert('User ID is missing. Please log in again.');
+        return;
+      }
+      const newClass: Class = { id: 0, name: this.newClassName, ownerId: userId };
+      this.classesService.addClass(newClass).subscribe({
+        next: (data: Class) => {
+          this.classes.push(data);
+          this.newClassName = '';
+          this.showAddClassForm = false;
+        },
+        error: (error) => {
+          if (error.status === 401) {
+            alert('You are not authorized. Please log in.');
+          } else if (error.status === 403) {
+            alert('You do not have permission to perform this action.');
+          } else {
+            alert('An error occurred while adding the class.');
+          }
+          console.error('Error adding class:', error);
         }
+      });
     }
+  }
 
-    enableEditMode(): void {
+  enableEditMode(): void {
     this.editMode = true;
   }
 
