@@ -21,7 +21,7 @@ export class ClassesService {
   }
 
   getClasses(): Observable<Class[]> {
-    return this.http.get<Class[]>(this.baseUrl, {
+    return this.http.get<Class[]>(`${this.baseUrl}/owner`, {
       headers: this.getHeaders(),
     });
   }
