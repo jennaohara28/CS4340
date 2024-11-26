@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ClassService {
 
     @Autowired
-    private ClassRepository classRepository;
+    ClassRepository classRepository;
 
     public List<Class> getAllClasses() {
         return classRepository.findAll();
