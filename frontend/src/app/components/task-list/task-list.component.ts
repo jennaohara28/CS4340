@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { TasksService } from '../../pages/tasks/tasks.service';
 import { AuthService } from '../auth.service';
 import { Task } from '../../pages/tasks/task.model';
@@ -25,11 +25,21 @@ export class TaskListComponent implements OnInit {
   public editMode: boolean = false;
   public classes: Class[] = [];
 
+  @ViewChild('taskDialog') taskDialog!: ElementRef<HTMLDialogElement>;
+
   constructor(private tasksService: TasksService, private classesService: ClassesService) {}
 
   ngOnInit(): void {
     this.loadTasks();
     this.loadClasses();
+  }
+
+  closeDialog() {
+    this.taskDialog.nativeElement.close();
+  }
+
+  getClassById(classId: number): Class | undefined {
+    return this.classes.find(cls => cls.id === classId);
   }
 
   loadTasks(): void {
@@ -49,6 +59,7 @@ export class TaskListComponent implements OnInit {
 
   selectTask(taskId: number): void {
     this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
+    this.taskDialog.nativeElement.showModal();
   }
 
   enableEditMode(): void {

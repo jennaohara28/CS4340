@@ -7,18 +7,21 @@
   </ul>
 
   <div *ngIf="selectedTask" class="task-details">
-    <h3>Details for {{ selectedTask?.name }}</h3>
-    <div *ngIf="!editMode">
-      <p><strong>Name:</strong> {{ selectedTask?.name }}</p>
+    <dialog #taskDialog>
+      <span class="close-button" (click)="closeDialog()">&times;</span>
+      <h3>Details for {{ selectedTask?.name }}</h3>
+      <div *ngIf="!editMode">
+        <p><strong>Name:</strong> {{ selectedTask?.name }}</p>
       <p><strong>Due Date:</strong> {{ selectedTask?.dueDate | date }}</p>
       <p><strong>Type:</strong> {{ selectedTask?.type }}</p>
       <p><strong>Time Allocation:</strong> {{ selectedTask?.timeAll }}</p>
       <p><strong>Status:</strong> {{ selectedTask?.status }}</p>
       <p><strong>Priority:</strong> {{ selectedTask?.priority }}</p>
-      <p><strong>Class ID:</strong> {{ selectedTask?.classId }}</p>
+      <p><strong>Class:</strong> {{ getClassById(selectedTask.classId)?.name }} </p>
       <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
-    </div>
-    <div *ngIf="editMode">
+        <button class="btn btn-danger" (click)="deleteTask(selectedTask.id)">Delete Task</button>
+      </div>
+      <div *ngIf="editMode">
       <input [(ngModel)]="selectedTask.name" class="form-control" placeholder="Enter task name" />
       <input [(ngModel)]="selectedTask.dueDate" type="date" class="form-control" placeholder="Enter due date" />
       <input [(ngModel)]="selectedTask.type" class="form-control" placeholder="Enter task type" />
@@ -33,7 +36,8 @@
         <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
       </select>
       <button class="btn btn-success" (click)="updateTask()">Update Task</button>
-    </div>
-    <button class="btn btn-danger" (click)="deleteTask(selectedTask.id)">Delete Task</button>
+        <button class="btn btn-danger" (click)="deleteTask(selectedTask.id)">Delete Task</button>
+      </div>
+    </dialog>
   </div>
 </div>

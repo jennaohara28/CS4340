@@ -15,6 +15,7 @@ body {
 .tasks:hover {
   background-color: #fff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
 }
 
 .dot {
@@ -24,6 +25,31 @@ body {
   border-radius: 50%;
   display: inline-block;
   margin-left: 50px;
+}
+
+dialog {
+  border: 1px solid #fff;
+  border-radius: 8px;
+  width: 20%;
+  height: fit-content;
+}
+
+strong {
+  font-size: 19px;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* Tasks Component Styles */
@@ -40,7 +66,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Enable vertical scrolling */
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: 0.5s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 h2 {
@@ -52,6 +78,7 @@ h2 {
 h3 {
   color: #333;
   margin-bottom: 20px;
+  font-size: 23px;
 }
 
 .btn {
@@ -75,6 +102,7 @@ h3 {
 .btn-success {
   background-color: #28a745;
   color: #fff;
+  margin-top: 1em;
 }
 
 .btn-success:hover {
@@ -93,6 +121,7 @@ h3 {
 .btn-warning {
   background-color: #ffc107;
   color: #212529;
+  margin-top: 1em;
 }
 
 .btn-warning:hover {
@@ -141,5 +170,6 @@ h3 {
 }
 
 .task-details p {
-  margin: 5px 0;
+  margin: 10px 0;
+  font-size: 20px;
 }

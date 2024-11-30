@@ -7,7 +7,7 @@
     <div class="week-date" *ngFor="let date of currentWeek">
       <div class="date">{{ date | date: 'MMM d' }}</div>
       <div class="tasks">
-        <div *ngFor="let task of tasks[date.toISOString().split('T')[0]]">
+        <div *ngFor="let task of tasks[date.toISOString().split('T')[0]]" (click)="openTaskPage(task.id)">
           {{ task.name }}
         </div>
       </div>

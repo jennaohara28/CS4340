@@ -1,7 +1,7 @@
 .calendar {
   width: 80%;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 20px auto;
   text-align: center;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -30,9 +30,10 @@
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
-  background-color: #e0e0e0;
+  background-color: #ffa742;
   text-align: center;
   font-weight: bold;
+  border-radius: 8px 8px 0 0;
 }
 
 .days {
@@ -66,4 +67,11 @@
   padding: 2px;
   border-radius: 4px;
   font-size: 0.9em;
+  transition: 0.5s ease;
+}
+
+.task:hover {
+  background-color: #ffc107;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }

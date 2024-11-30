@@ -6,6 +6,7 @@ import { Task } from './task.model';
 import { Class } from '../classes/class.model';
 import { FormsModule } from "@angular/forms";
 import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-tasks',
@@ -37,7 +38,7 @@ export class TasksComponent implements OnInit {
   isModalOpen: boolean = false;
   modalMode: 'add' | 'edit' = 'add';
 
-  constructor(private tasksService: TasksService, private classesService: ClassesService) {}
+  constructor(private tasksService: TasksService, private classesService: ClassesService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.loadTasks();
@@ -49,6 +50,13 @@ export class TasksComponent implements OnInit {
     this.tasksService.getTasksByUserId(userId).subscribe({
       next: (tasks: Task[]) => {
         this.tasks = tasks;
+
+        this.route.queryParams.subscribe(params => {
+          const taskId = Number(params['selectedTask']);
+          console.log(taskId);
+          this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
+        })
+
       },
       error: (error) => {
         console.error('Error loading tasks:', error);

@@ -7,12 +7,13 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: #fff7e6;
   margin: 20px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: 0.5s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .week-calendar:hover {
   background-color: #fff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
 }
 
 .week-days {
@@ -79,11 +80,11 @@
   border-radius: 4px;
   background-color: #f9f9f9;
   margin-bottom: 5px;
-  transition: background-color 0.3s;
+  transition: 0.5s ease;
 }
 
 .tasks div:hover {
-  background-color: #e0e0e0;
+  background-color: #cccccc;
 }
 
 h2 {

@@ -26,11 +26,12 @@ ngx-charts-pie-chart {
   align-items: center;
   margin: 20px;
   padding: 20px;
-  transition: background-color 0.3s;
+  transition: 0.5s ease, background-color 0.3s;
 }
 
 .pie-chart-container:hover {
   background-color: #f0f0f0;
+  transform: translateY(-5px);
 }
 
 @media (max-width: 600px) {

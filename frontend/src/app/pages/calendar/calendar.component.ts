@@ -3,6 +3,7 @@ import { NgForOf } from '@angular/common';
 import { TasksService } from '../../pages/tasks/tasks.service';
 import { Task } from '../../pages/tasks/task.model';
 import {AuthService} from "../../components/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-calendar',
@@ -23,7 +24,7 @@ export class CalendarComponent implements OnInit {
   weekDays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   tasks: { [key: string]: Task[] } = {};
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService, private router: Router) {}
 
   ngOnInit() {
     const today = new Date();
@@ -31,6 +32,10 @@ export class CalendarComponent implements OnInit {
     this.currentYear = today.getFullYear();
     this.generateCalendar(this.currentMonth, this.currentYear);
     this.loadTasksForCurrentMonth();
+  }
+
+  openTaskPage(taskId: number) {
+    this.router.navigate(['/assignments'], {queryParams: {selectedTask: taskId}});
   }
 
   generateCalendar(month: number, year: number) {

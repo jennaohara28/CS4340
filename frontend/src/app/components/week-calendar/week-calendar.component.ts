@@ -3,6 +3,7 @@ import { TasksService } from '../../pages/tasks/tasks.service';
 import { AuthService } from '../auth.service';
 import { Task } from '../../pages/tasks/task.model';
 import { DatePipe, NgForOf } from '@angular/common';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-week-calendar',
@@ -19,11 +20,15 @@ export class WeekCalendarComponent implements OnInit {
   public tasks: { [key: string]: Task[] } = {};
   public weekDays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-  constructor(private tasksService: TasksService) {}
+  constructor(private tasksService: TasksService, private router: Router) {}
 
   ngOnInit(): void {
     this.setCurrentWeek();
     this.loadTasksForCurrentWeek();
+  }
+
+  openTaskPage(taskId: number) {
+    this.router.navigate(['/assignments'], {queryParams: {selectedTask: taskId}});
   }
 
   setCurrentWeek(): void {
