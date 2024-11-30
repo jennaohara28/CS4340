@@ -22,22 +22,13 @@ public class NotificationSettingsController {
     @PostMapping
     public ResponseEntity<String> saveSettings(@RequestBody NotificationSettings settings) {
         try {
-            // Log the received payload for debugging purposes
-            System.out.println("Received settings: " + settings);
-
-            // Log times specifically
-            if (settings.getTimes() != null) {
-                System.out.println("Received times: " + settings.getTimes());
-            }
-
-            // Save the settings
+            System.out.println("Received payload: " + settings);
             service.saveSettings(settings);
             return ResponseEntity.ok("Settings saved successfully!");
         } catch (Exception e) {
-            // Log the error
-            System.err.println("Error saving settings: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Failed to save settings due to an internal error.");
+            return ResponseEntity.status(500).body("Internal Server Error");
         }
     }
 }

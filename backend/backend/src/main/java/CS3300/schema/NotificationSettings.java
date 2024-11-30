@@ -13,16 +13,12 @@ public class NotificationSettings {
     private boolean enabled;
     private String method;
 
-    @OneToOne
-    @JoinColumn(name = "userId", referencedColumnName = "email", insertable = false, updatable = false)
-    private User user;
-
-    @ElementCollection
-    @CollectionTable(name = "notification_times", joinColumns = @JoinColumn(name = "userId"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "notification_times", joinColumns = @JoinColumn(name = "user_id"))
     private List<NotificationTime> times;
 
     @Embeddable
-    public static class NotificationTime {  // Make this static
+    public static class NotificationTime {
         private String time;
         private String period;
 
@@ -42,9 +38,17 @@ public class NotificationSettings {
         public void setPeriod(String period) {
             this.period = period;
         }
+
+        @Override
+        public String toString() {
+            return "NotificationTime{" +
+                    "time='" + time + '\'' +
+                    ", period='" + period + '\'' +
+                    '}';
+        }
     }
 
-    // Getters and setters for NotificationSettings
+    // Getters and setters
     public String getUserId() {
         return userId;
     }
@@ -67,14 +71,6 @@ public class NotificationSettings {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getMethod() {
