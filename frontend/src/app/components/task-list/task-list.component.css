@@ -1,7 +1,7 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f9f9f9;
   margin: 0;
   padding: 0;
 }
@@ -12,22 +12,44 @@ body {
   padding: 20px;
 }
 
+.tasks:hover {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  background-color: #5AA454;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 50px;
+}
+
 /* Tasks Component Styles */
 .tasks {
-  background-color: #fff;
+  background-color: #fff7e6;
   padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 20px; /* Add margin on all sides */
-  max-height: 50vh; /* Set the maximum height */
+  max-height: 60vh; /* Set the maximum height */
   min-height: 50vh; /* Set the minimum height */
-  height: 50vh; /* Set the height to 50vh */
+  height: 60vh;
   display: flex;
   flex-direction: column;
   overflow-y: auto; /* Enable vertical scrolling */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-h2, h3 {
+h2 {
+  color: #333;
+  font-weight: bolder;
+  font-size: 2em;
+}
+
+h3 {
   color: #333;
   margin-bottom: 20px;
 }
@@ -109,12 +131,13 @@ h2, h3 {
   border: 1px solid #ddd;
   margin-bottom: 10px;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: #ffe9ba;
   transition: background-color 0.3s;
+  align-items: center;
 }
 
 .task-item:hover {
-  background-color: #f0f0f0;
+  background-color: #ffdb8f;
 }
 
 .task-details p {

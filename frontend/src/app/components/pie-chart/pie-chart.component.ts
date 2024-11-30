@@ -44,7 +44,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   updateChartSize(): void {
     const element = this.elementRef.nativeElement.querySelector('.pie-chart-container');
     if (element) {
-      const width = element.clientWidth * 0.75; // Reduced by 25%
+      const width = element.innerWidth * 0.75; // Reduced by 25%
       this.view = [width, width * 0.57]; // Maintain aspect ratio
     }
   }

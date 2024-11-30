@@ -16,6 +16,7 @@ import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { routes } from './app.routes';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   // Declare components here
@@ -39,6 +40,7 @@ import { routes } from './app.routes';
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

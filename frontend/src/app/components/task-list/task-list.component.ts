@@ -8,15 +8,16 @@ import { FormsModule } from '@angular/forms';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
-    selector: 'app-task-list',
-    imports: [
-        FormsModule,
-        NgForOf,
-        DatePipe,
-        NgIf
-    ],
-    templateUrl: './task-list.component.html',
-    styleUrls: ['./task-list.component.css']
+  selector: 'app-task-list',
+  imports: [
+    FormsModule,
+    NgForOf,
+    DatePipe,
+    NgIf,
+  ],
+  templateUrl: './task-list.component.html',
+  standalone: true,
+  styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
   public tasks: Task[] = [];

@@ -1,30 +1,58 @@
 .week-calendar {
   display: flex;
   flex-direction: column;
-  background-color: #f9f9f9;
   padding: 20px;
   border-radius: 8px;
+  border: 1px solid #ddd;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff7e6;
+  margin: 20px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.week-days, .week-dates {
+.week-calendar:hover {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.week-days {
   display: flex;
-  justify-content: space-between;
+  margin-bottom: -15px;
+  width: 100%;
 }
 
-.week-day, .week-date {
+.week-dates {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.week-day{
   flex: 1;
   padding: 15px;
   border: 1px solid #ddd;
+  border-radius: 8px 8px 0 0;
   margin: 5px;
-  background-color: #fff;
-  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  background-color: #ffa742;
+}
+
+.week-date {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  margin: 5px;
+  padding-top: 0;
+  background-color: #ffe9ba;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-top-style: none;
 }
 
 .week-day {
-  font-weight: bold;
+  font-weight: bolder;
   font-size: 1.2em;
   color: #333;
 }
@@ -34,30 +62,32 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.week-date:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
 .date {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 1.2em;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .tasks {
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .tasks div {
   padding: 5px;
   border-radius: 4px;
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
   margin-bottom: 5px;
   transition: background-color 0.3s;
 }
 
 .tasks div:hover {
   background-color: #e0e0e0;
+}
+
+h2 {
+  color: #333;
+  font-weight: bolder;
+  font-size: 2em;
 }
