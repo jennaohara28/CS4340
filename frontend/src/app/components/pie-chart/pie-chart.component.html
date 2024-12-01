@@ -1,36 +1,17 @@
-<div class="chart-container">
+<div class="pie-chart-container">
   <h2 style="text-align: left;">Task Status Distribution</h2>
-  <mat-tab-group [(selectedIndex)]="selectedTabIndex">
-    <mat-tab label="Pie Chart">
-      <ngx-charts-pie-chart
-        *ngIf="pieChartData.length > 0"
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="pieChartData"
-        [legend]="true"
-        [labels]="true"
-        [tooltipDisabled]="false"
-        [animations]="true">
-      </ngx-charts-pie-chart>
-    </mat-tab>
-    <mat-tab label="Bar Chart">
-      <ngx-charts-bar-vertical
-        *ngIf="pieChartData.length > 0"
-        [view]="view"
-        [scheme]="colorScheme"
-        [results]="pieChartData"
-        [legend]="true"
-        [xAxis]="true"
-        [yAxis]="true"
-        [showXAxisLabel]="true"
-        [showYAxisLabel]="true"
-        [xAxisLabel]="'Task Status'"
-        [yAxisLabel]="'Count'"
-        [animations]="true">
-      </ngx-charts-bar-vertical>
-    </mat-tab>
-  </mat-tab-group>
   <div *ngIf="pieChartData.length === 0" class="no-tasks-placeholder">
     <p>No data available</p>
   </div>
+  <ngx-charts-pie-chart
+    *ngIf="pieChartData.length > 0"
+    onresize="onResize($event)"
+    [view]="view"
+    [scheme]="colorScheme"
+    [results]="pieChartData"
+    [legend]="true"
+    [labels]="true"
+    [tooltipDisabled]="false"
+    [animations]="true">
+  </ngx-charts-pie-chart>
 </div>
