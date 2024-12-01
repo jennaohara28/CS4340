@@ -108,7 +108,7 @@ export class TasksComponent implements OnInit {
       this.tasksService.addTask(newTask).subscribe({
         next: (task: Task) => {
           this.tasks.push(task);
-          this.resetNewTaskForm();
+          this.closeModal();
         },
         error: (error) => {
           console.error('Error adding task:', error);
