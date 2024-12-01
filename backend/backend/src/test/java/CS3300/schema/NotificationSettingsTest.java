@@ -17,7 +17,7 @@ class NotificationSettingsTest {
         assertEquals(0, settings.getDaysBefore(), "Default daysBefore should be 0");
         assertFalse(settings.isEnabled(), "Default enabled value should be false");
         assertNull(settings.getMethod(), "Default method should be null");
-        assertNull(settings.getUser(), "Default user reference should be null");
+        assertNull(settings.getUserId(), "Default user reference should be null");
         assertNull(settings.getTimes(), "Default times list should be null");
     }
 
