@@ -48,7 +48,7 @@
   border: 1px solid #ccc;
   background-color: #fff;
   text-align: center;
-  height: 120px; /* Reduced height */
+  height: 120px;
   overflow-y: auto;
 }
 
@@ -62,7 +62,7 @@
 }
 
 .task {
-  background-color: #ffd894;
+  background-color: #fff;
   margin-top: 5px;
   padding: 2px;
   border-radius: 4px;
@@ -71,7 +71,7 @@
 }
 
 .task:hover {
-  background-color: #ffc107;
+  background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }

@@ -14,16 +14,16 @@ import java.time.LocalDate;
 @Service
 public class TaskScheduler {
     @Autowired
-    private EmailService emailService;
+    EmailService emailService;
 
     @Autowired
-    private NotificationSettingsService notificationSettingsService;
+    NotificationSettingsService notificationSettingsService;
 
     @Autowired
-    private TaskRepository taskRepository;
+    TaskRepository taskRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
     @Scheduled(cron = "0 0 9 * * ?")
     public void sendTaskReminders() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Class } from './class.model';
 import { ClassesService } from './classes.service';
 import { TasksService } from '../tasks/tasks.service';
@@ -27,6 +27,7 @@ export class ClassesComponent implements OnInit {
   showAddClassForm: boolean = false;
   newClassName: string = '';
   editMode: boolean = false;
+  newClassColor: string = '';
 
   constructor(private classesService: ClassesService, private tasksService: TasksService) {}
 
@@ -78,11 +79,12 @@ export class ClassesComponent implements OnInit {
         alert('User ID is missing. Please log in again.');
         return;
       }
-      const newClass: Class = { id: 0, name: this.newClassName, ownerId: userId };
+      const newClass: Class = { id: 0, name: this.newClassName, ownerId: userId, color: this.newClassColor };
       this.classesService.addClass(newClass).subscribe({
         next: (data: Class) => {
           this.classes.push(data);
           this.newClassName = '';
+          this.newClassColor = '';
           this.showAddClassForm = false;
         },
         error: (error) => {

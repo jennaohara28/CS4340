@@ -57,7 +57,7 @@ h2 {
 /* Task List Styles */
 .task-list {
   list-style-type: none;
-  padding: 5px 20px 20px 20px;
+  padding: 5px 10px 5px 20px;
 }
 
 .task-list li {
@@ -75,11 +75,11 @@ h2 {
 }
 
 .task-list h3 {
-  margin: 0 0 10px;
+  margin: 5px;
 }
 
 .task-list p {
-  margin: 5px 0;
+  margin: 5px;
 }
 
 /* Modal Styles */
