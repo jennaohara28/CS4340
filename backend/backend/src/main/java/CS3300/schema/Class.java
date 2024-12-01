@@ -10,6 +10,7 @@ public class Class {
     private Long id;
     private String name;
     private String ownerId;
+    private String color;
 
     // Constructors, getters, and setters
     public Class() {}
@@ -40,5 +41,13 @@ public class Class {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

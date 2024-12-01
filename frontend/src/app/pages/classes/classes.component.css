@@ -1,15 +1,46 @@
 /* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
+}
+
+.footer {
+  min-height: 30vh;
+}
+
+.content {
+  flex: 1;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+}
+
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.color-picker-input {
+  width: 10%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.color-picker-input:focus {
+  outline: none;
+  border-color: #007bff;
 }
 
 /* Classes Component Styles */
@@ -34,7 +65,6 @@ h3 {
 }
 
 .btn {
-  margin: 5px;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -56,6 +86,7 @@ h3 {
 .btn-success {
   background-color: #28a745;
   color: #fff;
+  margin: 15px 10px 0 20px;
 }
 
 .btn-success:hover {
@@ -74,6 +105,7 @@ h3 {
 .btn-warning {
   background-color: #ffc107;
   color: #212529;
+  margin: 15px 10px 0 20px;
 }
 
 .btn-warning:hover {
@@ -83,27 +115,51 @@ h3 {
 .btn-danger {
   background-color: #dc3545;
   color: #fff;
+  margin: 15px 10px 0 20px;
 }
 
 .btn-danger:hover {
   background-color: #c82333;
 }
 
+.btn-color {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  font-size: 14px;
+}
+
+.btn-color:hover {
+  background-color: #c7c5c5;
+}
+
 .add-class-form, .class-details {
-  margin-top: 20px;
+  margin: 10px;
+}
+
+.add-class-form-wrapper {
+  width: 33%;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }
 
 .form-control {
-  width: 100%;
+  width: 50%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  display: block;
 }
 
 .class-list, .task-list {
   list-style-type: none;
   padding: 5px 20px 20px 20px;
+  width: 33%;
 }
 
 .class-item, .task-item {
@@ -122,4 +178,13 @@ h3 {
 
 .class-details p {
   margin: 5px 0;
+}
+
+.class-details-wrapper {
+  width: 33%;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
 }

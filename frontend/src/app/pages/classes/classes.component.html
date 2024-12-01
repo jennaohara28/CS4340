@@ -1,48 +1,57 @@
 <h2>Classes</h2>
 
-  <!-- Add Class Button -->
-  <button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
-
-  <!-- Add Class Form -->
-  <div *ngIf="showAddClassForm" class="add-class-form">
-    <input
-      [(ngModel)]="newClassName"
-      class="form-control"
-      placeholder="Enter class name"
-    />
-    <button class="btn btn-success" (click)="addClass()">Save</button>
-    <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
-  </div>
-
   <!-- Class List -->
   <ul class="class-list">
     <li
       *ngFor="let class of classes"
       (click)="selectClass(class.id)"
       class="class-item"
-    >
+      [style.backgroundColor]="class.color || '#ffffff'"
+      >
       <h3> {{ class.name }} </h3>
     </li>
   </ul>
 
   <!-- Selected Class Details -->
-  <div *ngIf="selectedClass" class="class-details">
+  <div *ngIf="selectedClass" class="class-details-wrapper">
+    <div class="class-details">
     <h3>Details for {{ selectedClass.name }}</h3>
 
     <!-- Display Class Details -->
     <div *ngIf="!editMode">
       <p><strong>Name:</strong> {{ selectedClass.name }}</p>
+      <p>
+        <strong>Color:</strong>
+        <span
+          [style.backgroundColor]="selectedClass.color || '#ffffff'"
+          class="color-preview"
+        ></span>
+      </p>
       <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
     </div>
 
     <!-- Edit Class Details -->
-    <div *ngIf="editMode">
+    <div *ngIf="editMode" class="add-class-form-wrapper">
+      <div class="add-class-form">
+        <label for="classNameEnter" class="label">Enter Class Name:</label>
       <input
+        id="classNameEnter"
         [(ngModel)]="selectedClass.name"
         class="form-control"
-        placeholder="Enter class name"
+        placeholder="Class Name"
       />
-      <button class="btn btn-success" (click)="updateClass()">Update Class</button>
+        <div class="color-picker-container">
+          <label for="colorPicker" class="label">Pick a color:</label>
+          <input
+            id="colorPicker"
+            [(ngModel)]="selectedClass.color"
+            class="form-control color-picker-input"
+            type="color"
+          />
+        </div>
+
+        <button class="btn btn-success" (click)="updateClass()">Update Class</button>
+        </div>
     </div>
 
     <!-- Delete Class Button -->
@@ -61,4 +70,39 @@
         <p><strong>Due:</strong> {{ task.dueDate | date }}</p>
       </li>
     </ul>
+      </div>
   </div>
+
+<!-- Add Class Button -->
+<button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
+
+<!-- Add Class Form -->
+<div *ngIf="showAddClassForm" class="add-class-form-wrapper">
+  <div class="add-class-form">
+    <label for="classNameEnter2" class="label">Enter Class Name:</label>
+    <input
+      id="classNameEnter2"
+      [(ngModel)]="newClassName"
+      class="form-control"
+      placeholder="Enter class name"
+    />
+
+    <div class="color-picker-container">
+      <label for="colorPicker2" class="label">Pick a color:</label>
+      <input
+        id="colorPicker2"
+        [(ngModel)]="newClassColor"
+        class="form-control color-picker-input"
+        type="color"
+      />
+    </div>
+
+    <br />
+    <button class="btn btn-success" (click)="addClass()">Save</button>
+    <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
+  </div>
+</div>
+
+<!-- Adds Spacing to Bottom -->
+<div class="footer"></div>
+
