@@ -22,8 +22,10 @@ export class AuthService {
         console.log('Retrieved userId:', userId);
         if (rememberMe) {
           localStorage.setItem('userId', userId);
+          localStorage.setItem('email', email);
         } else {
           sessionStorage.setItem('userId', userId);
+          sessionStorage.setItem('email', email);
         }
       }),
       catchError(error => {
