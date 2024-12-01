@@ -21,7 +21,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#5AA454', '#c7b42c', '#a10a28']
+    domain: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00']
   };
 
   constructor(private tasksService: TasksService, private elementRef: ElementRef) {}
@@ -57,16 +57,19 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
           this.pieChartData = [];
           return;
         }
-        const statusCounts: { [key: string]: number } = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0 };
+        const statusCounts: { [key: string]: number } = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0, 'No Status': 0 };
         tasks.forEach(task => {
-          if (task.status in statusCounts) {
+          if (!task.status) {
+            statusCounts['No Status']++;
+          } else if (task.status in statusCounts) {
             statusCounts[task.status as keyof typeof statusCounts]++;
           }
         });
         this.pieChartData = [
           { name: 'To-Do', value: statusCounts['To-Do'] },
           { name: 'In-Progress', value: statusCounts['In-Progress'] },
-          { name: 'Done', value: statusCounts['Done'] }
+          { name: 'Done', value: statusCounts['Done'] },
+          { name: 'No Status', value: statusCounts['No Status'] }
         ];
       },
       error: (error) => {

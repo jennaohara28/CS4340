@@ -5,14 +5,15 @@ import { WeekCalendarComponent } from "../../components/week-calendar/week-calen
 import { TaskListComponent } from "../../components/task-list/task-list.component";
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        PieChartComponent,
-        WeekCalendarComponent,
-        TaskListComponent
-    ],
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css']
+  selector: 'app-home',
+  imports: [
+    PieChartComponent,
+    WeekCalendarComponent,
+    TaskListComponent
+  ],
+  templateUrl: './home.component.html',
+  standalone: true,
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
   constructor(private authService: AuthService) {}
