@@ -1,5 +1,8 @@
 <div class="pie-chart-container">
   <h2 style="text-align: left;">Task Status Distribution</h2>
+  <div *ngIf="pieChartData.length === 0" class="no-tasks-placeholder">
+    <p>No data available</p>
+  </div>
   <ngx-charts-pie-chart
     *ngIf="pieChartData.length > 0"
     onresize="onResize($event)"
@@ -9,5 +12,4 @@
     [legend]="showLegend"
     [animations]="true">
   </ngx-charts-pie-chart>
-  <p *ngIf="pieChartData.length === 0">No data available</p>
 </div>

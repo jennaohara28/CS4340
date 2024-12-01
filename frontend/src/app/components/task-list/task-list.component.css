@@ -173,3 +173,28 @@ h3 {
   margin: 10px 0;
   font-size: 20px;
 }
+
+.no-tasks-placeholder {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-tasks-placeholder p {
+  font-size: 1.5em;
+  color: #666;
+}
+
+.no-tasks-placeholder button {
+  background-color: #f6a647;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.no-tasks-placeholder button:hover {
+  background-color: #ca8a1c;
+}
