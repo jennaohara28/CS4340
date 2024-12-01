@@ -1,5 +1,4 @@
-<div class="classes">
-  <h2>Classes</h2>
+<h2>Classes</h2>
 
   <!-- Add Class Button -->
   <button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
@@ -22,7 +21,7 @@
       (click)="selectClass(class.id)"
       class="class-item"
     >
-      {{ class.name }}
+      <h3> {{ class.name }} </h3>
     </li>
   </ul>
 
@@ -63,4 +62,3 @@
       </li>
     </ul>
   </div>
-</div>

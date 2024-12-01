@@ -49,9 +49,12 @@ export class ClassesComponent implements OnInit {
   }
 
   selectClass(classId: number): void {
-    this.selectedClass = this.classes.find(c => c.id === classId) || null;
-    this.editMode = false;
-    if (this.selectedClass) {
+    if (this.selectedClass && this.selectedClass.id === classId) {
+      this.selectedClass = null; // Unselect if the same task is clicked
+    }
+    else {
+      this.selectedClass = this.classes.find(c => c.id === classId) || null;
+      this.editMode = false;
       this.tasksService.getTasksByClassId(classId).subscribe(
         (data: Task[]) => {
           this.tasks = data;
