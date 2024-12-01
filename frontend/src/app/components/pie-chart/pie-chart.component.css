@@ -2,6 +2,7 @@
   display: block;
   margin: 0 auto;
   max-width: 100%;
+  overflow: hidden; /* Hide scrollbars */
 }
 
 ngx-charts-pie-chart {
@@ -12,6 +13,7 @@ ngx-charts-pie-chart {
   height: 100%;
   padding-left: 5%;
   margin-bottom: 5%;
+  overflow: hidden; /* Hide scrollbars */
 }
 
 .pie-chart-container {
@@ -27,47 +29,11 @@ ngx-charts-pie-chart {
   margin: 20px;
   padding: 20px;
   transition: 0.5s ease, background-color 0.3s;
+  overflow: hidden; /* Hide scrollbars */
 }
 
-.pie-chart-container:hover {
-  background-color: #f0f0f0;
-  transform: translateY(-5px);
-}
-
-@media (max-width: 600px) {
-  .pie-chart-container {
-    padding: 10px;
-  }
-}
-
-h2 {
-  color: #333;
-  font-weight: bolder;
-  font-size: 2em;
-  padding-top: 10px;
-}
-
-.no-tasks-placeholder {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.no-tasks-placeholder p {
-  font-size: 1.5em;
-  color: #666;
-}
-
-.no-tasks-placeholder button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
-
-.no-tasks-placeholder button:hover {
-  background-color: #0056b3;
+.pie-chart {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Hide scrollbars */
 }

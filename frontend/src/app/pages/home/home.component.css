@@ -10,6 +10,9 @@
   flex: 1;
 }
 
+.chart-container {
+  overflow: hidden; /* Hide scrollbars */
+}
 
 .pie-chart, .assignments-list {
   width: 50%;

@@ -3,15 +3,18 @@ import { TasksService } from '../../pages/tasks/tasks.service';
 import { Task } from '../../pages/tasks/task.model';
 import { AuthService } from '../auth.service';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
 
 @Component({
-    selector: 'app-pie-chart',
-    standalone: true,
-    imports: [
-        NgxChartsModule
-    ],
-    templateUrl: './pie-chart.component.html',
-    styleUrls: ['./pie-chart.component.css']
+  selector: 'app-pie-chart',
+  standalone: true,
+  imports: [
+    NgxChartsModule,
+    MatTab,
+    MatTabGroup
+  ],
+  templateUrl: './pie-chart.component.html',
+  styleUrls: ['./pie-chart.component.css']
 })
 export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   public pieChartData: any[] = [];
@@ -23,6 +26,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
     group: ScaleType.Ordinal,
     domain: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00']
   };
+  public selectedTabIndex = 0;
 
   constructor(private tasksService: TasksService, private elementRef: ElementRef) {}
 
@@ -77,5 +81,4 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-
 }
