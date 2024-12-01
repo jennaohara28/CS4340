@@ -6,6 +6,7 @@ import { ClassesService } from '../../pages/classes/classes.service';
 import { Class } from '../../pages/classes/class.model';
 import { FormsModule } from '@angular/forms';
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-task-list',
@@ -14,6 +15,7 @@ import {DatePipe, NgForOf, NgIf} from '@angular/common';
     NgForOf,
     DatePipe,
     NgIf,
+    RouterLink,
   ],
   templateUrl: './task-list.component.html',
   standalone: true,

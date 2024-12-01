@@ -53,6 +53,10 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
     const userId = AuthService.getUserId() ?? '0';
     this.tasksService.getTasksByUserId(userId).subscribe({
       next: (tasks: Task[]) => {
+        if (tasks.length === 0) {
+          this.pieChartData = [];
+          return;
+        }
         const statusCounts: { [key: string]: number } = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0 };
         tasks.forEach(task => {
           if (task.status in statusCounts) {
@@ -70,4 +74,5 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
+
 }
