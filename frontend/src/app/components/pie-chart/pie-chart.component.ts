@@ -1,17 +1,20 @@
-import { Component, OnInit, ElementRef, AfterViewInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, OnDestroy, HostListener, ViewEncapsulation } from '@angular/core';
 import { TasksService } from '../../pages/tasks/tasks.service';
 import { Task } from '../../pages/tasks/task.model';
 import { AuthService } from '../auth.service';
 import { NgxChartsModule, Color, ScaleType } from '@swimlane/ngx-charts';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-    selector: 'app-pie-chart',
-    standalone: true,
-    imports: [
-        NgxChartsModule
-    ],
-    templateUrl: './pie-chart.component.html',
-    styleUrls: ['./pie-chart.component.css']
+  selector: 'app-pie-chart',
+  standalone: true,
+  imports: [
+    NgxChartsModule,
+    MatTabsModule
+  ],
+  templateUrl: './pie-chart.component.html',
+  styleUrls: ['./pie-chart.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   public pieChartData: any[] = [];
@@ -23,6 +26,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
     group: ScaleType.Ordinal,
     domain: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00']
   };
+  public selectedTabIndex = 0;
 
   constructor(private tasksService: TasksService, private elementRef: ElementRef) {}
 
@@ -42,7 +46,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateChartSize(): void {
-    const element = this.elementRef.nativeElement.querySelector('.pie-chart-container');
+    const element = this.elementRef.nativeElement.querySelector('.chart-container');
     if (element) {
       const width = element.innerWidth * 0.75; // Reduced by 25%
       this.view = [width, width * 0.57]; // Maintain aspect ratio
@@ -77,5 +81,4 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
   }
-
 }
