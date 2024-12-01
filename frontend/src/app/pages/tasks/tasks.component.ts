@@ -131,6 +131,15 @@ export class TasksComponent implements OnInit {
 
   updateTask(): void {
     if (this.selectedTask) {
+      // Update the selectedTask with the form data
+      this.selectedTask.name = this.newTaskName;
+      this.selectedTask.dueDate = this.newTaskDueDate;
+      this.selectedTask.type = this.newTaskType;
+      this.selectedTask.timeAll = this.newTaskTimeAll;
+      this.selectedTask.status = this.newTaskStatus;
+      this.selectedTask.priority = this.newTaskPriority;
+      this.selectedTask.classId = this.newTaskClassId;
+
       this.tasksService.updateTask(this.selectedTask).subscribe({
         next: (updatedTask: Task) => {
           const index = this.tasks.findIndex(task => task.id === updatedTask.id);
