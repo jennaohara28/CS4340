@@ -66,7 +66,9 @@ export class AuthService {
   }
 
   getUserEmail(): string | null {
-    return localStorage.getItem('email') || sessionStorage.getItem('email');
+    const email = localStorage.getItem('email') || sessionStorage.getItem('email');
+    console.log('Retrieved email:', email);
+    return email;
   }
 
   // Handle user registration
@@ -115,11 +117,11 @@ export class AuthService {
   }
 
   // Delete account
-  deleteAccount(email: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/delete-account/${email}`).pipe(
+  deleteAccount(userId: string): Observable<any> {
+    return this.http.delete(`${window.__env.apiBaseUrl}/api/users/delete-account/${userId}`, { responseType: 'json' }).pipe(
       catchError(error => {
         console.error('Account deletion failed:', error);
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }

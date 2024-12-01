@@ -11,6 +11,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     // Find user by their email address
     Optional<User> findByEmail(String email);
 
+    // Find a user by their userId
+    Optional<User> findByUserId(String userId);
+
     // Find a user by their password reset token
     Optional<User> findByResetToken(String resetToken);
 
@@ -20,5 +23,3 @@ public interface UserRepository extends JpaRepository<User, String> {
     // Delete a user by their email address
     void deleteByEmail(String email);
 }
-
-
