@@ -5,12 +5,12 @@ import { AuthService } from '../../components/auth.service';
 import { Task } from './task.model';
 import { Class } from '../classes/class.model';
 import { FormsModule } from "@angular/forms";
-import {DatePipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
-import {ActivatedRoute} from "@angular/router";
+import { DatePipe, NgClass, NgForOf, NgIf, NgStyle } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-    selector: 'app-tasks',
-    standalone: true,
+  selector: 'app-tasks',
+  standalone: true,
   imports: [
     FormsModule,
     NgForOf,
@@ -19,8 +19,8 @@ import {ActivatedRoute} from "@angular/router";
     NgClass,
     NgStyle
   ],
-    templateUrl: './tasks.component.html',
-    styleUrls: ['./tasks.component.css']
+  templateUrl: './tasks.component.html',
+  styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
   tasks: Task[] = [];
@@ -30,7 +30,7 @@ export class TasksComponent implements OnInit {
   newTaskType: string = '';
   newTaskTimeAll: number = 0;
   newTaskStatus: string = '';
-  newTaskPriority: string = '';
+  newTaskPriority: string = '!';
   newTaskClassId: number = 0;
   showAddTaskForm: boolean = false;
   selectedTask: Task | null = null;
@@ -52,14 +52,13 @@ export class TasksComponent implements OnInit {
       next: (tasks: Task[]) => {
         this.tasks = tasks.map(task => {
           const taskClass = this.getClassById(task.classId);
-          return { ...task, classColor: taskClass?.color || '#ffffff' }; // Default color is white
+          return { ...task, classColor: taskClass?.color || '#ffffff' };
         });
 
         this.route.queryParams.subscribe(params => {
           const taskId = Number(params['selectedTask']);
-          console.log(taskId);
           this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
-        })
+        });
 
       },
       error: (error) => {
@@ -90,14 +89,39 @@ export class TasksComponent implements OnInit {
     this.newTaskType = '';
     this.newTaskTimeAll = 0;
     this.newTaskStatus = '';
-    this.newTaskPriority = '';
+    this.newTaskPriority = '!';
     this.newTaskClassId = 0;
     this.showAddTaskForm = false;
   }
 
+  convertPriorityToInt(priority: string): number {
+    switch (priority) {
+      case '!':
+        return 1;
+      case '!!':
+        return 2;
+      case '!!!':
+        return 3;
+      default:
+        return 0; // Default or unknown priority
+    }
+  }
+
+  convertPriorityToExclamation(priority: number): string {
+    switch (priority) {
+      case 1:
+        return '!';
+      case 2:
+        return '!!';
+      case 3:
+        return '!!!';
+      default:
+        return '!';
+    }
+  }
+
   addTask(): void {
     if (this.newTaskName.trim() && this.newTaskDueDate && this.newTaskClassId) {
-      console.log(AuthService.getUserId())
       const newTask: Task = {
         id: 0,
         name: this.newTaskName,
@@ -106,7 +130,7 @@ export class TasksComponent implements OnInit {
         type: this.newTaskType || '',
         timeAll: this.newTaskTimeAll || 0,
         status: this.newTaskStatus || '',
-        priority: this.newTaskPriority || '!',
+        priority: this.convertPriorityToInt(this.newTaskPriority),
         classId: this.newTaskClassId
       };
       this.tasksService.addTask(newTask).subscribe({
@@ -149,13 +173,6 @@ export class TasksComponent implements OnInit {
     }
   }
 
-  convertPriorityToExclamation(priority: string): string {
-    if (['!', '!!', '!!!'].includes(priority)) {
-      return priority;
-    }
-    return '!';
-  }
-
   getPriorityBadgeClass(priority: string): string {
     switch (priority) {
       case '!':
@@ -171,13 +188,12 @@ export class TasksComponent implements OnInit {
 
   updateTask(): void {
     if (this.selectedTask) {
-      // Update the selectedTask with the form data
       this.selectedTask.name = this.newTaskName;
       this.selectedTask.dueDate = this.newTaskDueDate;
       this.selectedTask.type = this.newTaskType;
       this.selectedTask.timeAll = this.newTaskTimeAll;
       this.selectedTask.status = this.newTaskStatus;
-      this.selectedTask.priority = this.newTaskPriority;
+      this.selectedTask.priority = this.convertPriorityToInt(this.newTaskPriority);
       this.selectedTask.classId = this.newTaskClassId;
 
       this.tasksService.updateTask(this.selectedTask).subscribe({
@@ -220,7 +236,7 @@ export class TasksComponent implements OnInit {
       this.newTaskType = this.selectedTask.type;
       this.newTaskTimeAll = this.selectedTask.timeAll;
       this.newTaskStatus = this.selectedTask.status;
-      this.newTaskPriority = this.selectedTask.priority;
+      this.newTaskPriority = this.convertPriorityToExclamation(this.selectedTask.priority);
       this.newTaskClassId = this.selectedTask.classId;
     } else {
       this.newTaskName = '';
@@ -228,12 +244,11 @@ export class TasksComponent implements OnInit {
       this.newTaskType = '';
       this.newTaskTimeAll = 0;
       this.newTaskStatus = '';
-      this.newTaskPriority = '';
+      this.newTaskPriority = '!';
       this.newTaskClassId = 0;
     }
     this.isModalOpen = true;
   }
-
 
   closeModal(): void {
     this.isModalOpen = false;

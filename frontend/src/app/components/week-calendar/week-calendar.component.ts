@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { Task } from '../../pages/tasks/task.model';
 import { DatePipe, NgForOf } from '@angular/common';
 import {Router} from "@angular/router";
+import {Class} from "../../pages/classes/class.model";
+import {ClassesService} from "../../pages/classes/classes.service";
 
 @Component({
   selector: 'app-week-calendar',
@@ -19,11 +21,14 @@ export class WeekCalendarComponent implements OnInit {
   public currentWeek: Date[] = [];
   public tasks: { [key: string]: Task[] } = {};
   public weekDays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  public weekDaysShortened: string[] = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+  public classes: Class[] = [];
 
-  constructor(private tasksService: TasksService, private router: Router) {}
+  constructor(private tasksService: TasksService, private classesService: ClassesService, private router: Router) {}
 
   ngOnInit(): void {
     this.setCurrentWeek();
+    this.loadClasses();
     this.loadTasksForCurrentWeek();
   }
 
@@ -53,5 +58,16 @@ export class WeekCalendarComponent implements OnInit {
         this.tasks[dateString] = tasks.filter(task => task.dueDate === dateString);
       });
     });
+  }
+
+  loadClasses(): void {
+    this.classesService.getClasses().subscribe((classes: Class[]) => {
+      this.classes = classes;
+    });
+  }
+
+  getClassColor(classId: number): string {
+    const taskClass = this.classes.find(cls => cls.id === classId);
+    return taskClass ? taskClass.color : '#ffffff'; // default to white if no class found
   }
 }

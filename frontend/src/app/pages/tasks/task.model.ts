@@ -5,7 +5,7 @@ export interface Task {
   timeAll: number;
   status: string;
   dueDate: string;
-  priority: string;
+  priority: number;
   ownerId: string;
   classId: number;
   classColor?: string;

@@ -34,7 +34,6 @@ export class RegisterComponent {
     if (!name || !email || !password || !confirmPassword) {
       this.errorMessage = 'All fields are required.';
       this.cdr.detectChanges();
-      console.log('Registration failed: All fields are required.');
       return;
     }
 
@@ -42,7 +41,6 @@ export class RegisterComponent {
     if (password !== confirmPassword) {
       this.errorMessage = 'Passwords do not match.';
       this.cdr.detectChanges();
-      console.log('Registration failed: Passwords do not match.');
       return;
     }
 
@@ -71,7 +69,6 @@ export class RegisterComponent {
   autoLogin(email: string, password: string) {
     this.authService.login(email, password, false).subscribe({
       next: (response) => {
-        console.log('Auto-login successful after registration:', response);
         this.router.navigate(['/']);
       },
       error: (error) => {

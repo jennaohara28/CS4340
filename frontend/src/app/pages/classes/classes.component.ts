@@ -37,7 +37,6 @@ export class ClassesComponent implements OnInit {
     this.classesService.getClasses().subscribe(
       (data: Class[]) => {
         this.classes = data;
-        console.log('Classes fetched successfully:', data);
       },
       (error) => {
         if (error.status === 401) {
@@ -76,7 +75,6 @@ export class ClassesComponent implements OnInit {
   addClass(): void {
     if (this.newClassName.trim()) {
       const userId = AuthService.getUserId();
-      console.log('Retrieved userId:', userId);
       if (!userId) {
         alert('User ID is missing. Please log in again.');
         return;
@@ -103,8 +101,8 @@ export class ClassesComponent implements OnInit {
     }
   }
 
-  enableEditMode(): void {
-    this.editMode = true;
+  enableEditMode(isEditMode: boolean = true): void {
+    this.editMode = isEditMode;
   }
 
   updateClass(): void {

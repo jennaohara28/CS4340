@@ -72,11 +72,8 @@ export class NotificationSettingsComponent implements OnInit {
       })),
     };
 
-    console.log('Sending settings:', settings); // Log the data here
-
     this.notificationSettingsService.updateNotificationSettings(settings).subscribe({
       next: (response) => {
-        console.log('Settings saved successfully:', response);
         this.showSuccessMessage = true;
       },
       error: (err) => {
