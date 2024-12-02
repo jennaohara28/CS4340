@@ -191,12 +191,14 @@ h3 {
   border: 1px solid #ddd;
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
   width: 500px;
 }
 
 .class-item:hover, .task-item:hover {
   background-color: #f0f0f0;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .class-details p {
