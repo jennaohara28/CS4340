@@ -29,7 +29,7 @@ export class TasksComponent implements OnInit {
   newTaskType: string = '';
   newTaskTimeAll: number = 0;
   newTaskStatus: string = '';
-  newTaskPriority: number = 0;
+  newTaskPriority: string = '';
   newTaskClassId: number = 0;
   showAddTaskForm: boolean = false;
   selectedTask: Task | null = null;
@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit {
     this.newTaskType = '';
     this.newTaskTimeAll = 0;
     this.newTaskStatus = '';
-    this.newTaskPriority = 0;
+    this.newTaskPriority = '';
     this.newTaskClassId = 0;
     this.showAddTaskForm = false;
   }
@@ -102,7 +102,7 @@ export class TasksComponent implements OnInit {
         type: this.newTaskType || '',
         timeAll: this.newTaskTimeAll || 0,
         status: this.newTaskStatus || '',
-        priority: this.newTaskPriority || 0,
+        priority: this.newTaskPriority || '!',
         classId: this.newTaskClassId
       };
       this.tasksService.addTask(newTask).subscribe({
@@ -127,6 +127,42 @@ export class TasksComponent implements OnInit {
 
   enableEditMode(): void {
     this.editMode = true;
+  }
+
+  getPriorityDisplay(priority: string | null | undefined): string {
+    if (!priority) {
+      return 'Unknown';
+    }
+    switch (priority) {
+      case '!':
+        return 'Low';
+      case '!!':
+        return 'Medium';
+      case '!!!':
+        return 'High';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  convertPriorityToExclamation(priority: string): string {
+    if (['!', '!!', '!!!'].includes(priority)) {
+      return priority;
+    }
+    return '!';
+  }
+
+  getPriorityBadgeClass(priority: string): string {
+    switch (priority) {
+      case '!':
+        return 'badge low';
+      case '!!':
+        return 'badge medium';
+      case '!!!':
+        return 'badge high';
+      default:
+        return 'badge';
+    }
   }
 
   updateTask(): void {
@@ -188,7 +224,7 @@ export class TasksComponent implements OnInit {
       this.newTaskType = '';
       this.newTaskTimeAll = 0;
       this.newTaskStatus = '';
-      this.newTaskPriority = 0;
+      this.newTaskPriority = '';
       this.newTaskClassId = 0;
     }
     this.isModalOpen = true;
