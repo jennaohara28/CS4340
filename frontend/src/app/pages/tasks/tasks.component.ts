@@ -52,7 +52,7 @@ export class TasksComponent implements OnInit {
       next: (tasks: Task[]) => {
         this.tasks = tasks.map(task => {
           const taskClass = this.getClassById(task.classId);
-          return { ...task, classColor: taskClass?.color || '#ffffff' }; // Default color is white
+          return { ...task, classColor: taskClass?.color || '#ffffff' };
         });
 
         this.route.queryParams.subscribe(params => {

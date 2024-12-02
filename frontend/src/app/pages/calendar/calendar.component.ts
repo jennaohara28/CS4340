@@ -4,6 +4,8 @@ import { TasksService } from '../../pages/tasks/tasks.service';
 import { Task } from '../../pages/tasks/task.model';
 import {AuthService} from "../../components/auth.service";
 import {Router} from "@angular/router";
+import {Class} from "../classes/class.model";
+import {ClassesService} from "../classes/classes.service";
 
 @Component({
   selector: 'app-calendar',
@@ -24,8 +26,9 @@ export class CalendarComponent implements OnInit {
   weekDays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   weekDaysShortened: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   tasks: { [key: string]: Task[] } = {};
+  classes: Class[] = [];
 
-  constructor(private tasksService: TasksService, private router: Router) {}
+  constructor(private tasksService: TasksService, private router: Router, private classesService: ClassesService) {}
 
   ngOnInit() {
     const today = new Date();
@@ -33,6 +36,7 @@ export class CalendarComponent implements OnInit {
     this.currentYear = today.getFullYear();
     this.generateCalendar(this.currentMonth, this.currentYear);
     this.loadTasksForCurrentMonth();
+    this.loadClasses();
   }
 
   openTaskPage(taskId: number) {
@@ -92,5 +96,16 @@ export class CalendarComponent implements OnInit {
     const dayString = day < 10 ? `0${day}` : `${day}`;
     const monthString = month < 10 ? `0${month}` : `${month}`;
     return `${this.currentYear}-${monthString}-${dayString}`;
+  }
+
+  loadClasses(): void {
+    this.classesService.getClasses().subscribe((classes: Class[]) => {
+      this.classes = classes;
+    });
+  }
+
+  getClassColor(classId: number): string {
+    const taskClass = this.classes.find(cls => cls.id === classId);
+    return taskClass ? taskClass.color : '#ffffff';
   }
 }
