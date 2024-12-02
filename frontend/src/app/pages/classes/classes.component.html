@@ -1,4 +1,36 @@
-<h2>Classes</h2>
+<h2 class="page-title">Classes</h2>
+
+<!-- Add Class Button -->
+<div class="'add-class-btn-container">
+  <button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
+</div>
+
+<!-- Add Class Form -->
+<div *ngIf="showAddClassForm" class="add-class-form-wrapper">
+  <div class="add-class-form">
+    <label for="classNameEnter2" class="label">Enter Class Name:</label>
+    <input
+      id="classNameEnter2"
+      [(ngModel)]="newClassName"
+      class="form-control"
+      placeholder="Enter class name"
+    />
+
+    <div class="color-picker-container">
+      <label for="colorPicker2" class="label">Pick a color:</label>
+      <input
+        id="colorPicker2"
+        [(ngModel)]="newClassColor"
+        class="form-control color-picker-input"
+        type="color"
+      />
+    </div>
+
+    <br />
+    <button class="btn btn-success" (click)="addClass()">Save</button>
+    <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
+  </div>
+</div>
 
   <!-- Class List -->
   <ul class="class-list">
@@ -53,7 +85,7 @@
       (click)="deleteClass(selectedClass.id)"
     >
       Delete Class
-    </button>
+    </button><br><br>
 
     <!-- Task List for Selected Class -->
       <div *ngIf="tasks.length != 0">
@@ -67,36 +99,6 @@
       </div>
       </div>
   </div>
-
-<!-- Add Class Button -->
-<button class="btn btn-primary" (click)="toggleAddClassForm()">Add Class</button>
-
-<!-- Add Class Form -->
-<div *ngIf="showAddClassForm" class="add-class-form-wrapper">
-  <div class="add-class-form">
-    <label for="classNameEnter2" class="label">Enter Class Name:</label>
-    <input
-      id="classNameEnter2"
-      [(ngModel)]="newClassName"
-      class="form-control"
-      placeholder="Enter class name"
-    />
-
-    <div class="color-picker-container">
-      <label for="colorPicker2" class="label">Pick a color:</label>
-      <input
-        id="colorPicker2"
-        [(ngModel)]="newClassColor"
-        class="form-control color-picker-input"
-        type="color"
-      />
-    </div>
-
-    <br />
-    <button class="btn btn-success" (click)="addClass()">Save</button>
-    <button class="btn btn-secondary" (click)="toggleAddClassForm()">Cancel</button>
-  </div>
-</div>
 
 <!-- Adds Spacing to Bottom -->
 <div class="footer"></div>
