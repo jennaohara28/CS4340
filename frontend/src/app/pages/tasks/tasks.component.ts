@@ -5,19 +5,20 @@ import { AuthService } from '../../components/auth.service';
 import { Task } from './task.model';
 import { Class } from '../classes/class.model';
 import { FormsModule } from "@angular/forms";
-import {DatePipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'app-tasks',
     standalone: true,
-    imports: [
-        FormsModule,
-        NgForOf,
-        NgIf,
-        DatePipe,
-        NgClass
-    ],
+  imports: [
+    FormsModule,
+    NgForOf,
+    NgIf,
+    DatePipe,
+    NgClass,
+    NgStyle
+  ],
     templateUrl: './tasks.component.html',
     styleUrls: ['./tasks.component.css']
 })
@@ -49,7 +50,10 @@ export class TasksComponent implements OnInit {
     const userId = AuthService.getUserId() ?? '0';
     this.tasksService.getTasksByUserId(userId).subscribe({
       next: (tasks: Task[]) => {
-        this.tasks = tasks;
+        this.tasks = tasks.map(task => {
+          const taskClass = this.getClassById(task.classId);
+          return { ...task, classColor: taskClass?.color || '#ffffff' }; // Default color is white
+        });
 
         this.route.queryParams.subscribe(params => {
           const taskId = Number(params['selectedTask']);

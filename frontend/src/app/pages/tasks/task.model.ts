@@ -8,4 +8,5 @@ export interface Task {
   priority: string;
   ownerId: string;
   classId: number;
+  classColor?: string;
 }
