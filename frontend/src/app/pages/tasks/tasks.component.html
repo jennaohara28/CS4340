@@ -6,7 +6,7 @@
 </div>
 
 <!-- Task List -->
-<div *ngIf="tasks && tasks.length > 0">
+<div *ngIf="tasks && tasks.length > 0; else noTasks" class="task-container">
   <ul class="task-list">
     <li *ngFor="let task of tasks" (click)="selectTask(task.id)" [ngStyle]="{ 'background-color': task.classColor || '#ffffff' }">
       <h3>{{ task.name }}</h3>
@@ -18,23 +18,6 @@
       <p *ngIf="selectedTask?.id === task.id">Class: {{ getClassById(task.classId)?.name }}</p>
     </li>
   </ul>
-<div *ngIf="tasks && tasks.length > 0; else noTasks" class="task-container">
-  <div *ngFor="let task of tasks" class="task-card" (click)="selectTask(task.id)">
-    <h3>{{ task.name }}</h3>
-    <div *ngIf="selectedTask?.id === task.id" class="task-details">
-      <p><strong>Due Date:</strong> {{ task.dueDate }}</p>
-      <p><strong>Type:</strong> {{ task.type }}</p>
-      <p><strong>Time Allocation:</strong> {{ task.timeAll }} hrs</p>
-      <p><strong>Status:</strong> {{ task.status }}</p>
-      <p>
-        <strong>Priority:</strong>
-        <span class="badge" [ngClass]="getPriorityBadgeClass(task.priority)">
-          {{ task.priority }}
-        </span>
-      </p>
-      <p><strong>Class:</strong> {{ getClassById(task.classId)?.name }}</p>
-    </div>
-  </div>
 </div>
 
 <!-- No Tasks Empty State -->
