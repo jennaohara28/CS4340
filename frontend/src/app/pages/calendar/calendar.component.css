@@ -1,8 +1,13 @@
 .calendar {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  width: 80%;
+  max-width: 1200px;
+  margin: 20px auto;
   text-align: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -11,23 +16,62 @@
   align-items: center;
   padding: 10px;
   background-color: #f0f0f0;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.weekdays, .days {
+.weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
 }
 
-.weekday, .day {
+.weekday {
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background-color: #ffa742;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day {
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   background-color: #fff;
   text-align: center;
+  height: 120px;
+  overflow-y: auto;
+}
+
+.previous-month {
+  color: #aaa;
 }
 
 .empty {
   background-color: transparent;
   border: none;
+}
+
+.task {
+  background-color: #fff;
+  margin-top: 5px;
+  padding: 2px;
+  border-radius: 4px;
+  font-size: 0.9em;
+  transition: 0.5s ease;
+}
+
+.task:hover {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }

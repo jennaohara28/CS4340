@@ -1,32 +1,46 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 // Import components
+import { AboutComponent } from './pages/about/about.component';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
-import { RegisterComponent } from './pages/login/register/register.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { NotificationSettingsComponent } from './pages/notification-settings/notification-settings.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { routes } from './app.routes';
-import {AboutComponent} from "./pages/about/about.component";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   // Declare components here
   declarations: [
+    AboutComponent,
     AppComponent,
     LoginComponent,
+    NotificationSettingsComponent,
     RegisterComponent,
-    AboutComponent
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    NavbarComponent,
+    NgxChartsModule,
+    PieChartComponent,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
+    FontAwesomeModule,
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

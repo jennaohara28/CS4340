@@ -1,18 +1,36 @@
-import { Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './components/auth.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    standalone: false,
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    animations: [
+        trigger('fadeInOut', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('300ms ease-in', style({ opacity: 1 }))
+            ]),
+            transition(':leave', [
+                animate('300ms ease-out', style({ opacity: 0 }))
+            ])
+        ])
+    ],
 })
-export class AppComponent {
-  title = 'CS3300';
+export class AppComponent implements OnInit {
+  showNavbar: boolean = true;
+  private hiddenRoutes: string[] = ['/login', '/about', '/register', '/reset-password'];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
-  // Check if the current route is the login page, register page
-  isOtherPage() {
-    return this.router.url === '/login' || this.router.url === '/register' || this.router.url === '/about';
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.showNavbar = !this.hiddenRoutes.some((route) => event.url.includes(route));
+      }
+    });
   }
 }

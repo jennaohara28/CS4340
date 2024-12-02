@@ -1,0 +1,190 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  min-height: 30vh;
+}
+
+.content {
+  flex: 1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.color-picker-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.color-picker-input {
+  width: 10%;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.color-picker-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Classes Component Styles */
+.classes {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+h2 {
+  padding: 20px 20px 0 20px;
+  color: #333;
+  font-weight: bolder;
+  font-size: 2em;
+}
+
+h3 {
+  color: #333;
+  margin: 0 0 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #e67335;
+  color: white;
+  margin: 20px 20px 0 20px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: #fff;
+  margin: 15px 10px 0 20px;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+  margin: 15px 10px 0 20px;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  margin: 15px 10px 0 20px;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-color {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin: 10px;
+  font-size: 14px;
+}
+
+.btn-color:hover {
+  background-color: #c7c5c5;
+}
+
+.add-class-form, .class-details {
+  margin: 10px;
+}
+
+.add-class-form-wrapper {
+  width: 33%;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.form-control {
+  width: 50%;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: block;
+}
+
+.class-list, .task-list {
+  list-style-type: none;
+  padding: 5px 20px 20px 20px;
+  width: 33%;
+}
+
+.class-item, .task-item {
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.class-item:hover, .task-item:hover {
+  background-color: #f0f0f0;
+}
+
+.class-details p {
+  margin: 5px 0;
+}
+
+.class-details-wrapper {
+  width: 33%;
+  margin: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}

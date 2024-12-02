@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, .page-background {
+  font-family: Poppins, sans-serif;
+  background-color: #f9d29d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+@keyframes backgroundAnimation {
+  0% {
+    background-color: #f9d18d;
+  }
+  50% {
+    background-color: #ffb570;
+  }
+  100% {
+    background-color: #f9d18d;
+  }
+}
+
+.page-background {
+  background-size: 40px 40px;
+  animation: backgroundAnimation 7s ease-in-out infinite;
+}
+
+.register-wrapper {
+  background-color: #fff7e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
+  height: auto;
+}
+
+.register-left {
+  background-color: #ff8c42;
+  color: white;
+  width: 45%;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px 0 0 16px;
+}
+
+.register-left img {
+  width: 300px;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.register-left p {
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+  width: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  position: relative;
+  top: -80px;
+}
+
+.register-right {
+  width: 55%;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0 16px 16px 0;
+  min-height: 600px;
+  position: relative;
+}
+
+h2 {
+  font-size: 24px;
+  color: #ff8c42;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.register-right form {
+  position: relative;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 1px solid #ffb385;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #ff8c42;
+  box-shadow: 0 0 8px rgba(255, 140, 66, 0.5), 0 6px 15px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+input[type="submit"] {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(90deg, #ff8c42, #ff6f00);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  margin-top: 10px;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+input[type="submit"]:hover {
+  background-color: #e67335;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.input-wrapper {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.error {
+  color: #ff4d4d;
+  font-size: 13px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin-top: -10px;
+  line-height: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: visibility 0s linear 0.3s;
+}
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+input:invalid ~ .error,
+input:focus:invalid ~ .error {
+  visibility: visible;
+  animation: slideFadeIn 0.3s ease forwards;
+  transition-delay: 0s;
+}
+
+.already-account {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 16px;
+  color: #555;
+}
+
+.login-link {
+  color: #ff8c42;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+  color: #ff6f00;
+}
+
+.about-us {
+  text-align: center;
+  margin-top: -25px;
+  font-size: 14px;
+  color: #555;
+}
+
+.about-us a {
+  color: #ff8c42;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.about-us a:hover {
+  text-decoration: underline;
+  color: #ff6f00;
+}
+
+.status-container {
+  margin-top: 10px;
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.message-container {
+  height: 24px;
+  margin-top: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.success-message,
+.error-message {
+  font-size: 14px;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.success-message {
+  font-size: 16px;
+  color: #ff8c42;
+  font-weight: bold;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.error-message {
+  font-size: 16px;
+  color: #ff4d4d;
+  font-weight: bold;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+.loading-bar {
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(to right, #ff8c42, #ffb570);
+  background-size: 200% 100%;
+  animation: loading-animation 1.5s linear infinite;
+  border-radius: 4px;
+  margin: 0 auto;
+}
+
+@keyframes loading-animation {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: -200% 0%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .register-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .register-left, .register-right {
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  input[type="submit"] {
+    font-size: 16px;
+  }
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+  margin-top: 10px;
+}
+
+.loading-indicator {
+  margin-top: 10px;
+}

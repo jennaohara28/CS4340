@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
+
+    private static final Logger logger = Logger.getLogger(TaskController.class.getName());
 
     @Autowired
     private TaskService taskService;
@@ -22,8 +25,18 @@ public class TaskController {
     }
 
     @GetMapping("/owner/{ownerId}")
-    public List<Task> getTasksByOwnerId(@PathVariable Long ownerId) {
-        return taskService.getTasksByOwnerId(ownerId);
+    public List<Task> getTasksByOwnerId(@PathVariable String ownerId) {
+        try {
+            return taskService.getTasksByOwnerId(ownerId);
+        } catch (Exception e) {
+            logger.severe("Error fetching tasks for ownerId: " + ownerId + " - " + e.getMessage());
+            throw e;
+        }
+    }
+
+    @GetMapping("/class/{classId}")
+    public List<Task> getTasksByClassId(@PathVariable Long classId) {
+        return taskService.getTasksByClassId(classId);
     }
 
     @GetMapping("/{id}")
@@ -34,6 +47,7 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task taskEntity) {
+        System.out.println(taskEntity);
         return taskService.saveTask(taskEntity);
     }
 

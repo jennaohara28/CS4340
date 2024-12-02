@@ -1,29 +1,32 @@
 package CS3300.schema;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 
+@Entity
 public class Class {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private ArrayList<Task> tasks;
+    private String ownerId;
     private String color;
-    private Long ownerId;
+
+    // Constructors, getters, and setters
+    public Class() {}
 
     public Class(String name) {
         this.name = name;
     }
 
-    // Getters and setters for ownerId
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getId() {
+        return id;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    // Other getters and setters
     public String getName() {
         return name;
     }
@@ -32,29 +35,19 @@ public class Class {
         this.name = name;
     }
 
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public String getColor() {
         return color;
     }
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public void displayTasks() {
-        for (Task task : tasks) {
-            System.out.println(task.name);
-        }
-    }
-
-    public void addTask(Task toAdd) {
-        tasks.add(toAdd);
-    }
-
-    public void removeTask(Task toRemove) {
-        tasks.remove(toRemove);
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

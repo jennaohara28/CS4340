@@ -12,7 +12,7 @@ import java.util.Optional;
 public class ClassService {
 
     @Autowired
-    private ClassRepository classRepository;
+    ClassRepository classRepository;
 
     public List<Class> getAllClasses() {
         return classRepository.findAll();
@@ -22,7 +22,7 @@ public class ClassService {
         return classRepository.findById(id);
     }
 
-    public List<Class> getClassesByOwnerId(Long ownerId) {
+    public List<Class> getClassesByOwnerId(String ownerId) {
         return classRepository.findByOwnerId(ownerId);
     }
 

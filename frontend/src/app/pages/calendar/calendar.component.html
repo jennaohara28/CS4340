@@ -8,7 +8,12 @@
     <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
   </div>
   <div class="days">
-    <div *ngFor="let empty of emptyDays" class="day empty"></div>
-    <div *ngFor="let day of daysInMonth" class="day">{{ day }}</div>
+    <div *ngFor="let empty of emptyDays" class="day previous-month">{{ empty }}</div>
+    <div *ngFor="let day of daysInMonth" class="day">
+      <div>{{ day }}</div>
+      <div *ngFor="let task of tasks[getDateString(day)]" class="task" (click)="openTaskPage(task.id)">
+        {{ task.name }}
+      </div>
+    </div>
   </div>
 </div>

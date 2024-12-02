@@ -21,20 +21,30 @@ public class ClassController {
         return classService.getAllClasses();
     }
 
-    @GetMapping("/owner/{ownerId}")
-    public List<Class> getClassesByOwnerId(@PathVariable Long ownerId) {
-        return classService.getClassesByOwnerId(ownerId);
+    @GetMapping("/owner")
+    public List<Class> getClassesByOwner(@RequestHeader("userId") String userId) {
+        System.out.println("Received userId: " + userId);
+        if (userId == null || userId.isEmpty()) {
+            System.err.println("Unauthorized access: userId is missing or empty.");
+            throw new RuntimeException("Unauthorized access: User not logged in");
+        }
+        return classService.getClassesByOwnerId(userId);
+    }
+
+    @PostMapping
+    public Class createClass(@RequestBody Class classEntity, @RequestHeader("userId") String userId) {
+        System.out.println("Creating class for userId: " + userId);
+        if (userId == null || userId.isEmpty()) {
+            throw new RuntimeException("Unauthorized access: User not logged in");
+        }
+        classEntity.setOwnerId(userId);
+        return classService.saveClass(classEntity);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Class> getClassById(@PathVariable Long id) {
         Optional<Class> classEntity = classService.getClassById(id);
         return classEntity.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public Class createClass(@RequestBody Class classEntity) {
-        return classService.saveClass(classEntity);
     }
 
     @PutMapping("/{id}")

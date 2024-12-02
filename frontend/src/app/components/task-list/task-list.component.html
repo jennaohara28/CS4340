@@ -1,0 +1,49 @@
+<div class="tasks">
+  <h2 style="text-align: center;">Task Snapshot</h2>
+
+  <div *ngIf="tasks.length === 0" class="no-tasks-placeholder">
+    <p>There are no tasks. Create one now!</p>
+    <button routerLink="/assignments" href="/assignments">Go to Tasks Page</button>
+  </div>
+
+  <ul class="task-list">
+    <li *ngFor="let task of tasks" (click)="selectTask(task.id)" class="task-item">
+      {{ task.name }}
+    </li>
+  </ul>
+
+  <div *ngIf="selectedTask" class="task-details">
+    <dialog #taskDialog>
+      <span class="close-button" (click)="closeDialog()">&times;</span>
+      <h3>Details for {{ selectedTask?.name }}</h3>
+      <div *ngIf="!editMode">
+        <p><strong>Name:</strong> {{ selectedTask?.name }}</p>
+      <p><strong>Due Date:</strong> {{ selectedTask?.dueDate | date }}</p>
+      <p><strong>Type:</strong> {{ selectedTask?.type }}</p>
+      <p><strong>Time Allocation:</strong> {{ selectedTask?.timeAll }}</p>
+      <p><strong>Status:</strong> {{ selectedTask?.status }}</p>
+      <p><strong>Priority:</strong> {{ selectedTask?.priority }}</p>
+      <p><strong>Class:</strong> {{ getClassById(selectedTask.classId)?.name }} </p>
+      <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
+        <button class="btn btn-danger" (click)="deleteTask(selectedTask.id)">Delete Task</button>
+      </div>
+      <div *ngIf="editMode">
+      <input [(ngModel)]="selectedTask.name" class="form-control" placeholder="Enter task name" />
+      <input [(ngModel)]="selectedTask.dueDate" type="date" class="form-control" placeholder="Enter due date" />
+      <input [(ngModel)]="selectedTask.type" class="form-control" placeholder="Enter task type" />
+      <input [(ngModel)]="selectedTask.timeAll" class="form-control" placeholder="Enter time allocation" />
+      <select [(ngModel)]="selectedTask.status" class="form-control">
+        <option value="To-Do">To-Do</option>
+        <option value="In-Progress">In-Progress</option>
+        <option value="Done">Done</option>
+      </select>
+      <input [(ngModel)]="selectedTask.priority" class="form-control" placeholder="Enter priority" />
+      <select [(ngModel)]="selectedTask.classId" class="form-control">
+        <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
+      </select>
+      <button class="btn btn-success" (click)="updateTask()">Update Task</button>
+        <button class="btn btn-danger" (click)="deleteTask(selectedTask.id)">Delete Task</button>
+      </div>
+    </dialog>
+  </div>
+</div>

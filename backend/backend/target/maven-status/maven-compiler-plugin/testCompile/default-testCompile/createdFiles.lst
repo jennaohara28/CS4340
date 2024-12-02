@@ -1,1 +1,8 @@
+CS3300\service\ClassServiceTest.class
 CS3300\AppTest.class
+CS3300\service\EmailServiceTest.class
+CS3300\schema\NotificationSettingsTest.class
+CS3300\service\TaskSchedulerTest.class
+CS3300\schema\TaskTest.class
+CS3300\schema\ClassTest.class
+CS3300\schema\UserTest.class

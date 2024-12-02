@@ -1,1 +1,16 @@
-<p>week-calendar works!</p>
+<div class="week-calendar">
+  <h2> Weekly Calendar </h2>
+  <div class="week-days">
+    <div class="week-day" *ngFor="let day of weekDays">{{ day }}</div>
+  </div>
+  <div class="week-dates">
+    <div class="week-date" *ngFor="let date of currentWeek">
+      <div class="date">{{ date | date: 'MMM d' }}</div>
+      <div class="tasks">
+        <div *ngFor="let task of tasks[date.toISOString().split('T')[0]]" (click)="openTaskPage(task.id)">
+          {{ task.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

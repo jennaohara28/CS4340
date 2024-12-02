@@ -1,0 +1,94 @@
+.week-calendar {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff7e6;
+  margin: 20px;
+  transition: 0.5s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.week-calendar:hover {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.week-days {
+  display: flex;
+  margin-bottom: -15px;
+  width: 100%;
+}
+
+.week-dates {
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.week-day{
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px 8px 0 0;
+  margin: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #ffa742;
+}
+
+.week-date {
+  flex: 1;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  margin: 5px;
+  padding-top: 0;
+  background-color: #ffe9ba;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-top-style: none;
+}
+
+.week-day {
+  font-weight: bolder;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.week-date {
+  min-height: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.date {
+  font-weight: normal;
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.tasks {
+  margin-top: 15px;
+}
+
+.tasks div {
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  margin-bottom: 5px;
+  transition: 0.5s ease;
+}
+
+.tasks div:hover {
+  background-color: #f9d18d;
+}
+
+h2 {
+  color: #333;
+  font-weight: bolder;
+  font-size: 2em;
+}

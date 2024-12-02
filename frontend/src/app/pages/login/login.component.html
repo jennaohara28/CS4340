@@ -12,24 +12,50 @@
     <form (ngSubmit)="login()">
 
       <!-- Email Field -->
-      <input type="email" id="email" [(ngModel)]="email" name="email" placeholder="Email" #emailInput="ngModel" required>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="email"
+        name="email"
+        placeholder="Email"
+        #emailInput="ngModel"
+        required
+      />
       <div class="error email-error">Email is required.</div>
 
       <!-- Password Field -->
-      <input type="password" id="password" [(ngModel)]="password" name="password" placeholder="Password" #passwordInput="ngModel" required>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="password"
+        name="password"
+        placeholder="Password"
+        #passwordInput="ngModel"
+        required
+      />
       <div class="error password-error">Password is required.</div>
 
       <!-- Remember Me Checkbox -->
       <div class="remember-me">
-        <input type="checkbox" [(ngModel)]="rememberMe" id="remember" name="rememberMe">
+        <input
+          type="checkbox"
+          [(ngModel)]="rememberMe"
+          id="remember"
+          name="rememberMe"
+        />
         <label for="remember">Remember me</label>
       </div>
 
       <!-- Submit Button -->
-      <input type="submit" value="Login" [disabled]="emailInput.invalid || passwordInput.invalid">
+      <input
+        type="submit"
+        value="Login"
+        [disabled]="emailInput.invalid || passwordInput.invalid"
+        class="login-button"
+      />
 
       <!-- Error message from server-side validation -->
-      <div *ngIf="errorMessage" class="error">
+      <div class="error server-error" [class.server-error-visible]="errorMessage">
         {{ errorMessage }}
       </div>
     </form>
@@ -41,8 +67,47 @@
 
     <!-- About Us Link -->
     <div class="about-us">
+      <br>
       <p><a routerLink="/about">Learn More</a></p>
     </div>
 
+    <!-- Forgot Password Section -->
+    <div class="forgot-password-container">
+      <button
+        class="forgot-password-button"
+        (click)="toggleForgotPassword()"
+      >
+        Forgot Password?
+      </button>
+
+      <div *ngIf="showForgotPassword" class="password-reset-form" #passwordResetForm>
+        <button class="close-button" (click)="toggleForgotPassword()">X</button>
+        <h3>RESET YOUR PASSWORD</h3>
+        <input
+          type="email"
+          [(ngModel)]="resetEmail"
+          placeholder="Enter your email"
+          required
+        />
+        <button
+          class="send-reset-link"
+          (click)="requestPasswordReset(); $event.preventDefault();"
+          [disabled]="loading"
+        >
+          Send Reset Link
+        </button>
+
+        <!-- Loading Indicator -->
+        <div *ngIf="loading" class="loading-indicator">
+          <div class="loading-bar"></div>
+          <p>Sending reset link...</p>
+        </div>
+
+        <!-- Feedback Message for Password Reset -->
+        <div *ngIf="resetMessage" [ngClass]="{ 'reset-message': !isError, 'reset-message-error': isError }">
+          {{ resetMessage }}
+        </div>
+      </div>
+    </div>
   </div>
 </div>

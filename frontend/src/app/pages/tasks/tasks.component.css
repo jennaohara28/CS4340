@@ -1,0 +1,357 @@
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fef7e7;
+}
+
+h2.page-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #4a4a4a;
+  font-weight: bold;
+  position: relative;
+}
+
+h2.page-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #e67335, #d8642b);
+  margin: 8px auto 0 auto;
+  border-radius: 4px;
+}
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Page Title */
+.page-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-top: 20px;
+  color: #333;
+}
+
+/* Task Container */
+.task-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.task-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-details {
+  margin-top: 10px;
+  color: #666666;
+}
+
+.task-details p {
+  margin: 5px 0;
+}
+
+.no-tasks {
+  text-align: center;
+  color: #888;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* Priority Badge */
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+}
+
+.badge.low {
+  background-color: #28a745;
+}
+
+.badge.medium {
+  background-color: #ffc107;
+}
+
+.badge.high {
+  background-color: #dc3545;
+}
+
+/* Modal Buttons */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Button Styles */
+.btn {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #e67335;
+  color: white;
+  padding: 10px 20px;
+  margin: 20px 20px 0 20px;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.add-task-button-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Task List Styles */
+.task-list {
+  list-style-type: none;
+  padding: 5px 10px 5px 20px;
+}
+
+.task-list li {
+  background: #fff;
+  margin: 10px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.task-list li:hover {
+  background: #f1f1f1;
+}
+
+.task-list h3 {
+  margin: 5px;
+}
+
+.task-list p {
+  margin: 5px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  padding-top: 60px;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Style for required field */
+.required {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* Required Field Key */
+.required-key {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 15px;
+  text-align: right;
+}
+
+.required-key .required {
+  color: red;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* Priority Dropdown */
+.priority-dropdown {
+  text-align: left;
+  padding: 5px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.priority-dropdown option {
+  text-align: left;
+  font-size: 1rem;
+}
+
+/* Empty state styling */
+.empty-state {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.empty-state h3 {
+  font-size: 2rem;
+  color: #555;
+}
+
+.empty-state p {
+  font-size: 1.2rem;
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.empty-state .btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+}
+
+/* Empty container styling */
+.empty-container {
+  background-color: #fff4e0;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.empty-state h3 {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #777777;
+  margin-bottom: 25px;
+}
+
+.empty-state .btn {
+  font-size: 1.2rem;
+  padding: 12px 25px;
+  background-color: #e67335;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.empty-state .btn:hover {
+  background-color: #d8642b;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .empty-container {
+    margin: 20px;
+  }
+  .task-card {
+    width: 100%;
+  }
+}
