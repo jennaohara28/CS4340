@@ -1,5 +1,10 @@
 <h2 class="page-title">Tasks</h2>
 
+<!-- Add Task Button (only shown when tasks exist) -->
+<div *ngIf="tasks && tasks.length > 0" class="add-task-button-container">
+  <button class="btn btn-primary" (click)="openModal('add')">Add Task</button>
+</div>
+
 <!-- Task List -->
 <div *ngIf="tasks && tasks.length > 0; else noTasks" class="task-container">
   <div *ngFor="let task of tasks" class="task-card" (click)="selectTask(task.id)">
