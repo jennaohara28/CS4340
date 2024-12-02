@@ -19,7 +19,7 @@ ngx-charts-pie-chart {
   border: 1px solid #ddd;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  height: 60vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -37,6 +37,12 @@ ngx-charts-pie-chart {
   overflow: hidden; /* Hide scrollbars */
 }
 
+.pie-chart-container:hover {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
 h2 {
-  margin-top: 10%;
+  padding-top: 3%;
 }
