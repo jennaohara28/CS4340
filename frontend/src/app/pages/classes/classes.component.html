@@ -19,7 +19,7 @@
 
     <!-- Display Class Details -->
     <div *ngIf="!editMode">
-      <p><strong>Name:</strong> {{ selectedClass.name }}</p>
+      <p><strong class="name-for">Name:</strong> {{ selectedClass.name }}</p>
       <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
     </div>
 
@@ -56,7 +56,7 @@
     </button>
 
     <!-- Task List for Selected Class -->
-    <h3>Tasks for {{ selectedClass.name }}</h3>
+    <h3 class="tasks-for">Tasks for {{ selectedClass.name }}</h3>
     <ul class="task-list">
       <li *ngFor="let task of tasks" class="task-item">
         <h4>{{ task.name }}</h4>

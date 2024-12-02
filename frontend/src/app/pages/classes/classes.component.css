@@ -188,3 +188,27 @@ h3 {
   border-radius: 8px;
   background-color: #f9f9f9;
 }
+
+@media only screen and (max-width: 500px) {
+  .class-list, .task-list {
+    width: 95%;
+  }
+
+  .class-details-wrapper {
+    width: 85%;
+  }
+
+  h3 {
+    font-size: 30px;
+    padding: 10px;
+  }
+
+  .tasks-for {
+    margin-top: 40px;
+  }
+
+  .name-for {
+    margin-left: 10px;
+  }
+
+}

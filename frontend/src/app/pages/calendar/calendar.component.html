@@ -7,6 +7,9 @@
   <div class="weekdays">
     <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
   </div>
+  <div class="weekdays-shortened">
+    <div class="weekday-shortened" *ngFor="let day of weekDaysShortened">{{ day }}</div>
+  </div>
   <div class="days">
     <div *ngFor="let empty of emptyDays" class="day previous-month">{{ empty }}</div>
     <div *ngFor="let day of daysInMonth" class="day">

@@ -22,6 +22,7 @@ export class CalendarComponent implements OnInit {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
   weekDays: string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  weekDaysShortened: string[] = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   tasks: { [key: string]: Task[] } = {};
 
   constructor(private tasksService: TasksService, private router: Router) {}
