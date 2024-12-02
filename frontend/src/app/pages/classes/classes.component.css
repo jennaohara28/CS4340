@@ -234,7 +234,7 @@ h3 {
     margin-left: 10px;
   }
 
-  .task-item {
+  .class-item, .task-item {
     width: 100%;
   }
 
