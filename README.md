@@ -10,6 +10,13 @@ To find out more about the application and its features, or begin using it, visi
 
 To get started with self-hosting application, please follow the installation instructions below.
 
+[Go to Installation Instructions](#installation-instructions)
+
+<p align="center">
+  <img src="frontend/src/assets/images/logo.png" alt="Project Logo" />
+</p>
+
+
 ## Installation Instructions
 
 ### Prerequisites
