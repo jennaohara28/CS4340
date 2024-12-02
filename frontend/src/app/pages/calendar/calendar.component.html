@@ -14,7 +14,7 @@
     <div *ngFor="let empty of emptyDays" class="day previous-month">{{ empty }}</div>
     <div *ngFor="let day of daysInMonth" class="day">
       <div>{{ day }}</div>
-      <div *ngFor="let task of tasks[getDateString(day)]" class="task" (click)="openTaskPage(task.id)">
+      <div *ngFor="let task of tasks[getDateString(day)]" class="task" [style.backgroundColor]="getClassColor(task.classId)" (click)="openTaskPage(task.id)">
         {{ task.name }}
       </div>
     </div>

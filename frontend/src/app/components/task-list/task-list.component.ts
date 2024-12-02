@@ -26,6 +26,7 @@ export class TaskListComponent implements OnInit {
   public selectedTask: Task | null = null;
   public editMode: boolean = false;
   public classes: Class[] = [];
+  public color: String = "";
 
   @ViewChild('taskDialog') taskDialog!: ElementRef<HTMLDialogElement>;
 
