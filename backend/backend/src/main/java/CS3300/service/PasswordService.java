@@ -12,7 +12,6 @@ public class PasswordService {
 
     public String hashPassword(String plainPassword) {
         String hashedPassword = passwordEncoder.encode(plainPassword);
-        System.out.println("Hashed Password: " + hashedPassword);
         return hashedPassword;
     }
 

@@ -38,7 +38,6 @@ public class NotificationSettingsService {
         try {
             repository.save(settings);
         } catch (Exception e) {
-            System.out.println("Error saving settings for userId: " + settings.getUserId());
             e.printStackTrace();
             throw new RuntimeException("Failed to save settings due to an internal error.");
         }
@@ -49,7 +48,6 @@ public class NotificationSettingsService {
     @Scheduled(fixedRate = 60000)
     public void sendScheduledNotifications() {
         List<NotificationSettings> allSettings = repository.findAll();
-        System.out.println("Scheduler executed at: " + LocalTime.now());
 
         for (NotificationSettings settings : allSettings) {
             if (settings.isEnabled()) {
@@ -66,10 +64,7 @@ public class NotificationSettingsService {
                         ).truncatedTo(ChronoUnit.MINUTES);
 
                         if (now.equals(notificationTime)) {
-                            System.out.println("Matched time! Sending email to: " + userEmail);
                             sendNotificationEmail(userEmail);
-                        } else {
-                            System.out.println("Time did not match. Current: " + now + ", Notification: " + notificationTime);
                         }
                     } catch (Exception e) {
                         System.err.println("Error processing notification for user " + userEmail + ": " + e.getMessage());
@@ -86,6 +81,5 @@ public class NotificationSettingsService {
         String messageBody = String.format("Hello \"%s\",\n\nThis is a reminder that you have a task due soon! " +
                 "Ensure you complete it on time.\n\nBest regards,\nTaskTrackr Notifications", userEmail);
         emailService.sendEmail(userEmail, subject, messageBody);
-        System.out.println("Notification email sent to: " + userEmail);
     }
 }

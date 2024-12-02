@@ -103,7 +103,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.email && this.password) {
       this.authService.login(this.email, this.password, this.rememberMe).subscribe({
         next: (response) => {
-          console.log('Login successful.', response);
           if (this.rememberMe) {
             localStorage.setItem('email', this.email);
             localStorage.setItem('rememberMe', 'true');

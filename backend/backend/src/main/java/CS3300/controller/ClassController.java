@@ -23,7 +23,6 @@ public class ClassController {
 
     @GetMapping("/owner")
     public List<Class> getClassesByOwner(@RequestHeader("userId") String userId) {
-        System.out.println("Received userId: " + userId);
         if (userId == null || userId.isEmpty()) {
             System.err.println("Unauthorized access: userId is missing or empty.");
             throw new RuntimeException("Unauthorized access: User not logged in");
@@ -33,7 +32,6 @@ public class ClassController {
 
     @PostMapping
     public Class createClass(@RequestBody Class classEntity, @RequestHeader("userId") String userId) {
-        System.out.println("Creating class for userId: " + userId);
         if (userId == null || userId.isEmpty()) {
             throw new RuntimeException("Unauthorized access: User not logged in");
         }

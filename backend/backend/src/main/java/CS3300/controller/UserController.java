@@ -46,7 +46,6 @@ public class UserController {
 
                 return ResponseEntity.ok("{\"message\": \"Account deleted successfully.\"}");
             } else {
-                System.out.println("User not found with userId: " + userId);
                 return ResponseEntity.status(404).body("{\"message\": \"Account not found.\"}");
             }
         } catch (Exception e) {

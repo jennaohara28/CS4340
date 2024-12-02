@@ -62,11 +62,9 @@ export class NavbarComponent implements OnInit {
   deleteAccount(): void {
     if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       const userId = AuthService.getUserId();
-      console.log('Attempting to delete account for userId:', userId);
       if (userId) {
         this.authService.deleteAccount(userId).subscribe({
           next: (response) => {
-            console.log('Server response:', response);
             alert(response.message || 'Account deleted successfully.');
             this.authService.logout();
             this.router.navigate(['/register']);

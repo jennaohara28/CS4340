@@ -48,7 +48,6 @@ export class ResetPasswordComponent {
 
     this.authService.resetPassword(this.token, this.newPassword).subscribe({
       next: (response) => {
-        console.log('Exact response from resetPassword API:', response);
 
         if (response === 'Password reset successful.') {
           this.resetMessage = 'Password reset successful. Redirecting...';

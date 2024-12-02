@@ -57,7 +57,6 @@ export class TasksComponent implements OnInit {
 
         this.route.queryParams.subscribe(params => {
           const taskId = Number(params['selectedTask']);
-          console.log(taskId);
           this.selectedTask = this.tasks.find(task => task.id === taskId) || null;
         })
 
@@ -97,7 +96,6 @@ export class TasksComponent implements OnInit {
 
   addTask(): void {
     if (this.newTaskName.trim() && this.newTaskDueDate && this.newTaskClassId) {
-      console.log(AuthService.getUserId())
       const newTask: Task = {
         id: 0,
         name: this.newTaskName,

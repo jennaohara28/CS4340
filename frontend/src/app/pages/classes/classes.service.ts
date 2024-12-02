@@ -13,7 +13,6 @@ export class ClassesService {
 
   private getHeaders(): HttpHeaders {
     const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
-    console.log('Sending userId in headers:', userId);
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'userId': userId || ''

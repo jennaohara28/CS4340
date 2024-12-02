@@ -20,7 +20,6 @@ public class EmailService {
 
         try {
             mailSender.send(message);
-            System.out.println("Email sent successfully to " + to);
         } catch (Exception e) {
             System.err.println("Failed to send email: " + e.getMessage());
         }

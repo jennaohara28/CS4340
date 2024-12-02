@@ -19,7 +19,6 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/login`, { email, password }).pipe(
       tap((response: any) => {
         const userId = response.userId;
-        console.log('Retrieved userId:', userId);
         if (rememberMe) {
           localStorage.setItem('userId', userId);
           localStorage.setItem('email', email);
@@ -29,7 +28,6 @@ export class AuthService {
         }
       }),
       catchError(error => {
-        console.error('Login failed:', error);
         return throwError(error);
       })
     );
@@ -63,13 +61,11 @@ export class AuthService {
 
   static getUserId(): string | null {
     const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
-    console.log('AuthService.getUserId:', userId);
     return userId;
   }
 
   getUserEmail(): string | null {
     const email = localStorage.getItem('email') || sessionStorage.getItem('email');
-    console.log('Retrieved email:', email);
     return email;
   }
 
@@ -78,14 +74,12 @@ export class AuthService {
     const body = { name, email, password };
     return this.http.post(`${this.baseUrl}/register`, body).pipe(
       tap((response: any) => {
-        console.log('Registration successful:', response);
         const userId = response.userId;
         if (userId) {
           localStorage.setItem('userId', userId);
         }
       }),
       catchError(error => {
-        console.error('Registration failed:', error);
         return throwError(error);
       })
     );
@@ -109,7 +103,6 @@ export class AuthService {
     const body = { token, newPassword };
     return this.http.post(url, body, { responseType: 'text' }).pipe(
       tap(response => {
-        console.log('Reset Password Response:', response);
       }),
       catchError(error => {
         console.error('Reset Password Error:', error);

@@ -22,7 +22,6 @@ public class NotificationSettingsController {
     @PostMapping
     public ResponseEntity<String> saveSettings(@RequestBody NotificationSettings settings) {
         try {
-            System.out.println("Received payload: " + settings);
             service.saveSettings(settings);
             return ResponseEntity.ok("Settings saved successfully!");
         } catch (Exception e) {
