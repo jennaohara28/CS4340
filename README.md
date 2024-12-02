@@ -1,5 +1,14 @@
 # CS3300 Student Planner Application
 
+## About
+
+Welcome to our project! This application is designed to [briefly describe the purpose of the application and its main features]. Our team consists of passionate developers who aim to [describe the mission or goal of the project]. Whether you're looking to improve your [target audience or field of use] or just exploring new technologies, this app offers an easy-to-use solution with powerful functionality.
+
+To get started with using the application, please follow the installation instructions below.
+
+[Go to Installation Instructions](#installation-instructions)
+
+
 ## Installation Instructions
 
 ### Prerequisites
