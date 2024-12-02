@@ -101,8 +101,8 @@ export class ClassesComponent implements OnInit {
     }
   }
 
-  enableEditMode(): void {
-    this.editMode = true;
+  enableEditMode(isEditMode: boolean = true): void {
+    this.editMode = isEditMode;
   }
 
   updateClass(): void {
