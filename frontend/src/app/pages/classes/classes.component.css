@@ -230,6 +230,70 @@ h2.page-title::after {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.empty-container {
+  background-color: #fff4e0;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Empty State */
+.empty-state h3 {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 15px;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #777777;
+  margin-bottom: 25px;
+}
+
+.empty-state .btn {
+  font-size: 1.2rem;
+  padding: 12px 25px;
+  background-color: #e67335;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.empty-state .btn:hover {
+  background-color: #d8642b;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply the animation to the empty container */
+.empty-container {
+  background-color: #fff4e0;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 500px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
 /* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .class-card {
