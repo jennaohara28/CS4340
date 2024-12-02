@@ -29,6 +29,7 @@
         <div class="input-wrapper">
           <input type="password" id="confirm-password" [(ngModel)]="confirmPassword" name="confirm-password" placeholder="Confirm Password" #confirmPasswordInput="ngModel" required>
           <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error">Please confirm your password.</div>
+          <div *ngIf="password !== confirmPassword && confirmPasswordInput.touched" class="error">Passwords do not match.</div>
         </div>
 
         <input type="submit" value="Register" [disabled]="emailInput.invalid || passwordInput.invalid || confirmPasswordInput.invalid || isLoading">
@@ -37,6 +38,7 @@
       <div class="message-container">
         <div *ngIf="isLoading" class="loading-bar"></div>
         <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       </div>
 
       <p class="already-account">
