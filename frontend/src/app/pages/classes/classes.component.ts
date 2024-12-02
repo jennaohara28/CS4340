@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import { Class } from './class.model';
 import { ClassesService } from './classes.service';
 import { TasksService } from '../tasks/tasks.service';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import {DatePipe, NgForOf, NgIf, NgStyle} from '@angular/common';
 import { Task } from '../tasks/task.model';
 import { FormsModule } from "@angular/forms";
 import { AuthService } from "../../components/auth.service";
+import {color} from "chart.js/helpers";
 
 @Component({
   selector: 'app-classes',
@@ -14,7 +15,8 @@ import { AuthService } from "../../components/auth.service";
     DatePipe,
     NgForOf,
     NgIf,
-    FormsModule
+    FormsModule,
+    NgStyle
   ],
   styleUrls: ['./classes.component.css'],
   standalone: true,
@@ -133,4 +135,6 @@ export class ClassesComponent implements OnInit {
       }
     );
   }
+
+  protected readonly color = color;
 }

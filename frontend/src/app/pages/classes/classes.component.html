@@ -13,20 +13,13 @@
   </ul>
 
   <!-- Selected Class Details -->
-  <div *ngIf="selectedClass" class="class-details-wrapper">
+  <div *ngIf="selectedClass" class="class-details-wrapper" [style.backgroundColor]="selectedClass.color || '#fff'">
     <div class="class-details">
     <h3>Details for {{ selectedClass.name }}</h3>
 
     <!-- Display Class Details -->
     <div *ngIf="!editMode">
       <p><strong>Name:</strong> {{ selectedClass.name }}</p>
-      <p>
-        <strong>Color:</strong>
-        <span
-          [style.backgroundColor]="selectedClass.color || '#ffffff'"
-          class="color-preview"
-        ></span>
-      </p>
       <button class="btn btn-warning" (click)="enableEditMode()">Edit</button>
     </div>
 
