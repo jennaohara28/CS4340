@@ -2,11 +2,11 @@
 
 ## About
 
-Welcome to our project! This application is designed to [briefly describe the purpose of the application and its main features]. Our team consists of passionate developers who aim to [describe the mission or goal of the project]. Whether you're looking to improve your [target audience or field of use] or just exploring new technologies, this app offers an easy-to-use solution with powerful functionality.
+Welcome to our project! This application is designed to help students track their assignments across classes, making it easier to stay organized and on top of deadlines. With features that allow students to set due dates, assign complexity levels, and prioritize tasks, the app ensures that nothing falls through the cracks. It organizes assignments by class and displays them visually with helpful charts, giving students a clear overview of their workload. 
+
+Our team of passionate developers created this app with the goal of helping students break free from procrastination and take control of their academic responsibilities. Whether you're juggling multiple deadlines or trying to improve your study habits, this app offers an easy-to-use solution to stay on track and be productive.
 
 To get started with using the application, please follow the installation instructions below.
-
-[Go to Installation Instructions](#installation-instructions)
 
 
 ## Installation Instructions
