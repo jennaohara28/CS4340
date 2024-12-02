@@ -3,6 +3,9 @@
   <div class="week-days">
     <div class="week-day" *ngFor="let day of weekDays">{{ day }}</div>
   </div>
+  <div class="week-days-shortened">
+    <div class="week-day-shortened" *ngFor="let day of weekDaysShortened">{{ day }}</div>
+  </div>
   <div class="week-dates">
     <div class="week-date" *ngFor="let date of currentWeek">
       <div class="date">{{ date | date: 'MMM d' }}</div>

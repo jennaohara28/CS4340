@@ -21,6 +21,7 @@ export class WeekCalendarComponent implements OnInit {
   public currentWeek: Date[] = [];
   public tasks: { [key: string]: Task[] } = {};
   public weekDays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  public weekDaysShortened: string[] = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
   public classes: Class[] = [];
 
   constructor(private tasksService: TasksService, private classesService: ClassesService, private router: Router) {}

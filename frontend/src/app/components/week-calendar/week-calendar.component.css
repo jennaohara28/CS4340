@@ -50,17 +50,14 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
   border-top-style: none;
+  min-height: 200px;
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .week-day {
   font-weight: bolder;
   font-size: 1.2em;
   color: #333;
-}
-
-.week-date {
-  min-height: 200px;
-  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .date {
@@ -91,4 +88,64 @@ h2 {
   color: #333;
   font-weight: bolder;
   font-size: 2em;
+}
+
+.week-days-shortened {
+  display: none;
+}
+
+.week-day-shortened {
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+
+  .week-calendar {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff7e6;
+    margin: 10px;
+    transition: 0.5s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 95%;
+  }
+
+  .week-days {
+    display: none;
+  }
+
+  .week-day {
+    display: none;
+  }
+
+  .week-days-shortened {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+  }
+
+  .week-day-shortened {
+    display: grid;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #ffa742;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+    overflow-y: auto;
+  }
+
+  .week-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+  }
+
+  .week-date {
+    overflow-y: auto;
+  }
+
 }

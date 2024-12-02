@@ -38,3 +38,13 @@
 .logout-button:hover {
   background-color: #e67335;
 }
+
+@media only screen and (max-width: 500px) {
+  .pie-chart {
+    display: none;
+  }
+
+  .assignments-list {
+    width: 100%;
+  }
+}
