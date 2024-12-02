@@ -313,9 +313,34 @@ h2.page-title::after {
 /* Responsive Design */
 @media (max-width: 768px) {
   .task-card {
+    width: 90%;
+  }
+
+  .task-container {
+    gap: 10px;
+  }
+
+  .btn-add-task {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .task-card {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .btn-add-task {
     width: 100%;
   }
-  .empty-container {
-    margin: 20px;
+
+  h2.page-title {
+    font-size: 2rem;
+  }
+
+  .task-details {
+    font-size: 0.9rem;
   }
 }
