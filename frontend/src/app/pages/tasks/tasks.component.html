@@ -2,22 +2,26 @@
 
 <!-- Add Task Button (only shown when tasks exist) -->
 <div *ngIf="tasks && tasks.length > 0" class="add-task-button-container">
-  <button class="btn btn-primary" (click)="openModal('add')">Add Task</button>
+  <button class="btn btn-add-task" (click)="openModal('add')">+ Add Task</button>
 </div>
 
 <!-- Task List -->
 <div *ngIf="tasks && tasks.length > 0; else noTasks" class="task-container">
-  <ul class="task-list">
-    <li *ngFor="let task of tasks" (click)="selectTask(task.id)" [ngStyle]="{ 'background-color': task.classColor || '#ffffff' }">
-      <h3>{{ task.name }}</h3>
-      <p *ngIf="selectedTask?.id === task.id">Due Date: {{ task.dueDate }}</p>
-      <p *ngIf="selectedTask?.id === task.id">Type: {{ task.type }}</p>
-      <p *ngIf="selectedTask?.id === task.id">Time Allocation: {{ task.timeAll }} hrs</p>
-      <p *ngIf="selectedTask?.id === task.id">Status: {{ task.status }}</p>
-      <p *ngIf="selectedTask?.id === task.id">Priority: {{ task.priority }}</p>
-      <p *ngIf="selectedTask?.id === task.id">Class: {{ getClassById(task.classId)?.name }}</p>
-    </li>
-  </ul>
+  <div *ngFor="let task of tasks" class="task-card">
+    <h3 class="task-title">{{ task.name }}</h3>
+    <div class="task-details">
+      <p>Due Date: {{ task.dueDate }}</p>
+      <p>Type: {{ task.type }}</p>
+      <p>Time Allocation: {{ task.timeAll }} hrs</p>
+      <p>Status: {{ task.status }}</p>
+      <p>Priority: {{ task.priority }}</p>
+      <p>Class: {{ getClassById(task.classId)?.name }}</p>
+    </div>
+    <div class="task-actions">
+      <button class="btn btn-warning" (click)="selectTask(task.id); openModal('edit')">Edit Task</button>
+      <button class="btn btn-danger" (click)="deleteTask(task.id)">Delete Task</button>
+    </div>
+  </div>
 </div>
 
 <!-- No Tasks Empty State -->
@@ -26,7 +30,7 @@
     <div class="empty-state">
       <h3>No Tasks Available</h3>
       <p>It seems like you don't have any tasks yet. Click below to create your first task and get started.</p>
-      <button class="btn btn-primary" (click)="openModal('add')">Add Task</button>
+      <button class="btn btn-add-task" (click)="openModal('add')">+ Add Task</button>
     </div>
   </div>
 </ng-template>
@@ -63,17 +67,15 @@
     <div class="form-group">
       <label for="taskPriority">Priority</label>
       <select id="taskPriority" [(ngModel)]="newTaskPriority" class="form-control priority-dropdown">
-        <option [value]="'!'">!</option>
-        <option [value]="'!!'">!!</option>
-        <option [value]="'!!!'">!!!</option>
+        <option value="!">!</option>
+        <option value="!!">!!</option>
+        <option value="!!!">!!!</option>
       </select>
     </div>
     <div class="form-group">
       <label for="taskClass">Class <span class="required">*</span></label>
       <select id="taskClass" [(ngModel)]="newTaskClassId" class="form-control">
-        <option *ngIf="classes.length > 0" disabled>Select a Class</option>
         <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
-        <option *ngIf="classes.length === 0" disabled>Must create a class first</option>
       </select>
     </div>
     <div class="modal-buttons">
@@ -82,9 +84,5 @@
       </button>
       <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
     </div>
-    <!-- Required Key Section -->
-    <p class="required-key">
-      <span class="required">*</span> Required fields
-    </p>
   </div>
 </div>
