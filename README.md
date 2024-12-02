@@ -6,8 +6,9 @@ Welcome to our project! This application is designed to help students track thei
 
 Our team of passionate developers created this app with the goal of helping students break free from procrastination and take control of their academic responsibilities. Whether you're juggling multiple deadlines or trying to improve your study habits, this app offers an easy-to-use solution to stay on track and be productive.
 
-To get started with using the application, please follow the installation instructions below.
+To find out more about the application and its features, or begin using it, visit [here](https://jimby3.github.io/CS3300/about).
 
+To get started with self-hosting application, please follow the installation instructions below.
 
 ## Installation Instructions
 
