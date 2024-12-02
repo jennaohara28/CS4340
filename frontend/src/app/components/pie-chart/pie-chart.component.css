@@ -36,3 +36,7 @@ ngx-charts-pie-chart {
   height: 100%;
   overflow: hidden; /* Hide scrollbars */
 }
+
+h2 {
+  margin-top: 2em;
+}
