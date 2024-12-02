@@ -75,7 +75,9 @@
     <div class="form-group">
       <label for="taskClass">Class <span class="required">*</span></label>
       <select id="taskClass" [(ngModel)]="newTaskClassId" class="form-control">
+        <option *ngIf="classes.length > 0" disabled>Select a Class</option>
         <option *ngFor="let class of classes" [value]="class.id">{{ class.name }}</option>
+        <option *ngIf="classes.length === 0" disabled>Must create a class first</option>
       </select>
     </div>
     <div class="modal-buttons">

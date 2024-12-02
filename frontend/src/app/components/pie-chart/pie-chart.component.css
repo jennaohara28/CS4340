@@ -9,11 +9,11 @@ ngx-charts-pie-chart {
   display: block;
   margin: 0 auto;
   align-items: center;
+  margin-bottom: 5%;
   width: 80%;
-  height: 80%;
+  height:90%;
   overflow: hidden; /* Hide scrollbars */
 }
-
 .pie-chart-container {
   background-color: #fff7e6;
   border: 1px solid #ddd;
@@ -37,6 +37,12 @@ ngx-charts-pie-chart {
   overflow: hidden; /* Hide scrollbars */
 }
 
+.pie-chart-container:hover {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
 h2 {
-  margin-top: 2em;
+  padding-top: 3%;
 }
