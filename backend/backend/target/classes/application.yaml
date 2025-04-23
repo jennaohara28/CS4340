@@ -27,7 +27,10 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/, file:./src/main/resources/static/
-
+server:
+  port: 8080
+  ssl:
+    enabled: false
 frontend:
   url: http://localhost:4200
 
