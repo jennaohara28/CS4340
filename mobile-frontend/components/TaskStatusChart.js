@@ -9,10 +9,12 @@ export function TaskStatusChart() {
     const [data, setData] = useState([]);
     const [chartType, setChartType] = useState('pie');
 
-    // dynamically size the chart based on orientation
     const { width: windowWidth } = useWindowDimensions();
     const isLandscape = windowWidth > 600;
-    const chartWidth = isLandscape ? windowWidth / 2 - 40 : windowWidth - 40;
+
+    // Set a max width so it doesn't stretch too far
+    const maxChartWidth = 400;
+    const chartWidth = Math.min(isLandscape ? windowWidth / 2 - 40 : windowWidth - 40, maxChartWidth);
 
     useEffect(() => {
         api.get(`/api/tasks/owner/${userId}`)
@@ -28,7 +30,7 @@ export function TaskStatusChart() {
                     .map(([name, value], i) => ({
                         name,
                         value,
-                        color: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00'][i],
+                        color: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00'][i % 4],
                         legendFontColor: '#333',
                         legendFontSize: 14
                     }));
@@ -48,6 +50,31 @@ export function TaskStatusChart() {
 
     return (
         <View style={styles.chartContainer}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', marginBottom: 10 }}>Task Status</Text>
+                        <View style={styles.chartArea}>
+                {chartType === 'pie' ? (
+                    <PieChart
+                        data={data}
+                        width={chartWidth}
+                        height={220}
+                        chartConfig={config}
+                        accessor="value"
+                        backgroundColor="transparent"
+                        paddingLeft="15"
+                        absolute
+                    />
+                ) : (
+                    <BarChart
+                        data={{ labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value) }] }}
+                        width={chartWidth}
+                        height={220}
+                        chartConfig={config}
+                        fromZero
+                        showValuesOnTopOfBars
+                        withInnerLines={false}
+                    />
+                )}
+            </View>
             <View style={styles.switchRow}>
                 {['pie', 'bar'].map(type => (
                     <TouchableOpacity
@@ -59,35 +86,40 @@ export function TaskStatusChart() {
                     </TouchableOpacity>
                 ))}
             </View>
-            {chartType === 'pie' ? (
-                <PieChart
-                    data={data}
-                    width={chartWidth}
-                    height={220}
-                    chartConfig={config}
-                    accessor="value"
-                    backgroundColor="transparent"
-                    paddingLeft="15"
-                    absolute
-                />
-            ) : (
-                <BarChart
-                    data={{ labels: data.map(d => d.name), datasets: [{ data: data.map(d => d.value) }] }}
-                    width={chartWidth}
-                    height={220}
-                    chartConfig={config}
-                    fromZero
-                    showValuesOnTopOfBars
-                />
-            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    chartContainer: { margin: 20, backgroundColor: '#fff7e6', borderRadius: 8, padding: 10 },
-    switchRow: { flexDirection: 'row', justifyContent: 'center', marginBottom: 10 },
-    switchButton: { paddingHorizontal: 12, paddingVertical: 6, marginHorizontal: 5, borderRadius: 4, backgroundColor: '#eee' },
-    activeSwitch: { backgroundColor: '#ffa742' },
-    switchText: { fontWeight: 'bold' }
+    chartContainer: {
+        backgroundColor: '#fff7e6',
+        borderRadius: 12,
+        paddingVertical: 20,
+        paddingHorizontal: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    switchRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 20,
+        gap: 12
+    },
+    switchButton: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        backgroundColor: '#eee',
+        borderRadius: 8,
+    },
+    activeSwitch: {
+        backgroundColor: '#ffa742',
+    },
+    switchText: {
+        fontWeight: 'bold',
+        fontSize: 16
+    },
+    chartArea: {
+        width: '100%',
+        alignItems: 'center',
+    }
 });

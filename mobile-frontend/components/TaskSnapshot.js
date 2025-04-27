@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     dayLabel:{ fontWeight:'bold' },
     dateLabel:{ marginBottom:5 },
     taskBadge:{ padding:4, borderRadius:4, marginBottom:4, width:'100%' },
-    snapshotContainer:{ margin:20, backgroundColor:'#fff7e6', borderRadius:8, padding:10, maxHeight:300 },
+    snapshotContainer:{ marginTop: 10, backgroundColor:'#fff7e6', borderRadius:8, padding:10, maxHeight:300 },
     snapshotTitle:{ fontSize:18, fontWeight:'bold', textAlign:'center', marginBottom:10 },
     snapshotItem:{ padding:10, marginBottom:5, borderRadius:4 }
 });

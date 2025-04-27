@@ -32,6 +32,5 @@ const styles = StyleSheet.create({
     container: { flex: 1, padding: 10 },
     row: { flexDirection: 'column' },
     landscapeRow: { flexDirection: 'row' },
-    panel: { margin: 5 },
     flexPanel: { flex: 1 }
 });
