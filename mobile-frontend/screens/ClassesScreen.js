@@ -13,6 +13,8 @@ export default function ClassesScreen() {
     const [newName, setNewName] = useState('');
     const [newColor, setNewColor] = useState('#ffffff');
     const [editMode, setEditMode] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [classPendingDelete, setClassPendingDelete] = useState(null);
 
     useEffect(() => {
         if (userId) {
@@ -61,18 +63,21 @@ export default function ClassesScreen() {
     };
 
     const deleteClass = () => {
-        api.delete(`/api/classes/${selectedClass.id}`, { headers: { userId } })
+        api.delete(`/api/classes/${classPendingDelete.id}`, { headers: { userId } })
             .then(() => {
-                setClasses(prev => prev.filter(c => c.id !== selectedClass.id));
+                setClasses(prev => prev.filter(c => c.id !== classPendingDelete.id));
                 setSelectedClass(null);
                 setTasks([]);
+                setClassPendingDelete(null);
             })
             .catch(err => console.error('Error deleting class:', err));
     };
 
     return (
         <View style={styles.container}>
-            <Button title="+ Add Class" onPress={() => setShowAddForm(true)} />
+            <TouchableOpacity style={styles.button} onPress={() => setShowAddForm(true)}>
+                <Text style={styles.buttonText}>+ Add Class</Text>
+            </TouchableOpacity>
             <FlatList
                 data={classes}
                 keyExtractor={item => item.id.toString()}
@@ -107,25 +112,41 @@ export default function ClassesScreen() {
                         onColorChangeComplete={setNewColor}
                         style={{ padding: 10, marginBottom: 20 }}
                     />
-                    <Button title="Save" onPress={addClass} />
-                    <Button title="Cancel" onPress={() => setShowAddForm(false)} />
+
+                    <View style={styles.bottomButtons}>
+                        <TouchableOpacity style={styles.button} onPress={addClass}>
+                            <Text style={styles.buttonText}>Save</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setShowAddForm(false)}>
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Modal>
 
             {/*options when selecting a class from list of classes*/}
             <Modal visible={selectedClass !== null} animationType="slide">
-                <View style={styles.modal}>
+                <View style={[styles.modal, selectedClass ? {backgroundColor: selectedClass.color || '#ffffff'} : null]}>
                     <RNText style={styles.modalTitle}>{selectedClass?.name}</RNText>
                     {!editMode ? (
                         <>
                             {tasks.map(task => (
                                 <RNText key={task.id}>{task.name} - {task.status}</RNText>
                             ))}
-                            <Button title="Edit Class" onPress={() => setEditMode(true)} />
-                            <Button title="Delete Class" color="red" onPress={deleteClass} />
-                            <Button title="Close" onPress={() => setSelectedClass(null)} />
+
+                            <View style={styles.bottomButtons}>
+                                <TouchableOpacity style={styles.button} onPress={() => setEditMode(true)}>
+                                    <Text style={styles.buttonText}>Edit Class</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setSelectedClass(null)}>
+                                    <Text style={styles.buttonText}>Close</Text>
+                                </TouchableOpacity>
+                            </View>
                         </>
                     ) : (
+                        // Now in edit class mode
                         <>
                             <TextInput
                                 value={selectedClass?.name}
@@ -133,14 +154,59 @@ export default function ClassesScreen() {
                                 style={styles.input}
                             />
                             <ColorPicker
-                                initialColor={selectedClass?.color}
+                                color={selectedClass?.color || '#ffffff'}
                                 onColorChangeComplete={color => setSelectedClass(prev => ({ ...prev, color }))}
                                 style={{ flex: 1, marginBottom: 20 }}
                             />
-                            <Button title="Save" onPress={updateClass} />
-                            <Button title="Cancel" onPress={() => setEditMode(false)} />
+                            <View style={{ alignItems: 'center' }}>
+                                <TouchableOpacity style={styles.button} onPress={updateClass}>
+                                    <Text style={styles.buttonText}>Save</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.bottomButtons}>
+                                <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => {
+                                    setClassPendingDelete(selectedClass);
+                                    setShowDeleteConfirm(true);
+                                    setEditMode(false);
+                                    setSelectedClass(null);
+                                }}>
+                                    <Text style={styles.buttonText}>Delete Class</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => {
+                                    //clears current modals so delete confirmation page can pop up
+                                    setEditMode(false);
+                                    setSelectedClass(null);
+                                }}>
+                                    <Text style={styles.buttonText}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
+
                         </>
                     )}
+                </View>
+            </Modal>
+            <Modal visible={showDeleteConfirm} animationType="fade" transparent={true}>
+                <View style={styles.confirmModalBackground}>
+                    <View style={styles.confirmModal}>
+                        <RNText style={styles.modalTitle}>Confirm Deletion</RNText>
+                        <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 20 }}>
+                            Are you sure you want to delete this class? {"\n"}
+                            {"\n"}
+                            {classPendingDelete?.name}
+                        </Text>
+
+                        <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => {
+                            deleteClass();
+                            setShowDeleteConfirm(false);
+                            setClassPendingDelete(null);
+                        }}>
+                            <Text style={styles.buttonText}>Yes, Delete</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setShowDeleteConfirm(false)}>
+                            <Text style={styles.buttonText}>Cancel</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </Modal>
         </View>
@@ -148,6 +214,48 @@ export default function ClassesScreen() {
 }
 
 const styles = StyleSheet.create({
+    button: {
+        backgroundColor: '#007bff',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 6,
+        width: 140,
+        height: 50,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    deleteButton: {
+        backgroundColor: 'red',
+    },
+    cancelButton: {
+        backgroundColor: 'gray',
+    },
+    bottomButtons: {
+        marginTop: 'auto',
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingBottom: 20,
+    },
+    confirmModalBackground: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    confirmModal: {
+        backgroundColor: 'white',
+        padding: 30,
+        borderRadius: 10,
+        width: '80%',
+        alignItems: 'center',
+    },
     container: {
         flex: 1,
         padding: 16
