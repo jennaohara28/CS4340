@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import api from '../api/client';
 import { UserContext } from '../context/UserContext';
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function CreateTaskScreen({ navigation }) {
   const { userId } = useContext(UserContext);
@@ -31,14 +32,15 @@ export default function CreateTaskScreen({ navigation }) {
   const [showStatusPicker, setShowStatusPicker] = useState(false);
   const [showPriorityPicker, setShowPriorityPicker] = useState(false);
 
-  useEffect(() => {
-    if (userId) {
-      api
-          .get('/api/classes/owner', { headers: { userId } })
-          .then((res) => setClasses(res.data))
-          .catch((err) => console.error('Error fetching classes:', err));
-    }
-  }, [userId]);
+  useFocusEffect(
+      useCallback(() => {
+        if (!userId) return;
+        api
+            .get('/api/classes/owner', { headers: { userId } })
+            .then(res => setClasses(res.data))
+            .catch(err => console.error('Error fetching classes:', err));
+      }, [userId])
+  );
 
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
