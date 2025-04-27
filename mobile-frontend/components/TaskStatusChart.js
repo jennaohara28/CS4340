@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, useWindowDimensions } from 'r
 import { PieChart, BarChart } from 'react-native-chart-kit';
 import { UserContext } from '../context/UserContext';
 import api from '../api/client';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export function TaskStatusChart() {
     const { userId } = useContext(UserContext);
@@ -16,28 +18,31 @@ export function TaskStatusChart() {
     const maxChartWidth = 400;
     const chartWidth = Math.min(isLandscape ? windowWidth / 2 - 40 : windowWidth - 40, maxChartWidth);
 
-    useEffect(() => {
-        api.get(`/api/tasks/owner/${userId}`)
-            .then(res => {
-                const tasks = res.data;
-                const counts = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0, 'No Status': 0 };
-                tasks.forEach(t => {
-                    if (!t.status) counts['No Status']++;
-                    else counts[t.status] = (counts[t.status] || 0) + 1;
-                });
-                const chartData = Object.entries(counts)
-                    .filter(([, v]) => v > 0)
-                    .map(([name, value], i) => ({
-                        name,
-                        value,
-                        color: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00'][i % 4],
-                        legendFontColor: '#333',
-                        legendFontSize: 14
-                    }));
-                setData(chartData);
-            })
-            .catch(err => console.error(err));
-    }, [userId]);
+    useFocusEffect(
+        useCallback(() => {
+            api.get(`/api/tasks/owner/${userId}`)
+                .then(res => {
+                    const tasks = res.data;
+                    const counts = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0, 'No Status': 0 };
+                    tasks.forEach(t => {
+                        if (!t.status) counts['No Status']++;
+                        else counts[t.status] = (counts[t.status] || 0) + 1;
+                    });
+                    const chartData = Object.entries(counts)
+                        .filter(([, v]) => v > 0)
+                        .map(([name, value], i) => ({
+                            name,
+                            value,
+                            color: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00'][i % 4],
+                            legendFontColor: '#333',
+                            legendFontSize: 14
+                        }));
+                    setData(chartData);
+                })
+                .catch(err => console.error(err));
+        }, [userId])
+    );
+
 
     const config = {
         backgroundColor: '#fff',

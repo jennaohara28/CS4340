@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import {
     View,
     Text,
@@ -13,6 +13,9 @@ import {
 } from 'react-native';
 import api from '../api/client';
 import { UserContext } from '../context/UserContext';
+import { format } from 'date-fns';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function TaskListScreen({ navigation }) {
     const { userId } = useContext(UserContext);
@@ -23,16 +26,25 @@ export default function TaskListScreen({ navigation }) {
     const [editMode, setEditMode] = useState(false);
     const [edits, setEdits] = useState({});
 
-    useEffect(() => {
-        if (userId) {
-            api.get('/api/classes/owner', { headers: { userId } })
-                .then(res => setClasses(res.data))
-                .catch(err => console.error('Error fetching classes:', err));
-            api.get(`/api/tasks/owner/${userId}`)
-                .then(res => setTasks(res.data))
-                .catch(err => console.error('Error fetching tasks:', err));
-        }
-    }, [userId]);
+    useFocusEffect(
+        useCallback(() => {
+            if (userId) {
+                api.get('/api/classes/owner', { headers: { userId } })
+                    .then(res => setClasses(res.data))
+                    .catch(err => console.error('Error fetching classes:', err));
+                api.get(`/api/tasks/owner/${userId}`)
+                    .then(res => {
+                        const sortedTasks = res.data.sort((a, b) => {
+                            if (!a.dueDate) return 1;
+                            if (!b.dueDate) return -1;
+                            return new Date(a.dueDate) - new Date(b.dueDate);
+                        });
+                        setTasks(sortedTasks);
+                    })
+                    .catch(err => console.error('Error fetching tasks:', err));
+            }
+        }, [userId])
+    );
 
     const openModal = (task) => {
         setSelectedTask(task);
@@ -72,14 +84,25 @@ export default function TaskListScreen({ navigation }) {
 
     const getClassColor = id => classes.find(c => c.id === id)?.color || '#fff';
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity
-            style={[styles.item, { backgroundColor: getClassColor(item.classId) }]}
-            onPress={() => openModal(item)}
-        >
-            <Text style={styles.title}>{item.name}</Text>
-        </TouchableOpacity>
-    );
+    const renderItem = ({ item }) => {
+        const today = new Date();
+        const dueDate = item.dueDate ? new Date(item.dueDate) : null;
+        const isOverdue = dueDate && dueDate < today.setHours(0, 0, 0, 0);
+
+        return (
+            <TouchableOpacity
+                style={[styles.item, { backgroundColor: getClassColor(item.classId) }]}
+                onPress={() => openModal(item)}
+            >
+                <View style={styles.itemRow}>
+                    <Text style={styles.title}>{item.name}</Text>
+                    <Text style={[styles.dueDate, isOverdue && styles.overdueDate]}>
+                        {item.dueDate ? format(new Date(item.dueDate), 'MMM d') : ''}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -173,7 +196,10 @@ export default function TaskListScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 16 },
     item: { padding: 12, marginBottom: 8, borderRadius: 4 },
-    title: { fontSize: 18 },
+    itemRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+    title: { fontSize: 18, fontWeight: 'bold', flex: 1 },
+    dueDate: { fontSize: 14, color: '#555', marginLeft: 10 },
+    overdueDate: { fontSize: 14, color: 'red', fontWeight: 'bold', marginLeft: 10 },
     empty: { textAlign: 'center', marginTop: 20, fontSize: 16 },
     modal: { padding: 16 },
     label: { fontWeight: 'bold', marginVertical: 6 },
