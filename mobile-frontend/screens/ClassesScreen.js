@@ -115,7 +115,7 @@ export default function ClassesScreen() {
             {/*options when selecting a class from list of classes*/}
             <Modal visible={selectedClass !== null} animationType="slide">
                 <View style={styles.modal}>
-                    <RNText style={styles.modalTitle}>{selectedClass?.name} Details</RNText>
+                    <RNText style={styles.modalTitle}>{selectedClass?.name}</RNText>
                     {!editMode ? (
                         <>
                             {tasks.map(task => (
