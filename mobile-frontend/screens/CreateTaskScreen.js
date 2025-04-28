@@ -1,37 +1,33 @@
-import React, {useState, useEffect, useContext, useCallback} from 'react';
+import React, { useState, useContext, useCallback } from 'react';
 import {
+  SafeAreaView,
+  ScrollView,
   View,
   Text,
   TextInput,
-  Button,
+  TouchableOpacity,
   StyleSheet,
-  Platform,
   TouchableWithoutFeedback,
   Keyboard,
-  KeyboardAvoidingView,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import api from '../api/client';
 import { UserContext } from '../context/UserContext';
-import {useFocusEffect} from "@react-navigation/native";
+import { useFocusEffect } from '@react-navigation/native';
+
+const themeColor = '#3e71c9';
 
 export default function CreateTaskScreen({ navigation }) {
   const { userId } = useContext(UserContext);
 
   const [name, setName] = useState('');
   const [dueDate, setDueDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [type, setType] = useState('');
   const [timeAll, setTimeAll] = useState('');
-  const [status, setStatus] = useState('To-Do'); // Default status is "To-Do"
+  const [status, setStatus] = useState('To-Do');
   const [priority, setPriority] = useState('1');
-  const [classId, setClassId] = useState('');
+  const [classId, setClassId] = useState(null);
   const [classes, setClasses] = useState([]);
-  const [showStatusPicker, setShowStatusPicker] = useState(false);
-  const [showPriorityPicker, setShowPriorityPicker] = useState(false);
 
   useFocusEffect(
       useCallback(() => {
@@ -43,11 +39,18 @@ export default function CreateTaskScreen({ navigation }) {
       }, [userId])
   );
 
-  const handleDateChange = (event, selectedDate) => {
-    setShowDatePicker(false);
-    if (selectedDate) {
-      setDueDate(selectedDate);
-    }
+  const clearForm = () => {
+    setName('');
+    setDueDate(new Date());
+    setType('');
+    setTimeAll('');
+    setStatus('To-Do');
+    setPriority('1');
+    setClassId(null);
+  };
+
+  const handleDateChange = (event, selected) => {
+    if (selected) setDueDate(selected);
   };
 
   const handleSubmit = async () => {
@@ -56,17 +59,18 @@ export default function CreateTaskScreen({ navigation }) {
       return;
     }
     const payload = {
-      name,
+      name: name.trim(),
       dueDate: dueDate.toISOString().split('T')[0],
-      type,
+      type: type.trim(),
       timeAll: Number(timeAll) || 0,
       status,
       priority: Number(priority),
-      classId: Number(classId),
+      classId,
       ownerId: userId,
     };
     try {
       await api.post('/api/tasks', payload);
+      clearForm();
       navigation.goBack();
     } catch (err) {
       console.error('Error creating task:', err);
@@ -74,37 +78,27 @@ export default function CreateTaskScreen({ navigation }) {
     }
   };
 
-  const renderClass = ({ item }) => (
-      <TouchableOpacity
-          style={[
-            styles.classItem,
-            classId === String(item.id) && styles.classSelected,
-          ]}
-          onPress={() => setClassId(String(item.id))}
-      >
-        <Text style={styles.classText}>{item.name}</Text>
-      </TouchableOpacity>
-  );
-
   return (
-      <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.container}
-      >
+      <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps="handled">
-          <View style={styles.inner}>
-            <Text style={styles.label}>Task Name *</Text>
-            <TextInput
-                style={styles.input}
-                value={name}
-                onChangeText={setName}
-                placeholder="Enter task name"
-            />
+          <ScrollView contentContainerStyle={styles.inner}>
 
-            <Text style={styles.label}>Due Date</Text>
-            <View style={styles.datePickerContainer}>
+            {/* Task Name */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Task Name *</Text>
+              <TextInput
+                  style={styles.input}
+                  value={name}
+                  onChangeText={setName}
+                  placeholder="Enter task name"
+              />
+            </View>
+
+            {/* Due Date */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Due Date</Text>
               <DateTimePicker
+                  style={styles.datePicker}
                   value={dueDate}
                   mode="date"
                   display="default"
@@ -112,138 +106,157 @@ export default function CreateTaskScreen({ navigation }) {
               />
             </View>
 
+            {/* Type */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Type</Text>
+              <TextInput
+                  style={styles.input}
+                  value={type}
+                  onChangeText={setType}
+                  placeholder="Enter task type"
+              />
+            </View>
 
-            <Text style={styles.label}>Type</Text>
-            <TextInput
-                style={styles.input}
-                value={type}
-                onChangeText={setType}
-                placeholder="Enter task type"
-            />
+            {/* Time Allocation */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Time Allocation (hrs)</Text>
+              <TextInput
+                  style={styles.input}
+                  value={timeAll}
+                  onChangeText={setTimeAll}
+                  placeholder="0"
+                  keyboardType="numeric"
+              />
+            </View>
 
-            <Text style={styles.label}>Time Allocation (hrs)</Text>
-            <TextInput
-                style={styles.input}
-                value={timeAll}
-                onChangeText={setTimeAll}
-                placeholder="0"
-                keyboardType="numeric"
-            />
+            {/* Status Picker */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Status</Text>
+              <View style={styles.pickerWrapperStatic}>
+                {['To-Do', 'In-Progress', 'Done'].map(item => (
+                    <TouchableOpacity
+                        key={item}
+                        style={[
+                          styles.pickerItemStatic,
+                          status === item && styles.selectedStatic,
+                        ]}
+                        onPress={() => setStatus(item)}
+                    >
+                      <Text style={status === item ? styles.selectedText : styles.pickerText}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                ))}
+              </View>
+            </View>
 
-            <Text style={styles.label}>Status</Text>
-            <TouchableOpacity
-                style={[styles.classItem, styles.classSelected]}
-                onPress={() => setShowStatusPicker(!showStatusPicker)}
-            >
-              <Text style={styles.classText}>{status}</Text>
+            {/* Priority Picker */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Priority</Text>
+              <View style={styles.pickerWrapperStatic}>
+                {['1', '2', '3'].map(item => (
+                    <TouchableOpacity
+                        key={item}
+                        style={[
+                          styles.pickerItemStatic,
+                          priority === item && styles.selectedStatic,
+                        ]}
+                        onPress={() => setPriority(item)}
+                    >
+                      <Text style={priority === item ? styles.selectedText : styles.pickerText}>
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+
+            {/* Class Selection: allow horizontal overflow */}
+            <View style={styles.field}>
+              <Text style={styles.label}>Class *</Text>
+              <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={styles.classList}
+              >
+                {classes.map(c => (
+                    <TouchableOpacity
+                        key={c.id}
+                        style={[
+                          styles.classItem,
+                          classId === c.id && styles.selectedClass,
+                        ]}
+                        onPress={() => setClassId(c.id)}
+                    >
+                      <Text style={classId === c.id ? styles.selectedText : styles.pickerText}>
+                        {c.name}
+                      </Text>
+                    </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+
+            {/* Submit Button */}
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text style={styles.buttonText}>Create Task</Text>
             </TouchableOpacity>
-            {showStatusPicker && (
-                <FlatList
-                    horizontal
-                    data={['To-Do', 'In-progress', 'Done']}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.flatListItem}
-                            onPress={() => {
-                              setStatus(item);
-                              setShowStatusPicker(false);
-                            }}
-                        >
-                          <Text style={styles.flatListText}>{item}</Text>
-                        </TouchableOpacity>
-                    )}
-                    contentContainerStyle={styles.flatList}  // Apply layout properties here
-                />
-            )}
 
-            <Text style={styles.label}>Priority</Text>
-            <TouchableOpacity
-                style={[styles.classItem, styles.classSelected]}
-                onPress={() => setShowPriorityPicker(!showPriorityPicker)}
-            >
-              <Text style={styles.classText}>{priority}</Text>
-            </TouchableOpacity>
-            {showPriorityPicker && (
-                <FlatList
-                    horizontal
-                    data={['1', '2', '3']}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.flatListItem}
-                            onPress={() => {
-                              setPriority(item);
-                              setShowPriorityPicker(false);
-                            }}
-                        >
-                          <Text style={styles.flatListText}>{item}</Text>
-                        </TouchableOpacity>
-                    )}
-                    contentContainerStyle={styles.flatList}  // Apply layout properties here
-                />
-            )}
-
-            <Text style={styles.label}>Class *</Text>
-            <FlatList
-                horizontal
-                data={classes}
-                keyExtractor={(item) => item.id.toString()}
-                renderItem={renderClass}
-                style={styles.classList}
-            />
-
-            <Button title="Create Task" onPress={handleSubmit} />
-          </View>
           </ScrollView>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#DFE9FDFF', },
-  inner: { padding: 16, justifyContent: 'center' },
-  label: { fontWeight: 'bold', marginTop: 12 },
-  input: { borderBottomWidth: 1, marginBottom: 8, padding: 4 },
-  datePickerContainer: {
-    justifyContent: 'center', // Centers vertically
-    alignItems: 'center', // Centers horizontally
-  },
-  classList: { maxHeight: 50, marginVertical: 8 },
-  classItem: {
-    padding: 8,
-    borderRadius: 4,
-    backgroundColor: '#eee',
-    marginRight: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  classSelected: {
-    backgroundColor: '#cceeff',
-  },
-  classText: { fontSize: 16 },
-  flatList: {
+  container: { flex: 1, backgroundColor: '#dfe9fd' },
+  inner: { padding: 16 },
+  field: { marginBottom: 20, alignItems: 'center' },
+  label: { fontSize: 16, fontWeight: 'bold', color: '#333', marginBottom: 8, textAlign: 'center' },
+  input: {
     width: '100%',
-    marginTop: 8,
-    flexDirection: 'row',
-    justifyContent: 'center',
+    padding: 12,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    backgroundColor: '#fff',
   },
-  flatListItem: {
-    backgroundColor: '#eee',
-    marginRight: 8,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-    justifyContent: 'center',
+  datePicker: {
+    width: 500,
+    alignSelf: 'center',
+    backgroundColor: "#5585d7",
+    borderRadius: 8,
+  },
+  pickerWrapperStatic: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
+  pickerItemStatic: {
+    flex: 1,
+    paddingVertical: 12,
+    marginHorizontal: 4,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
     alignItems: 'center',
-    height: 40,
-    minWidth: 80,
-    flex: 0,
+    backgroundColor: '#fff',
   },
-  flatListText: {
-    fontSize: 16,
-    textAlign: 'center',
+  selectedStatic: { backgroundColor: themeColor, borderColor: themeColor },
+  pickerText: { color: '#333', textAlign: 'center' },
+  selectedText: { color: '#fff', textAlign: 'center' },
+  classList: { paddingVertical: 4 },
+  classItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    backgroundColor: '#fff',
   },
+  selectedClass: { backgroundColor: themeColor, borderColor: themeColor },
+  button: {
+    marginTop: 24,
+    backgroundColor: themeColor,
+    paddingVertical: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold', textAlign: 'center' },
 });
-
