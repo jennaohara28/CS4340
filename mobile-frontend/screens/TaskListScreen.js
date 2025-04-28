@@ -297,7 +297,7 @@ export default function TaskListScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 16 },
+    container: { flex: 1, padding: 16, backgroundColor: "#dfe9fd" },
     inner: { padding: 16, justifyContent: 'center', marginTop: 100, backgroundColor: '#dfe9fd', },
     item: { padding: 12, marginVertical: 6, marginHorizontal: 12, borderRadius: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
     itemContent: { flex: 1 },
@@ -305,23 +305,23 @@ const styles = StyleSheet.create({
     dueDate: { fontSize: 14, color: '#555' },
     empty: { textAlign: 'center', marginTop: 20, fontSize: 16 },
     iconButton: { padding: 8 },
-    actionMenuOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
-    actionMenuStyled: { backgroundColor: '#fff', padding: 20, borderRadius: 10, width: '80%' },
+    actionMenuOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.56)', justifyContent: 'center', alignItems: 'center' },
+    actionMenuStyled: { backgroundColor: '#dfe9fd', padding: 20, borderRadius: 10, width: '80%' },
     actionMenuItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
     actionMenuText: { marginLeft: 10, fontSize: 18, fontWeight: '500' },
-    displayContainer: { backgroundColor: '#fff', borderRadius: 8, padding: 16, marginBottom: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
-    displayRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderColor: '#eee' },
+    displayContainer: { backgroundColor: '#dfe9fd', borderRadius: 8, padding: 16, marginBottom: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
+    displayRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderColor: '#dfe9fd' },
     displayLabel: { fontWeight: 'bold', fontSize: 16 },
     displayValue: { fontSize: 16, flexShrink: 1, textAlign: 'right' },
     label: { fontWeight: 'bold', marginTop: 12 },
     input: { borderBottomWidth: 1, marginBottom: 8, padding: 4 },
-    datePickerContainer: { justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
+    datePickerContainer: { justifyContent: 'center', alignItems: 'center', marginBottom: 8, },
     classList: { maxHeight: 50, marginVertical: 8 },
-    classItem: { padding: 8, borderRadius: 4, backgroundColor: '#eee', marginRight: 8, justifyContent: 'center', alignItems: 'center' },
-    classSelected: { backgroundColor: '#cceeff' },
+    classItem: { padding: 8, borderRadius: 4, backgroundColor: '#dfe9fd', marginRight: 8, justifyContent: 'center', alignItems: 'center', borderColor: "#3e71c9", borderWidth: 1 },
+    classSelected: { backgroundColor: '#3e71c9' },
     classText: { fontSize: 16 },
     flatList: { marginTop: 8, flexDirection: 'row', justifyContent: 'center' },
-    flatListItem: { backgroundColor: '#eee', marginRight: 8, paddingVertical: 8, paddingHorizontal: 16, borderRadius: 4, justifyContent: 'center', alignItems: 'center', minWidth: 80 },
+    flatListItem: { backgroundColor: '#dfe9fd', marginRight: 8, paddingVertical: 8, paddingHorizontal: 16, borderRadius: 4, justifyContent: 'center', alignItems: 'center', minWidth: 80, borderColor: "#3e71c9", borderWidth: 1 },
     flatListText: { fontSize: 16, textAlign: 'center' },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 },
 
@@ -349,5 +349,5 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
 
-    modalOverlay: { flex: 1, marginTop: 150, backgroundColor: 'rgba(255,255,255,0.5)' },
+    modalOverlay: { flex: 1, backgroundColor: '#dfe9fd', paddingTop:  100},
 });

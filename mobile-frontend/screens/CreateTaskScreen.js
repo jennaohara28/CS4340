@@ -199,7 +199,7 @@ export default function CreateTaskScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { flex: 1, backgroundColor: '#DFE9FDFF', },
   inner: { padding: 16, justifyContent: 'center' },
   label: { fontWeight: 'bold', marginTop: 12 },
   input: { borderBottomWidth: 1, marginBottom: 8, padding: 4 },

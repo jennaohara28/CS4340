@@ -14,6 +14,7 @@ import { UserContext } from '../context/UserContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SettingsScreen() {
+    const toggleColor = "#3e71c9"
     const {
         showCompletedTasks,
         setShowCompletedTasks,
@@ -62,6 +63,7 @@ export default function SettingsScreen() {
                     <Switch
                         value={showCompletedTasks}
                         onValueChange={setShowCompletedTasks}
+                        trackColor={{ false: '#ccc', true: toggleColor }}
                     />
                 </View>
                 <View style={styles.divider} />
@@ -71,6 +73,7 @@ export default function SettingsScreen() {
                     <Switch
                         value={showPastDueTasks}
                         onValueChange={setShowPastDueTasks}
+                        trackColor={{ false: '#ccc', true: toggleColor }}
                     />
                 </View>
                 <View style={styles.divider} />
@@ -80,6 +83,7 @@ export default function SettingsScreen() {
                     <Switch
                         value={showCompletedAtBottom}
                         onValueChange={setShowCompletedAtBottom}
+                        trackColor={{ false: '#ccc', true: toggleColor }}
                     />
                 </View>
                 <View style={styles.divider} />
@@ -124,6 +128,7 @@ export default function SettingsScreen() {
                     <Switch
                         value={sortOrderAsc}
                         onValueChange={setSortOrderAsc}
+                        trackColor={{ false: '#ccc', true: toggleColor }}
                     />
                 </View>
                 <View style={styles.divider} />
@@ -141,7 +146,7 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#f2f2f2', padding: 16 },
+    container: { flex: 1, backgroundColor: '#DFE9FDFF', padding: 16 },
     title: { fontSize: 28, fontWeight: '700', color: '#333', textAlign: 'center', marginBottom: 24 },
     section: { backgroundColor: '#fff', borderRadius: 10, padding: 16, elevation: 3 },
     row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 12 },
@@ -151,6 +156,6 @@ const styles = StyleSheet.create({
     rowEnd: { flexDirection: 'row', alignItems: 'center' },
     pickerContainer: { overflow: 'hidden' },
     picker: { width: '100%', height: 180 },
-    logoutButton: { marginTop: 16, padding: 12, backgroundColor: '#ff4d4d', borderRadius: 8, alignItems: 'center' },
+    logoutButton: { marginTop: 16, padding: 12, backgroundColor: '#3e71c9', borderRadius: 8, alignItems: 'center' },
     logoutText: { color: 'white', fontSize: 18, fontWeight: 'bold' }
 });
