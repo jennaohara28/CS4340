@@ -21,7 +21,9 @@ export function TaskSnapshot() {
                 keyExtractor={item => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={[styles.snapshotItem, { backgroundColor: getColor(item.classId) }]}>
-                        <Text style={styles.taskName}>{item.name}</Text>
+                        <Text style={[styles.taskName, item.status === 'Done' && { color: 'green' }]}>
+                            {item.name}
+                        </Text>
                         <Text style={styles.taskDueDate}>
                             {item.dueDate ? format(new Date(item.dueDate), 'MMM d') : ''}
                         </Text>

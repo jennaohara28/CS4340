@@ -88,7 +88,9 @@ export default function TaskListScreen({ navigation }) {
     const renderItem = ({ item }) => (
         <View style={[styles.item, { backgroundColor: classes.find(c => c.id === item.classId)?.color || '#fff' }]}>
             <TouchableOpacity style={styles.itemContent} onPress={() => openModal(item)}>
-                <Text style={styles.title}>{item.name}</Text>
+                <Text style={[styles.title, item.status === 'Done' && { color: 'green' }]}>
+                    {item.name}
+                </Text>
                 <Text style={styles.dueDate}>{item.dueDate || ''}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActionMenuTask(item)} style={styles.iconButton}>
@@ -96,6 +98,7 @@ export default function TaskListScreen({ navigation }) {
             </TouchableOpacity>
         </View>
     );
+
 
     return (
         <SafeAreaView style={styles.container}>

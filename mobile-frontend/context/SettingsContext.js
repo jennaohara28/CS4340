@@ -9,6 +9,7 @@ export function SettingsProvider({ children }) {
     const [showPastDueTasks, setShowPastDueTasks] = useState(true);
     const [sortField, setSortField] = useState('dueDate');
     const [sortOrderAsc, setSortOrderAsc] = useState(true);
+    const [showCompletedAtBottom, setShowCompletedAtBottom] = useState(false);
 
     // Load persisted settings
     useEffect(() => {
@@ -18,13 +19,20 @@ export function SettingsProvider({ children }) {
                     'showCompletedTasks',
                     'showPastDueTasks',
                     'sortField',
-                    'sortOrderAsc'
+                    'sortOrderAsc',
+                    'showCompletedAtBottom'
                 ]);
                 const prefs = Object.fromEntries(stores);
-                if (prefs.showCompletedTasks != null) setShowCompletedTasks(prefs.showCompletedTasks === 'true');
-                if (prefs.showPastDueTasks    != null) setShowPastDueTasks(prefs.showPastDueTasks === 'true');
-                if (prefs.sortField           != null) setSortField(prefs.sortField);
-                if (prefs.sortOrderAsc       != null) setSortOrderAsc(prefs.sortOrderAsc === 'true');
+                if (prefs.showCompletedTasks != null)
+                    setShowCompletedTasks(prefs.showCompletedTasks === 'true');
+                if (prefs.showPastDueTasks != null)
+                    setShowPastDueTasks(prefs.showPastDueTasks === 'true');
+                if (prefs.sortField != null)
+                    setSortField(prefs.sortField);
+                if (prefs.sortOrderAsc != null)
+                    setSortOrderAsc(prefs.sortOrderAsc === 'true');
+                if (prefs.showCompletedAtBottom != null)
+                    setShowCompletedAtBottom(prefs.showCompletedAtBottom === 'true');
             } catch (e) {
                 console.error('Error loading settings', e);
             }
@@ -44,6 +52,9 @@ export function SettingsProvider({ children }) {
     useEffect(() => {
         AsyncStorage.setItem('sortOrderAsc', sortOrderAsc.toString());
     }, [sortOrderAsc]);
+    useEffect(() => {
+        AsyncStorage.setItem('showCompletedAtBottom', showCompletedAtBottom.toString());
+    }, [showCompletedAtBottom]);
 
     return (
         <SettingsContext.Provider
@@ -55,7 +66,9 @@ export function SettingsProvider({ children }) {
                 sortField,
                 setSortField,
                 sortOrderAsc,
-                setSortOrderAsc
+                setSortOrderAsc,
+                showCompletedAtBottom,
+                setShowCompletedAtBottom
             }}
         >
             {children}

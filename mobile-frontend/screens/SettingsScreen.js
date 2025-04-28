@@ -1,5 +1,13 @@
+// screens/SettingsScreen.js
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, Switch, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import {
+    View,
+    Text,
+    Switch,
+    StyleSheet,
+    TouchableOpacity,
+    Animated
+} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SettingsContext } from '../context/SettingsContext';
 import { UserContext } from '../context/UserContext';
@@ -14,7 +22,9 @@ export default function SettingsScreen() {
         sortField,
         setSortField,
         sortOrderAsc,
-        setSortOrderAsc
+        setSortOrderAsc,
+        showCompletedAtBottom,
+        setShowCompletedAtBottom
     } = useContext(SettingsContext);
     const { setUserId } = useContext(UserContext);
 
@@ -26,7 +36,6 @@ export default function SettingsScreen() {
         setSortField(pickerValue);
     }, [pickerValue]);
 
-    // Animate expansion/collapse
     useEffect(() => {
         Animated.timing(animation, {
             toValue: showPicker ? 1 : 0,
@@ -35,9 +44,11 @@ export default function SettingsScreen() {
         }).start();
     }, [showPicker]);
 
-    const pickerHeight = animation.interpolate({ inputRange: [0, 1], outputRange: [0, 180] });
+    const pickerHeight = animation.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 180]
+    });
 
-    // Logout handler
     const handleLogout = () => {
         setUserId(null);
     };
@@ -46,26 +57,48 @@ export default function SettingsScreen() {
         <View style={styles.container}>
             <Text style={styles.title}>Settings</Text>
             <View style={styles.section}>
+
                 <View style={styles.row}>
                     <Text style={styles.label}>Show Completed Tasks</Text>
-                    <Switch value={showCompletedTasks} onValueChange={setShowCompletedTasks} />
+                    <Switch
+                        value={showCompletedTasks}
+                        onValueChange={setShowCompletedTasks}
+                    />
                 </View>
                 <View style={styles.divider} />
 
                 <View style={styles.row}>
                     <Text style={styles.label}>Show Past-Due Tasks</Text>
-                    <Switch value={showPastDueTasks} onValueChange={setShowPastDueTasks} />
+                    <Switch
+                        value={showPastDueTasks}
+                        onValueChange={setShowPastDueTasks}
+                    />
                 </View>
                 <View style={styles.divider} />
 
-                <TouchableOpacity style={styles.row} onPress={() => setShowPicker(prev => !prev)}>
+                <View style={styles.row}>
+                    <Text style={styles.label}>Completed Tasks at Bottom</Text>
+                    <Switch
+                        value={showCompletedAtBottom}
+                        onValueChange={setShowCompletedAtBottom}
+                    />
+                </View>
+                <View style={styles.divider} />
+
+                <TouchableOpacity
+                    style={styles.row}
+                    onPress={() => setShowPicker(prev => !prev)}
+                >
                     <Text style={styles.label}>Filter By</Text>
                     <View style={styles.rowEnd}>
                         <Text style={styles.pickerText}>{pickerValue}</Text>
-                        <Ionicons name={showPicker ? 'chevron-up' : 'chevron-down'} size={20} color="#555" />
+                        <Ionicons
+                            name={showPicker ? 'chevron-up' : 'chevron-down'}
+                            size={20}
+                            color="#555"
+                        />
                     </View>
                 </TouchableOpacity>
-
                 <Animated.View style={[styles.pickerContainer, { height: pickerHeight }]}>
                     {showPicker && (
                         <Picker
@@ -85,15 +118,23 @@ export default function SettingsScreen() {
                 <View style={styles.divider} />
 
                 <View style={styles.row}>
-                    <Text style={styles.label}>{sortOrderAsc ? 'Ascending Order' : 'Descending Order'}</Text>
-                    <Switch value={sortOrderAsc} onValueChange={setSortOrderAsc} />
+                    <Text style={styles.label}>
+                        {sortOrderAsc ? 'Ascending Order' : 'Descending Order'}
+                    </Text>
+                    <Switch
+                        value={sortOrderAsc}
+                        onValueChange={setSortOrderAsc}
+                    />
                 </View>
-
                 <View style={styles.divider} />
 
-                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={handleLogout}
+                >
                     <Text style={styles.logoutText}>Logout</Text>
                 </TouchableOpacity>
+
             </View>
         </View>
     );

@@ -11,7 +11,8 @@ export function useFilteredTasks() {
         showCompletedTasks,
         showPastDueTasks,
         sortField,
-        sortOrderAsc
+        sortOrderAsc,
+        showCompletedAtBottom
     } = useContext(SettingsContext);
 
     const [tasks, setTasks] = useState([]);
@@ -34,33 +35,35 @@ export function useFilteredTasks() {
                         t = t.filter(task => !task.dueDate || new Date(task.dueDate) >= today);
                     }
 
-                    // dynamic sort by selected field
+                    // sort dynamically
                     t.sort((a, b) => {
                         let aVal = a[sortField];
                         let bVal = b[sortField];
 
-                        // handle dueDate as Date objects
                         if (sortField === 'dueDate') {
                             if (!aVal) return 1;
                             if (!bVal) return -1;
                             aVal = new Date(aVal);
                             bVal = new Date(bVal);
-                        }
-                        // numeric fields
-                        else if (['timeAll', 'priority', 'classId'].includes(sortField)) {
+                        } else if (['timeAll','priority','classId'].includes(sortField)) {
                             aVal = Number(aVal) || 0;
                             bVal = Number(bVal) || 0;
-                        }
-                        // strings (type, status)
-                        else {
-                            aVal = (aVal || '').toString().toLowerCase();
-                            bVal = (bVal || '').toString().toLowerCase();
+                        } else {
+                            aVal = (aVal||'').toString().toLowerCase();
+                            bVal = (bVal||'').toString().toLowerCase();
                         }
 
                         if (aVal < bVal) return sortOrderAsc ? -1 : 1;
                         if (aVal > bVal) return sortOrderAsc ? 1 : -1;
                         return 0;
                     });
+
+                    // if completed‐tasks are shown, push them to bottom
+                    if (showCompletedTasks && showCompletedAtBottom) {
+                        const incomplete = t.filter(task => task.status !== 'Done');
+                        const complete   = t.filter(task => task.status === 'Done');
+                        t = [...incomplete, ...complete];
+                    }
 
                     setTasks(t);
                 })
@@ -70,7 +73,8 @@ export function useFilteredTasks() {
             showCompletedTasks,
             showPastDueTasks,
             sortField,
-            sortOrderAsc
+            sortOrderAsc,
+            showCompletedAtBottom
         ])
     );
 
