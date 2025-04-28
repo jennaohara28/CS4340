@@ -26,8 +26,8 @@ export default function TabNavigator() {
                 },
             })}
         >
-            <Tab.Screen name={"Home"} component={HomeScreen} />
-            <Tab.Screen name={"Tasks"} component={TaskListScreen} />
+            <Tab.Screen name="Home" component={HomeScreen} />
+            <Tab.Screen name="Tasks" component={TaskListScreen} />
             <Tab.Screen name="Add Task" component={CreateTaskScreen} />
             <Tab.Screen name="Classes" component={ClassesScreen} />
             <Tab.Screen name="Settings" component={SettingsScreen} />

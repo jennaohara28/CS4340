@@ -1,12 +1,12 @@
 // screens/WeekCalendar.js
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import { startOfWeek, addDays, format } from 'date-fns';
 import { useFilteredTasks } from '../hooks/useFilteredTasks';
 import { useClasses } from '../hooks/useClasses';
 
 export function WeekCalendar() {
-    const tasks = useFilteredTasks();
+    const [tasks] = useFilteredTasks();   // ← grab only the tasks array
     const classes = useClasses();
 
     const [tasksByDate, setTasksByDate] = useState({});
@@ -47,7 +47,7 @@ export function WeekCalendar() {
 
             <ScrollView horizontal style={styles.calendar}>
                 {week.map(date => {
-                    const key = format(date, 'yyyy-MM-dd');
+                    const key   = format(date, 'yyyy-MM-dd');
                     const items = tasksByDate[key] || [];
                     return (
                         <View key={key} style={styles.dayColumn}>
@@ -87,23 +87,21 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         paddingVertical: 20,
         paddingHorizontal: 16,
-        marginTop: 10,
+        marginTop: 10
     },
     title: {
         fontSize: 30,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: 10
     },
     monthText: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: 10,
+        marginBottom: 10
     },
-    calendar: {
-        marginBottom: 10,
-    },
+    calendar: { marginBottom: 10 },
     dayColumn: {
         width: 80,
         padding: 5,
@@ -112,38 +110,32 @@ const styles = StyleSheet.create({
         borderColor: '#ddd',
         marginRight: 5,
         borderRadius: 4,
-        minHeight: 100,
+        minHeight: 100
     },
-    dayLabel: {
-        fontWeight: 'bold',
-    },
-    dateLabel: {
-        marginBottom: 5,
-    },
+    dayLabel: { fontWeight: 'bold' },
+    dateLabel: { marginBottom: 5 },
     taskBadge: {
         padding: 4,
         borderRadius: 4,
         marginBottom: 4,
-        width: '100%',
+        width: '100%'
     },
     buttonRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 10,
+        marginBottom: 10
     },
     navButton: {
         paddingHorizontal: 16,
         paddingVertical: 8,
         backgroundColor: '#eee',
-        borderRadius: 8,
+        borderRadius: 8
     },
     todayButton: {
         paddingHorizontal: 16,
         paddingVertical: 8,
         backgroundColor: '#eee',
-        borderRadius: 8,
+        borderRadius: 8
     },
-    buttonText: {
-        fontWeight: 'bold',
-    },
+    buttonText: { fontWeight: 'bold' }
 });

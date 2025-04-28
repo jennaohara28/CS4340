@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -23,8 +23,8 @@ import { useFilteredTasks } from '../hooks/useFilteredTasks';
 import { useClasses } from '../hooks/useClasses';
 import api from '../api/client';
 
-export default function TaskListScreen({ navigation }) {
-    const tasks = useFilteredTasks();
+export default function TaskListScreen({ navigation, route }) {
+    const [tasks, refetchTasks] = useFilteredTasks();
     const classes = useClasses();
 
     const [selectedTask, setSelectedTask] = useState(null);
@@ -34,6 +34,15 @@ export default function TaskListScreen({ navigation }) {
     const [edits, setEdits] = useState({});
     const [showStatusPicker, setShowStatusPicker] = useState(false);
     const [showPriorityPicker, setShowPriorityPicker] = useState(false);
+
+    // Handle navigation from TaskSnapshot
+    useEffect(() => {
+        if (route?.params?.task) {
+            openModal(route.params.task);
+            // Clear params to avoid re-opening
+            navigation.setParams({ task: undefined });
+        }
+    }, [route?.params]);
 
     const openModal = task => {
         setSelectedTask(task);
@@ -56,10 +65,17 @@ export default function TaskListScreen({ navigation }) {
             [
                 { text: 'Cancel', style: 'cancel' },
                 {
-                    text: 'Delete', style: 'destructive',
-                    onPress: () => api.delete(`/api/tasks/${task.id}`)
-                        .then(() => { closeModal(); setActionMenuTask(null); })
-                        .catch(() => Alert.alert('Error', 'Could not delete task'))
+                    text: 'Delete',
+                    style: 'destructive',
+                    onPress: () => {
+                        api.delete(`/api/tasks/${task.id}`)
+                            .then(() => {
+                                refetchTasks();
+                                closeModal();
+                                setActionMenuTask(null);
+                            })
+                            .catch(() => Alert.alert('Error', 'Could not delete task'));
+                    }
                 }
             ]
         );
@@ -67,13 +83,19 @@ export default function TaskListScreen({ navigation }) {
 
     const handleComplete = () => {
         api.put(`/api/tasks/${actionMenuTask.id}`, { ...actionMenuTask, status: 'Done' })
-            .then(() => setActionMenuTask(null))
+            .then(() => {
+                refetchTasks();
+                setActionMenuTask(null);
+            })
             .catch(() => Alert.alert('Error', 'Could not mark complete'));
     };
 
     const handleSave = () => {
         api.put(`/api/tasks/${selectedTask.id}`, edits)
-            .then(closeModal)
+            .then(() => {
+                refetchTasks();
+                closeModal();
+            })
             .catch(() => Alert.alert('Error', 'Could not update task'));
     };
 
