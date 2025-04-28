@@ -102,7 +102,6 @@ export default function TaskListScreen({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Button title="+ Create Task" onPress={() => navigation.navigate('Add Task')} />
             {tasks.length === 0 ? (
                 <Text style={styles.empty}>No tasks. Tap "Create Task"!</Text>
             ) : (
@@ -112,6 +111,11 @@ export default function TaskListScreen({ navigation }) {
                     renderItem={renderItem}
                 />
             )}
+            <View style={[styles.bottomButtons, {paddingBottom: 0}]}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Add Task')}>
+                    <Text style={styles.buttonText}>+ Create Task</Text>
+                </TouchableOpacity>
+            </View>
 
             {/* Action Menu Modal */}
             <Modal visible={!!actionMenuTask} transparent animationType="fade">
@@ -287,7 +291,6 @@ const styles = StyleSheet.create({
     actionMenuStyled: { backgroundColor: '#fff', padding: 20, borderRadius: 10, width: '80%' },
     actionMenuItem: { flexDirection: 'row', alignItems: 'center', paddingVertical: 10 },
     actionMenuText: { marginLeft: 10, fontSize: 18, fontWeight: '500' },
-    modalOverlay: { flex: 1, backgroundColor: 'rgba(255,255,255,0.5)' },
     displayContainer: { backgroundColor: '#fff', borderRadius: 8, padding: 16, marginBottom: 20, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 4, elevation: 3 },
     displayRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 8, borderBottomWidth: 1, borderColor: '#eee' },
     displayLabel: { fontWeight: 'bold', fontSize: 16 },
@@ -302,5 +305,31 @@ const styles = StyleSheet.create({
     flatList: { marginTop: 8, flexDirection: 'row', justifyContent: 'center' },
     flatListItem: { backgroundColor: '#eee', marginRight: 8, paddingVertical: 8, paddingHorizontal: 16, borderRadius: 4, justifyContent: 'center', alignItems: 'center', minWidth: 80 },
     flatListText: { fontSize: 16, textAlign: 'center' },
-    buttonRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 }
+    buttonRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 },
+
+    button: {
+        backgroundColor: '#007bff',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 6,
+        width: 140,
+        height: 50,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    bottomButtons: {
+        marginTop: 'auto',
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        paddingBottom: 20,
+    },
+
+    modalOverlay: { flex: 1, marginTop: 150, backgroundColor: 'rgba(255,255,255,0.5)' },
 });
