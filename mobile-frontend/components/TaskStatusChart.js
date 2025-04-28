@@ -26,19 +26,33 @@ export function TaskStatusChart() {
         .map(([name, value], i) => ({
             name,
             value,
-            color: ['#f9dca4', '#FFC04C', '#FFA500', '#FF8C00'][i % 4],
+            color: ['#b9ceff', '#7aa1f0', '#5a8adf', '#3e71c9'][i % 4],
             legendFontColor: '#333',
             legendFontSize: 14,
         }));
 
     const config = {
-        backgroundColor: '#fff',
-        backgroundGradientFrom: '#fff7e6',
-        backgroundGradientTo: '#fff7e6',
-        color: (opacity = 1) => `rgba(0,0,0,${opacity})`,
+        // canvas background
+        backgroundColor: '#ffffff',
+        backgroundGradientFrom: '#ffffff',   // top
+        backgroundGradientTo:   '#ffffff',   // bottom (slightly darker for depth)
+
+        // lines / bars / slices
+        color:       (opacity = 1) => `rgba(62, 113, 201, ${opacity})`, // #3E71C9
+        labelColor:  (opacity = 1) => `rgba(62, 113, 201, ${opacity})`, // axis + legend text
+
         strokeWidth: 2,
         useShadowColorFromDataset: false,
+
+        // optional extras
+        barPercentage: 0.7,
+        propsForDots: {
+            r:           '4',
+            strokeWidth: '2',
+            stroke:      '#ffffff',
+        },
     };
+
 
     return (
         <View style={styles.chartContainer}>
@@ -111,11 +125,11 @@ const styles = StyleSheet.create({
     switchButton: {
         paddingHorizontal: 16,
         paddingVertical: 8,
-        backgroundColor: '#eee',
+        backgroundColor: '#dfe9fd',
         borderRadius: 8,
     },
     activeSwitch: {
-        backgroundColor: '#ffa742',
+        backgroundColor: '#5c8fe7',
     },
     switchText: {
         fontWeight: 'bold',
