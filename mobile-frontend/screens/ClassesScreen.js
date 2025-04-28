@@ -75,9 +75,7 @@ export default function ClassesScreen() {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.button} onPress={() => setShowAddForm(true)}>
-                <Text style={styles.buttonText}>+ Add Class</Text>
-            </TouchableOpacity>
+            {/*Landing Page for Classes*/}
             <FlatList
                 data={classes}
                 keyExtractor={item => item.id.toString()}
@@ -89,11 +87,18 @@ export default function ClassesScreen() {
                         <RNText style={styles.classTitle}>{item.name}</RNText>
                     </TouchableOpacity>
                 )}
+                contentContainerStyle={{flexGrow: 1}}
             />
 
-            {/*creating a new class*/}
+            <View style={[styles.bottomButtons, {paddingBottom: 0}]}>
+                <TouchableOpacity style={styles.button} onPress={() => setShowAddForm(true)}>
+                    <Text style={styles.buttonText}>+ Add Class</Text>
+                </TouchableOpacity>
+            </View>
+
+            {/*Creating a new class*/}
             <Modal visible={showAddForm} animationType="slide">
-                <View style={styles.modal}>
+                <View style={[styles.modal, { backgroundColor: newColor || '#ffffff' }]}>
                     <RNText style={styles.modalTitle}>Add New Class</RNText>
                     <View style={styles.spacer} />
                     <View style={styles.spacer} />
@@ -125,7 +130,7 @@ export default function ClassesScreen() {
                 </View>
             </Modal>
 
-            {/*options when selecting a class from list of classes*/}
+            {/*Options shows after a class is selected*/}
             <Modal visible={selectedClass !== null} animationType="slide">
                 <View style={[styles.modal, selectedClass ? {backgroundColor: selectedClass.color || '#ffffff'} : null]}>
                     <RNText style={styles.modalTitle}>{selectedClass?.name}</RNText>
@@ -146,7 +151,7 @@ export default function ClassesScreen() {
                             </View>
                         </>
                     ) : (
-                        // Now in edit class mode
+                        //
                         <>
                             <TextInput
                                 value={selectedClass?.name}
@@ -261,7 +266,7 @@ const styles = StyleSheet.create({
         padding: 16
     },
     classCard: {
-        padding: 12,
+        padding: 16,
         marginBottom: 8,
         borderRadius: 6
     },

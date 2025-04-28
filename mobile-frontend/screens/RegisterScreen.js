@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import {
+    View,
+    Text,
+    TextInput,
+    Button,
+    Alert,
+    StyleSheet,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
+    Image,
+} from 'react-native';
 import api from '../api/client';
+import AppHeader from '../components/AppHeader';
 
 export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -32,16 +45,67 @@ export default function RegisterScreen({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
-            <TextInput style={styles.input} placeholder="Email" value={email} onChangeText={setEmail} autoCapitalize="none" />
-            <TextInput style={styles.input} placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-            <TextInput style={styles.input} placeholder="Confirm Password" value={confirm} onChangeText={setConfirm} secureTextEntry />
-            <Button title="Register" onPress={handleRegister} />
-        </View>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={-60}   //adjusts height of offset
+            style={{flex: 1}}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={{ flex: 1 }}>
+                    {/* Header for logo + app name */}
+                    <AppHeader />
+
+                    {/* Form */}
+                    <View style={styles.inner}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Email"
+                            value={email}
+                            onChangeText={setEmail}
+                            autoCapitalize="none"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Password"
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
+                        />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Confirm Password"
+                            value={confirm}
+                            onChangeText={setConfirm}
+                            secureTextEntry
+                        />
+                        <View style={styles.spacer} />
+                        <View style={styles.spacer} />
+                        <Button title="Register" onPress={handleRegister} />
+                        <View style={styles.spacer} />
+                        <Button title="Back to Login" onPress={() => navigation.goBack()} />
+                    </View>
+                </View>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', padding: 20 },
-    input: { borderBottomWidth: 1, marginBottom: 12, padding: 8 },
+    container: {
+        flex: 1,
+    },
+    inner: {
+        flex: 1,
+        justifyContent: 'center',
+        padding: 24,
+        paddingTop: 0
+    },
+    input: {
+        borderBottomWidth: 1,
+        marginBottom: 12,
+        padding: 10
+    },
+    spacer: {
+        height: 10,
+    },
 });

@@ -17,7 +17,7 @@ import {
 import api from '../api/client';
 import { useContext } from 'react';
 import { UserContext } from '../context/UserContext';
-import Logo from '../assets/images/logo.png';
+import AppHeader from '../components/AppHeader';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -51,10 +51,7 @@ export default function LoginScreen({ navigation }) {
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={{ flex: 1 }}>
-                    <Animated.View style={[styles.header, { opacity: logoOpacity }]}>
-                        <Image source={Logo} style={styles.logo} resizeMode="contain" />
-                        <Text style={styles.logoText}>Task Trackr</Text>
-                    </Animated.View>
+                    <AppHeader />
                     <View style={styles.inner}>
                         <TextInput
                             style={styles.input}
@@ -85,21 +82,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        alignItems: 'center',
-        paddingTop: 135,
-    },
-    logo: {
-        width: '100%',
-        height: 140,
-        marginBottom: 5,
-        alignSelf: 'center'
-    },
-    logoText: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
     inner: {
         flex: 1,
         justifyContent: 'center',
@@ -107,10 +89,9 @@ const styles = StyleSheet.create({
         paddingTop: 0
     },
     input: {
-        height: 40,
         borderBottomWidth: 1,
-        marginBottom: 20,
-        paddingHorizontal: 10,
+        marginBottom: 12,
+        padding: 10
     },
     spacer: {
         height: 10,
