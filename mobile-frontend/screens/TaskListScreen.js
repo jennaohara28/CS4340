@@ -22,6 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFilteredTasks } from '../hooks/useFilteredTasks';
 import { useClasses } from '../hooks/useClasses';
 import api from '../api/client';
+import { format, parseISO } from 'date-fns';
 
 export default function TaskListScreen({ navigation, route }) {
     const [tasks, refetchTasks] = useFilteredTasks();
@@ -113,7 +114,14 @@ export default function TaskListScreen({ navigation, route }) {
                 <Text style={[styles.title, item.status === 'Done' && { color: 'green' }]}>
                     {item.name}
                 </Text>
-                <Text style={styles.dueDate}>{item.dueDate || ''}</Text>
+                {/* date + status side-by-side */}
+                <View style={styles.metaContainer}>
+                    <Text style={styles.dueDate}>
+                        {item.dueDate ? format(new Date(item.dueDate), 'MMM d') : ''}
+                    </Text>
+                    <Text style={styles.taskStatus}>{item.status}</Text>
+                </View>
+
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setActionMenuTask(item)} style={styles.iconButton}>
                 <Ionicons name="ellipsis-vertical" size={24} color="black" />
@@ -350,4 +358,8 @@ const styles = StyleSheet.create({
     },
 
     modalOverlay: { flex: 1, backgroundColor: '#dfe9fd', paddingTop:  100},
+
+    metaContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
+    taskStatus:    { fontSize: 14, color: '#333', marginLeft: 12 },
+
 });
