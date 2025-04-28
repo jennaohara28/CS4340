@@ -1,303 +1,175 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, FlatList, TouchableOpacity, Modal, Button, StyleSheet, Text as RNText, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import {
+    View,
+    Text,
+    FlatList,
+    TouchableOpacity,
+    Modal,
+    TextInput,
+    StyleSheet
+} from 'react-native';
 import ColorPicker from 'react-native-wheel-color-picker';
-import api from '../api/client';
-import { UserContext } from '../context/UserContext';
+
+import { useClasses } from '../hooks/useClasses';
+import { useFilteredTasks } from '../hooks/useFilteredTasks';
 
 export default function ClassesScreen() {
-    const { userId } = useContext(UserContext);
-    const [classes, setClasses] = useState([]);
+    const classes = useClasses();
+    const allTasks = useFilteredTasks();
+
     const [selectedClass, setSelectedClass] = useState(null);
-    const [tasks, setTasks] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
     const [newName, setNewName] = useState('');
     const [newColor, setNewColor] = useState('#ffffff');
     const [editMode, setEditMode] = useState(false);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
     const [classPendingDelete, setClassPendingDelete] = useState(null);
 
-    useEffect(() => {
-        if (userId) {
-            // GET classes with userId header
-            api.get('/api/classes/owner', { headers: { userId } })
-                .then(res => setClasses(res.data))
-                .catch(err => console.error('Error fetching classes:', err));
-        }
-    }, [userId]);
-
-    const openClass = (cls) => {
+    const openClass = cls => {
         if (selectedClass && selectedClass.id === cls.id) {
             setSelectedClass(null);
-            setTasks([]);
             setEditMode(false);
         } else {
             setSelectedClass(cls);
             setEditMode(false);
-            // GET tasks for class
-            api.get(`/api/tasks/class/${cls.id}`)
-                .then(res => setTasks(res.data))
-                .catch(err => console.error('Error fetching tasks:', err));
         }
     };
 
     const addClass = () => {
-        const payload = { name: newName, color: newColor };
-        // POST new class with userId header
-        api.post('/api/classes', payload, { headers: { userId } })
-            .then(res => {
-                setClasses(prev => [...prev, res.data]);
-                setNewName('');
-                setNewColor('#ffffff');
-                setShowAddForm(false);
-            })
-            .catch(err => console.error('Error adding class:', err));
+        // delegate to API elsewhere or incorporate a hook
+        // placeholder
+        console.log('Add class', newName, newColor);
+        setShowAddForm(false);
     };
 
     const updateClass = () => {
-        api.put(`/api/classes/${selectedClass.id}`, selectedClass, { headers: { userId } })
-            .then(res => {
-                setClasses(prev => prev.map(c => (c.id === res.data.id ? res.data : c)));
-                setEditMode(false);
-            })
-            .catch(err => console.error('Error updating class:', err));
+        console.log('Update class', selectedClass);
+        setEditMode(false);
     };
 
     const deleteClass = () => {
-        api.delete(`/api/classes/${classPendingDelete.id}`, { headers: { userId } })
-            .then(() => {
-                setClasses(prev => prev.filter(c => c.id !== classPendingDelete.id));
-                setSelectedClass(null);
-                setTasks([]);
-                setClassPendingDelete(null);
-            })
-            .catch(err => console.error('Error deleting class:', err));
+        console.log('Delete class', classPendingDelete);
+        setClassPendingDelete(null);
+        setSelectedClass(null);
     };
+
+    // filter tasks for selected class
+    const tasksForClass = selectedClass
+        ? allTasks.filter(t => t.classId === selectedClass.id)
+        : [];
 
     return (
         <View style={styles.container}>
-            {/*Landing Page for Classes*/}
             <FlatList
                 data={classes}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={c => c.id.toString()}
                 renderItem={({ item }) => (
                     <TouchableOpacity
-                        style={[styles.classCard, { backgroundColor: item.color || '#ffffff' }]}
+                        style={[styles.classCard, { backgroundColor: item.color }]}
                         onPress={() => openClass(item)}
                     >
-                        <RNText style={styles.classTitle}>{item.name}</RNText>
+                        <Text style={styles.classTitle}>{item.name}</Text>
                     </TouchableOpacity>
                 )}
-                contentContainerStyle={{flexGrow: 1}}
             />
 
-            <View style={[styles.bottomButtons, {paddingBottom: 0}]}>
-                <TouchableOpacity style={styles.button} onPress={() => setShowAddForm(true)}>
-                    <Text style={styles.buttonText}>+ Add Class</Text>
-                </TouchableOpacity>
-            </View>
+            {selectedClass && (
+                <View style={[styles.detailPanel, { backgroundColor: selectedClass.color }]}>
+                    <Text style={styles.detailTitle}>{selectedClass.name}</Text>
+                    {tasksForClass.map(task => (
+                        <Text key={task.id} style={styles.taskText}>
+                            • {task.name} ({task.status})
+                        </Text>
+                    ))}
 
-            {/*Creating a new class*/}
+                    {!editMode ? (
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity style={styles.button} onPress={() => setEditMode(true)}>
+                                <Text style={styles.buttonText}>Edit</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => setClassPendingDelete(selectedClass)}>
+                                <Text style={styles.buttonText}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                    ) : (
+                        <View style={{ flex: 1 }}>
+                            <TextInput
+                                style={styles.input}
+                                value={selectedClass.name}
+                                onChangeText={text => setSelectedClass(prev => ({ ...prev, name: text }))}
+                            />
+                            <ColorPicker
+                                initialColor={selectedClass.color}
+                                onColorChangeComplete={color => setSelectedClass(prev => ({ ...prev, color }))}
+                                style={{ flex: 1, marginVertical: 10 }}
+                            />
+                            <TouchableOpacity style={styles.button} onPress={updateClass}>
+                                <Text style={styles.buttonText}>Save</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
+            )}
+
+            {/* Add Class Modal */}
             <Modal visible={showAddForm} animationType="slide">
-                <View style={[styles.modal, { backgroundColor: newColor || '#ffffff' }]}>
-                    <RNText style={styles.modalTitle}>Add New Class</RNText>
-                    <View style={styles.spacer} />
-                    <View style={styles.spacer} />
+                <View style={[styles.modal, { backgroundColor: newColor }]}>
+                    <Text style={styles.modalTitle}>Add Class</Text>
                     <TextInput
-                        placeholder="Class Name"
-                        placeholderTextColor="#999"
+                        placeholder="Name"
+                        style={styles.input}
                         value={newName}
                         onChangeText={setNewName}
-                        style={styles.input}
                     />
-                    <View style={styles.spacer} />
-                    <View style={styles.spacer} />
-                    <Text style={styles.text}>Pick Class Color</Text>
                     <ColorPicker
                         initialColor={newColor}
                         onColorChangeComplete={setNewColor}
-                        style={{ padding: 10, marginBottom: 20 }}
+                        style={{ flex: 1, marginVertical: 10 }}
                     />
-
-                    <View style={styles.bottomButtons}>
-                        <TouchableOpacity style={styles.button} onPress={addClass}>
-                            <Text style={styles.buttonText}>Save</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setShowAddForm(false)}>
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={styles.button} onPress={addClass}>
+                        <Text style={styles.buttonText}>Save</Text>
+                    </TouchableOpacity>
                 </View>
             </Modal>
 
-            {/*Options shows after a class is selected*/}
-            <Modal visible={selectedClass !== null} animationType="slide">
-                <View style={[styles.modal, selectedClass ? {backgroundColor: selectedClass.color || '#ffffff'} : null]}>
-                    <RNText style={styles.modalTitle}>{selectedClass?.name}</RNText>
-                    {!editMode ? (
-                        <>
-                            {tasks.map(task => (
-                                <RNText key={task.id}>{task.name} - {task.status}</RNText>
-                            ))}
-
-                            <View style={styles.bottomButtons}>
-                                <TouchableOpacity style={styles.button} onPress={() => setEditMode(true)}>
-                                    <Text style={styles.buttonText}>Edit Class</Text>
-                                </TouchableOpacity>
-
-                                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setSelectedClass(null)}>
-                                    <Text style={styles.buttonText}>Close</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </>
-                    ) : (
-                        //
-                        <>
-                            <TextInput
-                                value={selectedClass?.name}
-                                onChangeText={text => setSelectedClass(prev => ({ ...prev, name: text }))}
-                                style={styles.input}
-                            />
-                            <ColorPicker
-                                color={selectedClass?.color || '#ffffff'}
-                                onColorChangeComplete={color => setSelectedClass(prev => ({ ...prev, color }))}
-                                style={{ flex: 1, marginBottom: 20 }}
-                            />
-                            <View style={{ alignItems: 'center' }}>
-                                <TouchableOpacity style={styles.button} onPress={updateClass}>
-                                    <Text style={styles.buttonText}>Save</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.bottomButtons}>
-                                <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => {
-                                    setClassPendingDelete(selectedClass);
-                                    setShowDeleteConfirm(true);
-                                    setEditMode(false);
-                                    setSelectedClass(null);
-                                }}>
-                                    <Text style={styles.buttonText}>Delete Class</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => {
-                                    //clears current modals so delete confirmation page can pop up
-                                    setEditMode(false);
-                                    setSelectedClass(null);
-                                }}>
-                                    <Text style={styles.buttonText}>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-
-                        </>
-                    )}
-                </View>
-            </Modal>
-            <Modal visible={showDeleteConfirm} animationType="fade" transparent={true}>
-                <View style={styles.confirmModalBackground}>
+            {/* Delete Confirmation Modal */}
+            <Modal visible={!!classPendingDelete} transparent>
+                <View style={styles.confirmBackground}>
                     <View style={styles.confirmModal}>
-                        <RNText style={styles.modalTitle}>Confirm Deletion</RNText>
-                        <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 20 }}>
-                            Are you sure you want to delete this class? {"\n"}
-                            {"\n"}
-                            {classPendingDelete?.name}
-                        </Text>
-
-                        <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={() => {
-                            deleteClass();
-                            setShowDeleteConfirm(false);
-                            setClassPendingDelete(null);
-                        }}>
-                            <Text style={styles.buttonText}>Yes, Delete</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={() => setShowDeleteConfirm(false)}>
-                            <Text style={styles.buttonText}>Cancel</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.modalTitle}>Delete {classPendingDelete?.name}?</Text>
+                        <View style={styles.buttonRow}>
+                            <TouchableOpacity style={[styles.button, styles.deleteButton]} onPress={deleteClass}>
+                                <Text style={styles.buttonText}>Yes</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => setClassPendingDelete(null)}>
+                                <Text style={styles.buttonText}>No</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
             </Modal>
+
+            <TouchableOpacity style={[styles.button, styles.addButton]} onPress={() => setShowAddForm(true)}>
+                <Text style={styles.buttonText}>+ Add Class</Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: '#007bff',
-        paddingVertical: 12,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 6,
-        width: 140,
-        height: 50,
-    },
-    buttonText: {
-        color: 'white',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    deleteButton: {
-        backgroundColor: 'red',
-    },
-    cancelButton: {
-        backgroundColor: 'gray',
-    },
-    bottomButtons: {
-        marginTop: 'auto',
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        paddingBottom: 20,
-    },
-    confirmModalBackground: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    confirmModal: {
-        backgroundColor: 'white',
-        padding: 30,
-        borderRadius: 10,
-        width: '80%',
-        alignItems: 'center',
-    },
-    container: {
-        flex: 1,
-        padding: 16
-    },
-    classCard: {
-        padding: 16,
-        marginBottom: 8,
-        borderRadius: 6
-    },
-    classTitle: {
-        fontSize: 18,
-        fontWeight: 'bold'
-    },
-    modal: {
-        flex: 1,
-        padding: 20,
-        paddingTop: 80,
-        justifyContent: 'center'
-    },
-    modalTitle: {
-        borderBottomWidth: 1,
-        fontSize: 26,
-        fontWeight: 'bold',
-        marginBottom: 12
-    },
-    input: {
-        borderBottomWidth: 1,
-        fontSize: 20,
-        padding: 8
-    },
-    text: {
-      fontSize: 22,
-      fontWeight: 'bold',
-      padding: 8,
-      paddingBottom: 0
-    },
-    spacer: {
-        height: 10
-    }
+    container: { flex: 1 },
+    classCard: { padding: 16, margin: 8, borderRadius: 8 },
+    classTitle: { fontSize: 18, fontWeight: 'bold' },
+    detailPanel: { padding: 16, borderRadius: 8, margin: 8, flex: 1 },
+    detailTitle: { fontSize: 22, fontWeight: 'bold', marginBottom: 12 },
+    taskText: { fontSize: 16, marginVertical: 2 },
+    buttonRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 12 },
+    button: { padding: 12, backgroundColor: '#007bff', borderRadius: 8, minWidth: 100, alignItems: 'center' },
+    deleteButton: { backgroundColor: 'red' },
+    buttonText: { color: 'white', fontWeight: 'bold' },
+    input: { borderBottomWidth: 1, marginVertical: 8, padding: 8, fontSize: 16 },
+    modal: { flex: 1, padding: 16, paddingTop: 80 },
+    modalTitle: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+    confirmBackground: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' },
+    confirmModal: { backgroundColor: 'white', padding: 20, borderRadius: 8, width: '80%' },
+    addButton: { position: 'absolute', right: 16, bottom: 16 }
 });

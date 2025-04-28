@@ -1,63 +1,50 @@
-import React, { useState, useContext } from 'react';
+// screens/WeekCalendar.js
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from 'react-native';
-import { UserContext } from '../context/UserContext';
-import api from '../api/client';
 import { startOfWeek, addDays, format } from 'date-fns';
-import { useFocusEffect } from '@react-navigation/native';
-import { useCallback } from 'react';
-
-const screenWidth = Dimensions.get('window').width;
+import { useFilteredTasks } from '../hooks/useFilteredTasks';
+import { useClasses } from '../hooks/useClasses';
 
 export function WeekCalendar() {
-    const { userId } = useContext(UserContext);
-    const [classes, setClasses] = useState([]);
+    const tasks = useFilteredTasks();
+    const classes = useClasses();
+
     const [tasksByDate, setTasksByDate] = useState({});
     const [week, setWeek] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date());
 
-    useFocusEffect(
-        useCallback(() => {
-            const start = startOfWeek(currentDate, { weekStartsOn: 1 });
-            const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
-            setWeek(days);
+    useEffect(() => {
+        const start = startOfWeek(currentDate, { weekStartsOn: 1 });
+        const days = Array.from({ length: 7 }, (_, i) => addDays(start, i));
+        setWeek(days);
 
-            api.get(`/api/classes/owner`, { headers: { userId } })
-                .then(res => setClasses(res.data))
-                .catch(console.error);
+        const map = {};
+        days.forEach(d => {
+            const key = format(d, 'yyyy-MM-dd');
+            map[key] = [];
+        });
 
-            api.get(`/api/tasks/owner/${userId}`)
-                .then(res => {
-                    const map = {};
-                    days.forEach(d => { const key = format(d, 'yyyy-MM-dd'); map[key] = []; });
-                    res.data.forEach(t => {
-                        if (map[t.dueDate]) map[t.dueDate].push(t);
-                    });
-                    setTasksByDate(map);
-                })
-                .catch(console.error);
-        }, [userId, currentDate])
-    );
+        tasks.forEach(task => {
+            if (task.dueDate) {
+                const key = format(new Date(task.dueDate), 'yyyy-MM-dd');
+                if (map[key]) map[key].push(task);
+            }
+        });
 
-    const goToPreviousWeek = () => {
-        setCurrentDate(prev => addDays(prev, -7));
-    };
+        setTasksByDate(map);
+    }, [tasks, currentDate]);
 
-    const goToNextWeek = () => {
-        setCurrentDate(prev => addDays(prev, 7));
-    };
+    const goToPreviousWeek = () => setCurrentDate(prev => addDays(prev, -7));
+    const goToNextWeek     = () => setCurrentDate(prev => addDays(prev, 7));
+    const goToToday        = () => setCurrentDate(new Date());
 
     const getClassColor = id => classes.find(c => c.id === id)?.color || '#fff';
 
     return (
         <View style={styles.panel}>
             <Text style={styles.title}>Weekly Tasks</Text>
+            <Text style={styles.monthText}>{format(currentDate, 'MMMM yyyy')}</Text>
 
-            {/* Month centered */}
-            <Text style={styles.monthText}>
-                {format(currentDate, 'MMMM yyyy')}
-            </Text>
-
-            {/* Calendar scroll */}
             <ScrollView horizontal style={styles.calendar}>
                 {week.map(date => {
                     const key = format(date, 'yyyy-MM-dd');
@@ -67,7 +54,10 @@ export function WeekCalendar() {
                             <Text style={styles.dayLabel}>{format(date, 'EEE')}</Text>
                             <Text style={styles.dateLabel}>{format(date, 'dd')}</Text>
                             {items.map(task => (
-                                <View key={task.id} style={[styles.taskBadge, { backgroundColor: getClassColor(task.classId) }]}>
+                                <View
+                                    key={task.id}
+                                    style={[styles.taskBadge, { backgroundColor: getClassColor(task.classId) }]}
+                                >
                                     <Text numberOfLines={1}>{task.name}</Text>
                                 </View>
                             ))}
@@ -80,17 +70,14 @@ export function WeekCalendar() {
                 <TouchableOpacity style={styles.navButton} onPress={goToPreviousWeek}>
                     <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity style={styles.todayButton} onPress={() => setCurrentDate(new Date())}>
-                    <Text style={styles.buttonText}>Go to Current Week</Text>
+                <TouchableOpacity style={styles.todayButton} onPress={goToToday}>
+                    <Text style={styles.buttonText}>This Week</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.navButton} onPress={goToNextWeek}>
                     <Text style={styles.buttonText}>Next</Text>
                 </TouchableOpacity>
             </View>
         </View>
-
     );
 }
 
@@ -108,28 +95,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginBottom: 10,
     },
-    buttonRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-    },
-    navButton: {
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        backgroundColor: '#eee',
-        borderRadius: 8,
-    },
-    buttonText: {
-        fontWeight: 'bold',
-    },
     monthText: {
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 10,
     },
-
     calendar: {
         marginBottom: 10,
     },
@@ -155,16 +126,24 @@ const styles = StyleSheet.create({
         marginBottom: 4,
         width: '100%',
     },
-    centerButtonRow: {
+    buttonRow: {
         flexDirection: 'row',
-        justifyContent: 'center',
-        marginTop: 10,
+        justifyContent: 'space-between',
+        marginBottom: 10,
     },
-    todayButton: {
+    navButton: {
         paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingVertical: 8,
         backgroundColor: '#eee',
         borderRadius: 8,
     },
-
+    todayButton: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        backgroundColor: '#eee',
+        borderRadius: 8,
+    },
+    buttonText: {
+        fontWeight: 'bold',
+    },
 });

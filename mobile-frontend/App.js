@@ -1,3 +1,5 @@
+// App.js
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -6,13 +8,12 @@ import RegisterScreen from './screens/RegisterScreen';
 import TabNavigator from './navigation/TabNavigator';
 
 import { UserProvider, UserContext } from './context/UserContext';
-import React, { useContext } from 'react';
+import { SettingsProvider } from './context/SettingsContext';
 
 const Stack = createNativeStackNavigator();
 
 function AppRoutes() {
-    const { userId } = useContext(UserContext);
-
+    const { userId } = React.useContext(UserContext);
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             {!userId ? (
@@ -29,10 +30,12 @@ function AppRoutes() {
 
 export default function App() {
     return (
-        <UserProvider>
-            <NavigationContainer>
-                <AppRoutes />
-            </NavigationContainer>
-        </UserProvider>
+        <SettingsProvider>
+            <UserProvider>
+                <NavigationContainer>
+                    <AppRoutes />
+                </NavigationContainer>
+            </UserProvider>
+        </SettingsProvider>
     );
 }
