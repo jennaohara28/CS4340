@@ -37,7 +37,6 @@ export default function LoginScreen({ navigation }) {
     const login = async () => {
         try {
             const res = await api.post('/auth/login', { email, password });
-            Alert.alert("Success", `Welcome ${res.data.email}`);
             setUserId(res.data.userId);
         } catch (err) {
             Alert.alert("Login Failed", err.response?.data?.message || 'Unknown error');

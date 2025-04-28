@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { View, Text, Switch, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { SettingsContext } from '../context/SettingsContext';
+import { UserContext } from '../context/UserContext';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function SettingsScreen() {
@@ -15,6 +16,7 @@ export default function SettingsScreen() {
         sortOrderAsc,
         setSortOrderAsc
     } = useContext(SettingsContext);
+    const { setUserId } = useContext(UserContext);
 
     const [pickerValue, setPickerValue] = useState(sortField);
     const [showPicker, setShowPicker] = useState(false);
@@ -34,6 +36,11 @@ export default function SettingsScreen() {
     }, [showPicker]);
 
     const pickerHeight = animation.interpolate({ inputRange: [0, 1], outputRange: [0, 180] });
+
+    // Logout handler
+    const handleLogout = () => {
+        setUserId(null);
+    };
 
     return (
         <View style={styles.container}>
@@ -81,6 +88,12 @@ export default function SettingsScreen() {
                     <Text style={styles.label}>{sortOrderAsc ? 'Ascending Order' : 'Descending Order'}</Text>
                     <Switch value={sortOrderAsc} onValueChange={setSortOrderAsc} />
                 </View>
+
+                <View style={styles.divider} />
+
+                <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+                    <Text style={styles.logoutText}>Logout</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -97,4 +110,6 @@ const styles = StyleSheet.create({
     rowEnd: { flexDirection: 'row', alignItems: 'center' },
     pickerContainer: { overflow: 'hidden' },
     picker: { width: '100%', height: 180 },
+    logoutButton: { marginTop: 16, padding: 12, backgroundColor: '#ff4d4d', borderRadius: 8, alignItems: 'center' },
+    logoutText: { color: 'white', fontSize: 18, fontWeight: 'bold' }
 });
