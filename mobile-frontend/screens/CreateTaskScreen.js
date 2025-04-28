@@ -11,6 +11,7 @@ import {
   KeyboardAvoidingView,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import api from '../api/client';
@@ -91,6 +92,7 @@ export default function CreateTaskScreen({ navigation }) {
           style={styles.container}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps="handled">
           <View style={styles.inner}>
             <Text style={styles.label}>Task Name *</Text>
             <TextInput
@@ -193,6 +195,7 @@ export default function CreateTaskScreen({ navigation }) {
 
             <Button title="Create Task" onPress={handleSubmit} />
           </View>
+          </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
   );

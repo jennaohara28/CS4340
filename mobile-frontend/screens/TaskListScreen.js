@@ -140,6 +140,7 @@ export default function TaskListScreen({ navigation, route }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.spacer} />
             {tasks.length === 0 ? (
                 <Text style={styles.empty}>No tasks. Tap "Create Task"!</Text>
             ) : (
@@ -370,4 +371,5 @@ const styles = StyleSheet.create({
     metaContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
     taskStatus:    { fontSize: 14, color: '#333', marginLeft: 12 },
     overdue: { color: 'red' },
+    spacer: { height: 10 },
 });
