@@ -15,6 +15,14 @@ export default function TabNavigator() {
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 headerShown: true,
+                headerStyle: {
+                    backgroundColor: '#3e71c9',   // ⬅️ your header background
+                },
+                headerTintColor: '#ffffff',
+                headerTitleStyle: {
+                    fontWeight: 'bold',
+                    fontSize: 25,
+                },
                 tabBarIcon: ({ color, size }) => {
                     let iconName;
                     if (route.name === 'Tasks') iconName = 'checkmark-done';
@@ -22,7 +30,7 @@ export default function TabNavigator() {
                     else if (route.name === 'Add Task') iconName = 'add-circle';
                     else if (route.name === 'Classes') iconName = 'school';
                     else if (route.name === 'Settings') iconName = 'settings';
-                    return <Ionicons name={iconName} size={size} color={color} />;
+                    return <Ionicons name={iconName} size={size} color={"#3e71c9"} />;
                 },
             })}
         >

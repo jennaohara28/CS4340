@@ -37,7 +37,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    safeArea: { flex: 1, backgroundColor: '#fff' },
+    safeArea: { flex: 1, backgroundColor: '#dfe9fd' },
     scrollContainer: {
         flexGrow: 1,
         padding: 10,

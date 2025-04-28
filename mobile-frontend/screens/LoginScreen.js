@@ -85,14 +85,17 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         padding: 24,
-        paddingTop: 0
+        paddingTop: 0,
+        backgroundColor: '#dfe9fd',
     },
     input: {
         borderBottomWidth: 1,
         marginBottom: 12,
-        padding: 10
+        padding: 10,
+        backgroundColor: '#dfe9fd',
     },
     spacer: {
         height: 10,
+        backgroundColor: '#dfe9fd',
     }
 });

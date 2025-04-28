@@ -143,10 +143,6 @@ export default function TaskListScreen({ navigation, route }) {
             <Modal visible={!!actionMenuTask} transparent animationType="fade">
                 <View style={styles.actionMenuOverlay}>
                     <View style={styles.actionMenuStyled}>
-                        <TouchableOpacity style={styles.actionMenuItem} onPress={() => { openModal(actionMenuTask); }}>
-                            <MaterialIcons name="edit" size={24} color="black" />
-                            <Text style={styles.actionMenuText}>Edit</Text>
-                        </TouchableOpacity>
                         <TouchableOpacity style={styles.actionMenuItem} onPress={() => handleDelete(actionMenuTask)}>
                             <MaterialIcons name="delete" size={24} color="red" />
                             <Text style={[styles.actionMenuText, { color: 'red' }]}>Delete</Text>
@@ -302,7 +298,7 @@ export default function TaskListScreen({ navigation, route }) {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 16 },
-    inner: { padding: 16, justifyContent: 'center', marginTop: 100 },
+    inner: { padding: 16, justifyContent: 'center', marginTop: 100, backgroundColor: '#dfe9fd', },
     item: { padding: 12, marginVertical: 6, marginHorizontal: 12, borderRadius: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
     itemContent: { flex: 1 },
     title: { fontSize: 18, fontWeight: 'bold' },

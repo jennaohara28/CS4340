@@ -44,7 +44,7 @@ export function TaskSnapshot() {
 const styles = StyleSheet.create({
     snapshotContainer: {
         marginTop: 10,
-        backgroundColor: '#fff7e6',
+        backgroundColor: '#ffffff',
         borderRadius: 8,
         padding: 10,
         maxHeight: 300

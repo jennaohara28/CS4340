@@ -5,15 +5,16 @@ import { PieChart, BarChart } from 'react-native-chart-kit';
 import { useFilteredTasks } from '../hooks/useFilteredTasks';
 
 export function TaskStatusChart() {
-    const tasks = useFilteredTasks();
+    // useFilteredTasks now returns [tasks, fetchTasks]
+    const [tasks] = useFilteredTasks();
     const [chartType, setChartType] = useState('pie');
 
     const { width: windowWidth } = useWindowDimensions();
-    const isLandscape = windowWidth > 600;
+    const isLandscape   = windowWidth > 600;
     const maxChartWidth = 400;
-    const chartWidth = Math.min(isLandscape ? windowWidth / 2 - 40 : windowWidth - 40, maxChartWidth);
+    const chartWidth    = Math.min(isLandscape ? windowWidth / 2 - 40 : windowWidth - 40, maxChartWidth);
 
-    // Calculate status counts
+    // Count tasks by status
     const counts = { 'To-Do': 0, 'In-Progress': 0, 'Done': 0, 'No Status': 0 };
     tasks.forEach(t => {
         if (!t.status) counts['No Status']++;
@@ -42,6 +43,7 @@ export function TaskStatusChart() {
     return (
         <View style={styles.chartContainer}>
             <Text style={styles.header}>Task Status</Text>
+
             <View style={styles.chartArea}>
                 {chartType === 'pie' ? (
                     <PieChart
@@ -66,6 +68,7 @@ export function TaskStatusChart() {
                     />
                 )}
             </View>
+
             <View style={styles.switchRow}>
                 {['pie', 'bar'].map(type => (
                     <TouchableOpacity
@@ -83,7 +86,7 @@ export function TaskStatusChart() {
 
 const styles = StyleSheet.create({
     chartContainer: {
-        backgroundColor: '#fff7e6',
+        backgroundColor: '#ffffff',
         borderRadius: 12,
         paddingVertical: 20,
         paddingHorizontal: 16,
