@@ -14,7 +14,8 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     SafeAreaView,
-    ScrollView
+    ScrollView,
+    Switch,
 } from 'react-native';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -27,7 +28,8 @@ import { format, parseISO } from 'date-fns';
 export default function TaskListScreen({ navigation, route }) {
     const [tasks, refetchTasks] = useFilteredTasks();
     const classes = useClasses();
-
+    const [hasDueTime, setHasDueTime] = useState(false);
+    const [dueTime, setDueTime] = useState(new Date());
     const [selectedTask, setSelectedTask] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [actionMenuTask, setActionMenuTask] = useState(null);
@@ -48,6 +50,14 @@ export default function TaskListScreen({ navigation, route }) {
     const openModal = task => {
         setSelectedTask(task);
         setEdits({ ...task });
+        if (task.dueDate && task.dueDate.includes('T')) {
+            const fullDate = new Date(task.dueDate);
+            setHasDueTime(true);
+            setDueTime(fullDate);
+        } else {
+            setHasDueTime(false);
+            setDueTime(null);
+        }
         setShowStatusPicker(false);
         setShowPriorityPicker(false);
         setIsEditing(false);
@@ -92,7 +102,26 @@ export default function TaskListScreen({ navigation, route }) {
     };
 
     const handleSave = () => {
-        api.put(`/api/tasks/${selectedTask.id}`, edits)
+        let finalDueDate;
+        if (hasDueTime && dueTime) {
+            const parsedDate = edits.dueDate ? new Date(edits.dueDate) : new Date();
+            finalDueDate = new Date(
+                parsedDate.getFullYear(),
+                parsedDate.getMonth(),
+                parsedDate.getDate(),
+                dueTime.getHours(),
+                dueTime.getMinutes()
+            );
+        } else {
+            finalDueDate = edits.dueDate ? new Date(edits.dueDate) : new Date();
+        }
+
+        const payload = {
+            ...edits,
+            dueDate: finalDueDate.toISOString(),
+        };
+        console.log("saving payload:", payload);
+        api.put(`/api/tasks/${selectedTask.id}`, payload)
             .then(() => {
                 refetchTasks();
                 closeModal();
@@ -117,7 +146,9 @@ export default function TaskListScreen({ navigation, route }) {
                 {/* date + status side-by-side */}
                 <View style={styles.metaContainer}>
                     <Text style={styles.dueDate}>
-                        {item.dueDate ? format(new Date(item.dueDate), 'MMM d') : ''}
+                        {item.dueDate
+                            ? format(parseISO(item.dueDate), item.dueDate.includes('T') ? 'MMM d, h:mm a' : 'MMM d')
+                            : ''}
                     </Text>
                     <Text style={styles.taskStatus}>{item.status}</Text>
                 </View>
@@ -179,7 +210,15 @@ export default function TaskListScreen({ navigation, route }) {
                                             let label, value;
                                             switch (field) {
                                                 case 'name': label = 'Task Name'; value = selectedTask.name; break;
-                                                case 'dueDate': label = 'Due Date'; value = selectedTask.dueDate || 'N/A'; break;
+                                                case 'dueDate':
+                                                    label = 'Due Date';
+                                                    value = selectedTask.dueDate
+                                                        ? format(
+                                                            parseISO(selectedTask.dueDate),
+                                                            selectedTask.dueDate.includes('T') ? 'MMM d, h:mm a' : 'MMM d'
+                                                        )
+                                                        : 'N/A';
+                                                    break;
                                                 case 'type': label = 'Type'; value = selectedTask.type || 'N/A'; break;
                                                 case 'timeAll': label = 'Time Allocation (hrs)'; value = selectedTask.timeAll; break;
                                                 case 'status': label = 'Status'; value = selectedTask.status; break;
@@ -217,6 +256,38 @@ export default function TaskListScreen({ navigation, route }) {
                                                 display="default"
                                                 onChange={handleDateChange}
                                             />
+                                        </View>
+                                        <View style={styles.timeRow}>
+                                            <View style={styles.switchContainer}>
+                                                <Text style={styles.label}>Due Time</Text>
+                                                <Switch
+                                                    value={hasDueTime}
+                                                    onValueChange={(val) => {
+                                                        setHasDueTime(val);
+                                                        if (val && !dueTime) {
+                                                            const defaultTime = new Date();
+                                                            defaultTime.setHours(23);
+                                                            defaultTime.setMinutes(59);
+                                                            setDueTime(defaultTime);
+                                                        }
+                                                    }}
+                                                />
+                                            </View>
+                                            {hasDueTime && (
+                                                <View style={styles.datePickerContainer}>
+                                                    <DateTimePicker
+                                                        value={dueTime}
+                                                        mode="time"
+                                                        display="spinner"
+                                                        onChange={(event, selectedTime) => {
+                                                            if (event.type !== 'dismissed' && selectedTime) {
+                                                                setDueTime(selectedTime);
+                                                            }
+                                                        }}
+                                                        style={{ width: 120 }}
+                                                    />
+                                                </View>
+                                            )}
                                         </View>
                                         <Text style={styles.label}>Type</Text>
                                         <TextInput
@@ -332,7 +403,23 @@ const styles = StyleSheet.create({
     flatListItem: { backgroundColor: '#dfe9fd', marginRight: 8, paddingVertical: 8, paddingHorizontal: 16, borderRadius: 4, justifyContent: 'center', alignItems: 'center', minWidth: 80, borderColor: "#3e71c9", borderWidth: 1 },
     flatListText: { fontSize: 16, textAlign: 'center' },
     buttonRow: { flexDirection: 'row', justifyContent: 'space-around', marginTop: 20 },
-
+    timeRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginVertical: 16,
+    },
+    switchContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 12,
+    },
+    timePreview: {
+        textAlign: 'center',
+        fontSize: 16,
+        marginTop: 4,
+    },
     button: {
         backgroundColor: '#007bff',
         paddingVertical: 12,
@@ -357,7 +444,7 @@ const styles = StyleSheet.create({
         paddingBottom: 20,
     },
 
-    modalOverlay: { flex: 1, backgroundColor: '#dfe9fd', paddingTop:  100},
+    modalOverlay: { flex: 1, backgroundColor: '#dfe9fd', paddingTop:  10},
 
     metaContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
     taskStatus:    { fontSize: 14, color: '#333', marginLeft: 12 },
