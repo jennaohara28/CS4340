@@ -106,6 +106,7 @@ export default function SettingsScreen() {
                             onValueChange={val => setPickerValue(val)}
                             style={styles.picker}
                         >
+                            <Picker.Item label="Name" value="name" />
                             <Picker.Item label="Due Date" value="dueDate" />
                             <Picker.Item label="Time Allocation" value="timeAll" />
                             <Picker.Item label="Type" value="type" />
