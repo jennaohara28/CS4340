@@ -22,7 +22,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useFilteredTasks } from '../hooks/useFilteredTasks';
 import { useClasses } from '../hooks/useClasses';
 import api from '../api/client';
-import { format, parseISO } from 'date-fns';
+import {format, isBefore, parseISO, startOfToday} from 'date-fns';
 
 export default function TaskListScreen({ navigation, route }) {
     const [tasks, refetchTasks] = useFilteredTasks();
@@ -116,8 +116,16 @@ export default function TaskListScreen({ navigation, route }) {
                 </Text>
                 {/* date + status side-by-side */}
                 <View style={styles.metaContainer}>
-                    <Text style={styles.dueDate}>
-                        {item.dueDate ? format(new Date(item.dueDate), 'MMM d') : ''}
+                    <Text
+                        style={[
+                            styles.taskDueDate,
+                            item.dueDate &&
+                            item.status !== 'Done' &&          // ← only if not completed
+                            isBefore(new Date(item.dueDate), startOfToday()) &&
+                            styles.overdue
+                        ]}
+                    >
+                        {item.dueDate && format(new Date(item.dueDate), 'MMM d')}
                     </Text>
                     <Text style={styles.taskStatus}>{item.status}</Text>
                 </View>
@@ -361,5 +369,5 @@ const styles = StyleSheet.create({
 
     metaContainer: { flexDirection: 'row', alignItems: 'center', marginTop: 2 },
     taskStatus:    { fontSize: 14, color: '#333', marginLeft: 12 },
-
+    overdue: { color: 'red' },
 });
