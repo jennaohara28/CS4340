@@ -113,7 +113,7 @@ export default function TaskListScreen({ navigation }) {
             <View style={styles.bottomButtons}>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('CreateTask')}
+                    onPress={() => navigation.navigate('Add Task')}
                 >
                     <Text style={styles.buttonText}>+ Create Task</Text>
                 </TouchableOpacity>
