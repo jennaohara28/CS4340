@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import TabNavigator from './navigation/TabNavigator';
+import TaskViewScreen from './screens/TaskViewScreen';
 
 import { UserProvider, UserContext } from './context/UserContext';
 import { SettingsProvider } from './context/SettingsContext';
@@ -22,7 +23,23 @@ function AppRoutes() {
                     <Stack.Screen name="Register" component={RegisterScreen} />
                 </>
             ) : (
-                <Stack.Screen name="Main" component={TabNavigator} />
+                <>
+                    {/* Main tab navigator (no tab for TaskView) */}
+                    <Stack.Screen name="Main" component={TabNavigator} />
+
+                    {/* Read-only view screen for tasks */}
+                    <Stack.Screen
+                        name="TaskView"
+                        component={TaskViewScreen}
+                        options={{
+                            headerShown: true,
+                            title: 'Task Details',
+                            headerStyle: { backgroundColor: '#3e71c9' },
+                            headerTintColor: '#ffffff',
+                            headerTitleStyle: { fontWeight: 'bold', fontSize: 25 },
+                        }}
+                    />
+                </>
             )}
         </Stack.Navigator>
     );

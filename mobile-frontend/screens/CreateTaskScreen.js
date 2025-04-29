@@ -1,4 +1,5 @@
-import React, { useState, useContext, useCallback } from 'react';
+// CreateTaskScreen.js
+import React, { useState, useContext, useCallback, useEffect } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,6 +10,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import api from '../api/client';
@@ -17,18 +19,24 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const themeColor = '#3e71c9';
 
-export default function CreateTaskScreen({ navigation }) {
+export default function CreateTaskScreen({ navigation, route }) {
   const { userId } = useContext(UserContext);
+  const editingTask = route.params?.task;
+  const isEditing = Boolean(editingTask);
 
-  const [name, setName] = useState('');
-  const [dueDate, setDueDate] = useState(new Date());
-  const [type, setType] = useState('');
-  const [timeAll, setTimeAll] = useState('');
-  const [status, setStatus] = useState('To-Do');
-  const [priority, setPriority] = useState('1');
-  const [classId, setClassId] = useState(null);
+  // Form state
+  const [name, setName] = useState(editingTask?.name || '');
+  const [dueDate, setDueDate] = useState(
+      editingTask && editingTask.dueDate ? new Date(editingTask.dueDate) : new Date()
+  );
+  const [type, setType] = useState(editingTask?.type || '');
+  const [timeAll, setTimeAll] = useState(editingTask ? String(editingTask.timeAll) : '');
+  const [status, setStatus] = useState(editingTask?.status || 'To-Do');
+  const [priority, setPriority] = useState(editingTask ? String(editingTask.priority) : '1');
+  const [classId, setClassId] = useState(editingTask?.classId || null);
   const [classes, setClasses] = useState([]);
 
+  // Fetch classes on focus
   useFocusEffect(
       useCallback(() => {
         if (!userId) return;
@@ -39,6 +47,7 @@ export default function CreateTaskScreen({ navigation }) {
       }, [userId])
   );
 
+  // Helper to reset all form fields
   const clearForm = () => {
     setName('');
     setDueDate(new Date());
@@ -49,16 +58,40 @@ export default function CreateTaskScreen({ navigation }) {
     setClassId(null);
   };
 
+  // Reset form on focus (prefill if editing, clear if creating)
+  useFocusEffect(
+      useCallback(() => {
+        if (isEditing) {
+          setName(editingTask.name || '');
+          setDueDate(editingTask.dueDate ? new Date(editingTask.dueDate) : new Date());
+          setType(editingTask.type || '');
+          setTimeAll(editingTask.timeAll != null ? String(editingTask.timeAll) : '');
+          setStatus(editingTask.status || 'To-Do');
+          setPriority(editingTask.priority != null ? String(editingTask.priority) : '1');
+          setClassId(editingTask.classId || null);
+        } else {
+          clearForm();
+        }
+      }, [editingTask])
+  );
+
+  // Clear form state whenever screen blurs
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      clearForm();
+      navigation.setParams({ task: null });
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const handleDateChange = (event, selected) => {
     if (selected) setDueDate(selected);
   };
 
   const handleSubmit = async () => {
-    if (!name.trim() || !classId) {
-      alert('Please fill in required fields');
-      return;
-    }
-    const payload = {
+    const url = `/api/tasks/${editingTask?.id}`;
+    const body = {
+      id: editingTask?.id,          // add id here to be extra safe
       name: name.trim(),
       dueDate: dueDate.toISOString().split('T')[0],
       type: type.trim(),
@@ -66,24 +99,28 @@ export default function CreateTaskScreen({ navigation }) {
       status,
       priority: Number(priority),
       classId,
-      ownerId: userId,
+      ownerId: isEditing
+          ? editingTask.ownerId        // preserve existing owner on edit
+          : userId
     };
-    try {
-      await api.post('/api/tasks', payload);
-      clearForm();
-      navigation.goBack();
-    } catch (err) {
-      console.error('Error creating task:', err);
-      alert('Failed to create task');
+
+    if (isEditing) {
+      console.log('PUT ->', url, body);
+      await api.put(url, body);
+    } else {
+      console.log('POST -> /api/tasks', body);
+      await api.post('/api/tasks', body);
     }
+
+    clearForm();
+    navigation.navigate("Tasks");
   };
+
 
   return (
       <SafeAreaView style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={styles.inner}>
-
-            {/* Task Name */}
             <View style={styles.field}>
               <Text style={styles.label}>Task Name *</Text>
               <TextInput
@@ -94,19 +131,17 @@ export default function CreateTaskScreen({ navigation }) {
               />
             </View>
 
-            {/* Due Date */}
             <View style={styles.field}>
               <Text style={styles.label}>Due Date</Text>
               <DateTimePicker
-                  style={styles.datePicker}
                   value={dueDate}
                   mode="date"
                   display="default"
                   onChange={handleDateChange}
+                  style={styles.datePicker}
               />
             </View>
 
-            {/* Type */}
             <View style={styles.field}>
               <Text style={styles.label}>Type</Text>
               <TextInput
@@ -117,7 +152,6 @@ export default function CreateTaskScreen({ navigation }) {
               />
             </View>
 
-            {/* Time Allocation */}
             <View style={styles.field}>
               <Text style={styles.label}>Time Allocation (hrs)</Text>
               <TextInput
@@ -129,7 +163,6 @@ export default function CreateTaskScreen({ navigation }) {
               />
             </View>
 
-            {/* Status Picker */}
             <View style={styles.field}>
               <Text style={styles.label}>Status</Text>
               <View style={styles.pickerWrapperStatic}>
@@ -138,7 +171,7 @@ export default function CreateTaskScreen({ navigation }) {
                         key={item}
                         style={[
                           styles.pickerItemStatic,
-                          status === item && styles.selectedStatic,
+                          status === item && styles.selectedStatic
                         ]}
                         onPress={() => setStatus(item)}
                     >
@@ -150,7 +183,6 @@ export default function CreateTaskScreen({ navigation }) {
               </View>
             </View>
 
-            {/* Priority Picker */}
             <View style={styles.field}>
               <Text style={styles.label}>Priority</Text>
               <View style={styles.pickerWrapperStatic}>
@@ -159,7 +191,7 @@ export default function CreateTaskScreen({ navigation }) {
                         key={item}
                         style={[
                           styles.pickerItemStatic,
-                          priority === item && styles.selectedStatic,
+                          priority === item && styles.selectedStatic
                         ]}
                         onPress={() => setPriority(item)}
                     >
@@ -171,7 +203,6 @@ export default function CreateTaskScreen({ navigation }) {
               </View>
             </View>
 
-            {/* Class Selection: allow horizontal overflow */}
             <View style={styles.field}>
               <Text style={styles.label}>Class *</Text>
               <ScrollView
@@ -184,7 +215,7 @@ export default function CreateTaskScreen({ navigation }) {
                         key={c.id}
                         style={[
                           styles.classItem,
-                          classId === c.id && styles.selectedClass,
+                          classId === c.id && styles.selectedClass
                         ]}
                         onPress={() => setClassId(c.id)}
                     >
@@ -196,11 +227,11 @@ export default function CreateTaskScreen({ navigation }) {
               </ScrollView>
             </View>
 
-            {/* Submit Button */}
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Create Task</Text>
+              <Text style={styles.buttonText}>
+                {isEditing ? 'Save Task' : 'Create Task'}
+              </Text>
             </TouchableOpacity>
-
           </ScrollView>
         </TouchableWithoutFeedback>
       </SafeAreaView>
@@ -210,15 +241,15 @@ export default function CreateTaskScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#dfe9fd' },
   inner: { padding: 16 },
-  field: { marginBottom: 20, alignItems: 'center' },
-  label: { fontSize: 16, fontWeight: 'bold', color: '#333', marginBottom: 8, textAlign: 'center' },
+  field: { marginBottom: 20, width: '100%' },
+  label: { fontSize: 16, fontWeight: 'bold', color: '#333', marginBottom: 8 },
   input: {
     width: '100%',
     padding: 12,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   datePicker: {
     width: 500,
@@ -226,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5585d7",
     borderRadius: 8,
   },
-  pickerWrapperStatic: { flexDirection: 'row', justifyContent: 'space-between', width: '100%' },
+  pickerWrapperStatic: { flexDirection: 'row', justifyContent: 'space-between' },
   pickerItemStatic: {
     flex: 1,
     paddingVertical: 12,
@@ -235,7 +266,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   selectedStatic: { backgroundColor: themeColor, borderColor: themeColor },
   pickerText: { color: '#333', textAlign: 'center' },
@@ -248,7 +279,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#fff'
   },
   selectedClass: { backgroundColor: themeColor, borderColor: themeColor },
   button: {
@@ -256,7 +287,7 @@ const styles = StyleSheet.create({
     backgroundColor: themeColor,
     paddingVertical: 14,
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: 'center'
   },
-  buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold', textAlign: 'center' },
+  buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' }
 });
