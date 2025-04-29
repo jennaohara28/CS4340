@@ -65,59 +65,47 @@ To get started with self-hosting application, please follow the installation ins
 
 ---
 
-## Frontend
+# Mobile Frontend (Expo Go)
 
-To develop Angular applications, you need to install Node.js and npm (Node Package Manager). Follow these steps to install Node.js, npm, and Angular CLI.
+### To run the mobile version of the application using Expo Go, follow these steps:
 
-### 1. Install Node.js and npm
+## 1.  Install Prerequisites
 
-#### On Windows
+Node.js and npm: Install as described in the Angular frontend section above.
 
-1. **Download Node.js:**
-   - Go to the [Node.js download page](https://nodejs.org/) and download the Windows Installer (`.msi`) for the LTS (Long Term Support) version.
+Expo CLI:
 
-2. **Run the Installer:**
-   - Double-click the downloaded `.msi` file and follow the prompts. Ensure that the option to install `npm` is selected.
+```bash
+ npm install -g expo-cli
+ ```
 
-3. **Verify Installation:**
-   - Open Command Prompt and run:
-     ```bash
-     node -v
-     npm -v
-     ```
-   - Confirm that Node.js and npm are installed correctly by seeing a version upon running those commands.
 
-### 2. Install Angular CLI
+Expo Go App: Install Expo Go on your mobile device from the Google Play Store or Apple App Store.
 
-With Node.js and npm installed, you can now install Angular CLI.
+## 2. Navigate to the Mobile Frontend Directory
 
-1. **Install Angular CLI:**
-   - Open a terminal or Command Prompt and run:
-     ```bash
-     npm install -g @angular/cli
-     ```
+```bash
+cd mobile-frontend
+```
 
-2. **Verify Angular CLI Installation:**
-   - Check the version of Angular CLI:
-     ```bash
-     ng version
-     ```
+## 3. Install Dependencies
 
-### 3. Run the Angular Application
+```bash
+npm install
+```
 
-1. **Navigate to Project Directory:**
-   - Change to the directory of your Angular project:
-     ```bash
-     cd frontend
-     ```
+## 4. Start the Expo Development Server
 
-2. **Start the Development Server:**
-   - Run the following command to start the Angular development server:
-     ```bash
-     ng serve
-     ```
+```bash
+npx expo start
+```
 
-3. **Access the Application:**
-   - Open your browser and navigate to `http://localhost:4200` to view your Angular application.
+This will open the Expo developer tools in your browser.
 
-test
+## 5. Run on Mobile Device
+
+1. Open the Expo Go app on your phone.
+
+2. Scan the QR code displayed in the terminal or browser.
+
+3. The app will launch on your device.
